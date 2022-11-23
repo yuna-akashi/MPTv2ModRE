@@ -1,0 +1,8 @@
+displayName: "Java Mod Template"
+name: "mptv2-re"
+author: "You"
+main: "mptv2re.MPTv2RE"
+description: "Java mod for Mindustry<V7>"
+version: 0.0.1
+minGameVersion: 139
+java: true
