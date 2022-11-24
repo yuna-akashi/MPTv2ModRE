@@ -13,7 +13,7 @@ import mptv2re.content.MPTv2RETechTree;
 public class MPTv2RE extends Mod{
 
     public MPTv2RE(){
-        Log.info("Loaded ExampleJavaMod constructor.");
+        Log.info("Loaded MPTv2 constructor.");
 
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {

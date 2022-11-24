@@ -93,7 +93,7 @@ task deleteLast{
 }
 
 task debugMod{
-    def fi = new File("$rootDir/build/libs/NewHorizonModDesktop.jar")
+    def fi = new File("$rootDir/build/libs/MPTv2ModREDesktop.jar")
     def debugLog = new File("$rootDir/build/libs/debug.properties")
     if(!debugLog.exists())debugLog.createNewFile()
 
@@ -134,7 +134,7 @@ task debugMod{
 
         try{
             if(!fi.exists())throw new RuntimeException("Missing Mod File")
-            if(!fi.renameTo("$gameData/mods/NewHorizonModDesktop.jar")){
+            if(!fi.renameTo("$gameData/mods/MPTv2ModREDesktop.jar")){
                 throw new RuntimeException("Failed to replace the old version mod")
             }
 
