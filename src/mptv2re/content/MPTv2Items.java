@@ -9,9 +9,9 @@ public class MPTv2Items {
         metren, metrenGlass, metrenDiamond, metrenSilicon,
             titaniumAlloy, compressedThorium,
         //building materials
-        metrenFrame, largeMetrenFrame, superMetrenFrame,
-        turretFrame, largeTurretFrame, superTurretFrame,
-        armorPlate, heavyArmorPlate, superArmorPlate,
+        metrenFrame, largeMetrenFrame, specialMetrenFrame,
+        turretFrame, largeTurretFrame, specialTurretFrame,
+        armorPlate, heavyArmorPlate, specialArmorPlate,
         //resources
         cell, coolingCell, deuterium, solidOxygen, unitCore, multiCore,
         antimatterCell,
@@ -35,13 +35,13 @@ public class MPTv2Items {
         //building material
         metrenFrame = new Item("metrenFrame", Color.valueOf("4f7e81"));
         largeMetrenFrame = new Item("largeMetrenFrame", Color.valueOf("4f7e81"));
-        superMetrenFrame = new Item("specialMetrenFrame", Color.valueOf("4f7e81"));
+        specialMetrenFrame = new Item("specialMetrenFrame", Color.valueOf("4f7e81"));
         turretFrame = new Item("turretFrame", Color.valueOf("4f7e81"));
         largeTurretFrame = new Item("largeTurretFrame", Color.valueOf("4f7e81"));
-        superTurretFrame = new Item("specialTurretFrame", Color.valueOf("4f7e81"));
+        specialTurretFrame = new Item("specialTurretFrame", Color.valueOf("4f7e81"));
         armorPlate = new Item("armorPlate", Color.valueOf("4f7e81"));
         heavyArmorPlate = new Item("heavyArmorPlate", Color.valueOf("4f7e81"));
-        superArmorPlate = new Item("specialArmorPlate", Color.valueOf("4f7e81"));
+        specialArmorPlate = new Item("specialArmorPlate", Color.valueOf("4f7e81"));
 
         //resource
         cell = new Item("cell", Color.valueOf("5b5e62"));
