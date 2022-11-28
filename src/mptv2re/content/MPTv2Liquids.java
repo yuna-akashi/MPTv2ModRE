@@ -10,9 +10,9 @@ public class MPTv2Liquids {
 
     public static void load() {
         meter = new Liquid("meter", Color.valueOf("076c83")){{
-            heatCapacity = 15f;
+            heatCapacity = 99f;
             temperature = -270f;
-            viscosity = 0.000001f;
+            viscosity = 0.0000001f;
         }};
     }
 }

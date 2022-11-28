@@ -83,105 +83,79 @@ jar{
     }
 }
 
-task deleteLast{
-    def fi = new File("$gameData/mods/MPTv2ModREDesktop.jar")
-    if(fi.exists()){
-//        Class<?> fileSys = ClassLoader.getSystemClassLoader().loadClass("java.io.DefaultFileSystem");
-//        FileSystem system = (FileSystem)fileSys.getMethod("getFileSystem()").invoke(null, new Object[]{});
-
-        System.out.println("Delete Old:" + fi.delete())
-    }
-}
-
-task debugMod{
-    def fi = new File("$rootDir/build/libs/MPTv2ModREDesktop.jar")
-    def debugLog = new File("$rootDir/build/libs/debug.properties")
-    if(!debugLog.exists())debugLog.createNewFile()
-
-    doFirst {
-        try{
-
-            Reader fileReader = new FileReader(debugLog)
-            Properties property = new Properties()
-            property.load(fileReader)
-            Instant last
-
-            try {
-                def toEpochMilli = Long.parseLong(String.valueOf(property.get("lastInstant_toEpochMilli")))
-                last = Instant.ofEpochMilli(toEpochMilli)
-            }catch(e){
-                last = Instant.ofEpochMilli(0)
-            }
-
-            fileReader.close()
-
-
-            for (ProcessHandle p : ProcessHandle.allProcesses()){
-                if(p.info().startInstant().isPresent() && last == p.info().startInstant().get()){
-                    Runtime.getRuntime().exec("taskkill /PID " + p.pid())
-                    break
-                }
-            }
-        }catch(IOException e){
-            e.printStackTrace()
-        }
-    }
-
-    dependsOn jar
-    dependsOn deleteLast
-
-    doLast {
-        System.gc()
-
-        try{
-            if(!fi.exists())throw new RuntimeException("Missing Mod File")
-            if(!fi.renameTo("$gameData/mods/MPTv2ModREDesktop.jar")){
-                throw new RuntimeException("Failed to replace the old version mod")
-            }
-
-//            Process p = Runtime.getRuntime().exec("java -jar E:/Java_Projects/MDT_Mod_Project/NewHorizonMod/build/libs/Mindustry.jar")
+//task deleteLast{
+//    def fi = new File("$gameData/mods/MPTv2ModREDesktop.jar")
+//    if(fi.exists()){
+////        Class<?> fileSys = ClassLoader.getSystemClassLoader().loadClass("java.io.DefaultFileSystem");
+////        FileSystem system = (FileSystem)fileSys.getMethod("getFileSystem()").invoke(null, new Object[]{});
 //
-//            Writer writer = new FileWriter(debugLog)
-//            Reader reader = new FileReader(debugLog)
-//            Properties properties = new Properties()
-//            properties.load(reader)
-//            properties.setProperty("lastInstant_toEpochMilli",  String.valueOf(p.info().startInstant().get().toEpochMilli()))
-//            properties.store(writer, "debug")
-//            reader.close()
-//            writer.close()
-        }catch(IOException io){
-            System.out.print(io)
-        }
-    }
-}
-
-//task deploy(type: Jar){
-//    dependsOn jarAndroid
+//        System.out.println("Delete Old:" + fi.delete())
+//    }
+//}
+//
+//task debugMod{
+//    def fi = new File("$rootDir/build/libs/MPTv2ModREDesktop.jar")
+//    def debugLog = new File("$rootDir/build/libs/debug.properties")
+//    if(!debugLog.exists())debugLog.createNewFile()
+//
+//    doFirst {
+//        try{
+//
+//            Reader fileReader = new FileReader(debugLog)
+//            Properties property = new Properties()
+//            property.load(fileReader)
+//            Instant last
+//
+//            try {
+//                def toEpochMilli = Long.parseLong(String.valueOf(property.get("lastInstant_toEpochMilli")))
+//                last = Instant.ofEpochMilli(toEpochMilli)
+//            }catch(e){
+//                last = Instant.ofEpochMilli(0)
+//            }
+//
+//            fileReader.close()
+//
+//
+//            for (ProcessHandle p : ProcessHandle.allProcesses()){
+//                if(p.info().startInstant().isPresent() && last == p.info().startInstant().get()){
+//                    Runtime.getRuntime().exec("taskkill /PID " + p.pid())
+//                    break
+//                }
+//            }
+//        }catch(IOException e){
+//            e.printStackTrace()
+//        }
+//    }
+//
 //    dependsOn jar
-//    archiveFileName = "${project.archivesBaseName}.jar"
+//    dependsOn deleteLast
 //
-//    from{ [zipTree("$buildDir/libs/${project.archivesBaseName}Desktop.jar"), zipTree("$buildDir/libs/${project.archivesBaseName}Android.jar")] }
+//    doLast {
+//        System.gc()
 //
-//    doLast{
-//        delete{
-//            delete "$buildDir/libs/${project.archivesBaseName}Desktop.jar"
-//            delete "$buildDir/libs/${project.archivesBaseName}Android.jar"
+//        try{
+//            if(!fi.exists())throw new RuntimeException("Missing Mod File")
+//            if(!fi.renameTo("$gameData/mods/MPTv2ModREDesktop.jar")){
+//                throw new RuntimeException("Failed to replace the old version mod")
+//            }
+//
+////            Process p = Runtime.getRuntime().exec("java -jar E:/Java_Projects/MDT_Mod_Project/NewHorizonMod/build/libs/Mindustry.jar")
+////
+////            Writer writer = new FileWriter(debugLog)
+////            Reader reader = new FileReader(debugLog)
+////            Properties properties = new Properties()
+////            properties.load(reader)
+////            properties.setProperty("lastInstant_toEpochMilli",  String.valueOf(p.info().startInstant().get().toEpochMilli()))
+////            properties.store(writer, "debug")
+////            reader.close()
+////            writer.close()
+//        }catch(IOException io){
+//            System.out.print(io)
 //        }
 //    }
 //}
 
-task deploy(type : Jar){
-    def fi = new File("$rootDir/mod.hjson")
-    fi.withReader { reader ->
-        def lines = reader.readLines()
-        fi.withWriter { writer ->
-            lines.each { line ->
-                def check = line.split(":")[0] == "minGameVersion"
-                if(!check) writer.append("$line\r\n")
-            }
-            writer.append("minGameVersion: ${mindustryVersion.split("v")[1]}\r\n")
-        }
-    }
+task deploy(type: Jar){
     dependsOn jarAndroid
     dependsOn jar
     archiveFileName = "${project.archivesBaseName}.jar"
@@ -189,7 +163,33 @@ task deploy(type : Jar){
     from{ [zipTree("$buildDir/libs/${project.archivesBaseName}Desktop.jar"), zipTree("$buildDir/libs/${project.archivesBaseName}Android.jar")] }
 
     doLast{
-        delete{ delete "$buildDir/libs/${project.archivesBaseName}Desktop.jar" }
-        delete{ delete "$buildDir/libs/${project.archivesBaseName}Android.jar" }
+        delete{
+            delete "$buildDir/libs/${project.archivesBaseName}Desktop.jar"
+            delete "$buildDir/libs/${project.archivesBaseName}Android.jar"
+        }
     }
 }
+
+//task deploy(type : Jar){
+//    def fi = new File("$rootDir/mod.hjson")
+//    fi.withReader { reader ->
+//        def lines = reader.readLines()
+//        fi.withWriter { writer ->
+//            lines.each { line ->
+//                def check = line.split(":")[0] == "minGameVersion"
+//                if(!check) writer.append("$line\r\n")
+//            }
+//            writer.append("minGameVersion: ${mindustryVersion.split("v")[1]}\r\n")
+//        }
+//    }
+//    dependsOn jarAndroid
+//    dependsOn jar
+//    archiveFileName = "${project.archivesBaseName}.jar"
+//
+//    from{ [zipTree("$buildDir/libs/${project.archivesBaseName}Desktop.jar"), zipTree("$buildDir/libs/${project.archivesBaseName}Android.jar")] }
+//
+//    doLast{
+//        delete{ delete "$buildDir/libs/${project.archivesBaseName}Desktop.jar" }
+//        delete{ delete "$buildDir/libs/${project.archivesBaseName}Android.jar" }
+//    }
+//}
