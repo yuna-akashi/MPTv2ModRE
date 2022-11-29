@@ -241,13 +241,20 @@ public class MPTv2Blocks {
             requirements(Category.turret, BuildVisibility.shown, with(MPTv2Items.metrenFrame, 4, MPTv2Items.turretFrame, 4, MPTv2Items.armorPlate, 4, MPTv2Items.metren, 8));
         }};
 
-//        railgun = new RailgunTurret("railgun"){{
-//            size = 5;
-//            health = 25000000;
-//            range = 4000;
-//            hasPower = true;
-//            reload = 1;
-//        }};
+        railgun = new RailgunTurret("railgun"){{
+            size = 5;
+            health = 25000000;
+            range = 4000;
+            hasPower = true;
+            reload = 1;
+            ammo(
+                    MPTv2Items.metrenAmmo, new BasicBulletType(30, 500){{
+                        width = 10;
+                        height = 15;
+                    }}
+            );
+            requirements(Category.turret, with(MPTv2Items.largeMetrenFrame, 25, MPTv2Items.heavyArmorPlate, 25, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 50));
+        }};
         emperorOfGuardian = new ItemTurret("emperorOfGuardian"){{
             size = 11;
             health = 121000000;
