@@ -24,22 +24,11 @@ public class RailgunTurret extends ItemTurret {
 
     public RailgunTurret(String name) {
         super(name);
-        hasLiquids = true;
-        liquidCapacity = 200f;
     }
 
     @Override
     public void setBars() {
         super.setBars();
-        for(var consl : consumers){
-            if(consl instanceof ConsumeLiquid liq){
-                addLiquidBar(liq.liquid);
-            }else if(consl instanceof ConsumeLiquids multi){
-                for(var stack : multi.liquids){
-                    addLiquidBar(stack.liquid);
-                }
-            }
-        }
         addBar("charge",
                 (RailgunTurretBuild entity) -> new Bar(
                         () -> "Charge:",
@@ -77,7 +66,6 @@ public class RailgunTurret extends ItemTurret {
         @Override
         public void updateTile(){
             if(requireCompleteCharging){
-                isCharging = true;
                 charge();
                 if(shootChargeAmount >= maxShootCharge){
                     shootChargeAmount = maxShootCharge;
@@ -89,9 +77,7 @@ public class RailgunTurret extends ItemTurret {
             if(shootChargeAmount > 0f && !requireCompleteCharging) {
                 super.updateTile();
             } else {
-                isCharging = true;
                 charge();
-
                 unit.tile(this);
                 unit.rotation(rotation);
                 unit.team(team);
@@ -109,12 +95,13 @@ public class RailgunTurret extends ItemTurret {
         }
 
         public void charge() {
-            shootChargeAmount = Mathf.approachDelta(shootChargeAmount, 0, 0);
+            isCharging = true;
+            shootChargeAmount = Mathf.approachDelta(shootChargeAmount, maxShootCharge, chargeTimePer1Shot * maxShootCharge * 0.0001f);
         }
 
         @Override
         protected void updateShooting(){
-            if(shootChargeAmount >= maxShootCharge){
+            if(reloadCounter >= maxShootCharge){
                 BulletType type = peekAmmo();
 
                 shoot(type);

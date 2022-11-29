@@ -246,14 +246,22 @@ public class MPTv2Blocks {
             health = 25000000;
             range = 4000;
             hasPower = true;
-            reload = 1;
+            reload = 200;
+            recoil = 0;
+            chargeTimePer1Shot = 25;
+            maxShootCharge = 3;
             ammo(
                     MPTv2Items.metrenAmmo, new BasicBulletType(30, 500){{
                         width = 10;
                         height = 15;
+                        hitColor = backColor = lightColor = trailColor = MPTv2Items.metrenAmmo.color.cpy().lerp(Color.white, 0.2f);
+                        frontColor = backColor.cpy().lerp(Color.white, 0.55f);
+                        ammoMultiplier = 20;
+                        pierceArmor = true;
                     }}
             );
-            requirements(Category.turret, with(MPTv2Items.largeMetrenFrame, 25, MPTv2Items.heavyArmorPlate, 25, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 50));
+            consumePowerCond(1000, RailgunTurretBuild::isCharge);
+            requirements(Category.turret, with(MPTv2Items.largeMetrenFrame, 25, MPTv2Items.largeTurretFrame, 25, MPTv2Items.heavyArmorPlate, 25, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 50));
         }};
         emperorOfGuardian = new ItemTurret("emperorOfGuardian"){{
             size = 11;
