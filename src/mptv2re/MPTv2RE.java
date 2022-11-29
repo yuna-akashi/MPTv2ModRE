@@ -25,7 +25,7 @@ public class MPTv2RE extends Mod{
             Time.runTask(10f, () -> {
                 BaseDialog dialog = new BaseDialog("antimatter");
                 dialog.cont.add("MPTv2 RE Mod").row();
-                dialog.cont.image(Core.atlas.find("mptv2-re-antimatterRailgun-preview")).pad(20f).row();
+                dialog.cont.image(Core.atlas.find("mptv2-re-antimatterRailgun-icon")).pad(20f).row();
                 dialog.cont.button("Ok", dialog::hide).size(100f, 50f);
                 dialog.show();
             });

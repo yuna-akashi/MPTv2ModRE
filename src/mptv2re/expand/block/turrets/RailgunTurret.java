@@ -77,6 +77,7 @@ public class RailgunTurret extends ItemTurret {
         @Override
         public void updateTile(){
             if(requireCompleteCharging){
+                isCharging = true;
                 charge();
                 if(shootChargeAmount >= maxShootCharge){
                     shootChargeAmount = maxShootCharge;
@@ -88,6 +89,7 @@ public class RailgunTurret extends ItemTurret {
             if(shootChargeAmount > 0f && !requireCompleteCharging) {
                 super.updateTile();
             } else {
+                isCharging = true;
                 charge();
 
                 unit.tile(this);
@@ -107,13 +109,12 @@ public class RailgunTurret extends ItemTurret {
         }
 
         public void charge() {
-            isCharging = true;
             shootChargeAmount = Mathf.approachDelta(shootChargeAmount, 0, 0);
         }
 
         @Override
         protected void updateShooting(){
-            if(reloadCounter >= maxShootCharge){
+            if(shootChargeAmount >= maxShootCharge){
                 BulletType type = peekAmmo();
 
                 shoot(type);

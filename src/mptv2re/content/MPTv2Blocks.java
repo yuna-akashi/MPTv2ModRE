@@ -286,11 +286,11 @@ public class MPTv2Blocks {
             health = 256000000;
             range = 160000;
             hasPower = true;
-            reload = 10;
+            reload = 240;
             recoil = 0;
+            shootY = -11f;
             //maxShootCharge = 10;
             //chargeTimePer1Shot = 25;
-            canOverdrive = false;
             ammo(
                 MPTv2Items.metrenAmmo, new BasicBulletType(99, 999999999){{
                     width = 32;
@@ -322,10 +322,10 @@ public class MPTv2Blocks {
                 new RegionPart("-barrel-center"){{
                      under = mirror = true;
                     layerOffset = -0.0025f;
-                    moveX = -7f;
-                    moveY = 5f;
-                    y = -2f;
-                    x = 8;
+                    moveX = -3.1f;
+                    moveY = 25f;
+                    y = 2;
+                    x = 3f;
                     progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
                 }});
                 //parts.add(new MPTv2AntiRailCharge){{
