@@ -1,10 +1,12 @@
 package mptv2re.content;
 
 import arc.graphics.Color;
+import arc.math.Interp;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.content.UnitTypes;
 import mindustry.entities.bullet.BasicBulletType;
+import mindustry.entities.part.RegionPart;
 import mindustry.type.Category;
 
 import static mindustry.type.ItemStack.with;
@@ -21,7 +23,9 @@ import mindustry.world.blocks.sandbox.LiquidSource;
 import mindustry.world.blocks.sandbox.PowerSource;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
+import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.BuildVisibility;
+import mptv2re.expand.block.drawer.MPTv2AntiRailCharge;
 import mptv2re.expand.block.turrets.RailgunTurret;
 
 public class MPTv2Blocks {
@@ -282,7 +286,8 @@ public class MPTv2Blocks {
             health = 256000000;
             range = 160000;
             hasPower = true;
-            reload = 5;
+            reload = 10;
+            recoil = 0;
             //maxShootCharge = 10;
             //chargeTimePer1Shot = 25;
             canOverdrive = false;
@@ -304,6 +309,30 @@ public class MPTv2Blocks {
                     pierceArmor = true;
                 }}
             );
+
+            drawer = new DrawTurret(){{
+                parts.add(new RegionPart("-side"){{
+                    under = turretShading = mirror = true;
+                    progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
+                }},
+                new RegionPart("-barrel-side"){{
+                    under = true;
+                    progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
+                }},
+                new RegionPart("-barrel-center"){{
+                     under = mirror = true;
+                    layerOffset = -0.0025f;
+                    moveX = -7f;
+                    moveY = 5f;
+                    y = -2f;
+                    x = 8;
+                    progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
+                }});
+                //parts.add(new MPTv2AntiRailCharge){{
+                //    progress = aa;
+                // }}
+            }};
+
             consumePower(500000000);
             //consumePowerCond(500000000, RailgunTurretBuild::isCharge);
             requirements(Category.turret, with(MPTv2Items.specialMetrenFrame, 256, MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
