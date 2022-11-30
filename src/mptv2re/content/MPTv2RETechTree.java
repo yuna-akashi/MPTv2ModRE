@@ -20,6 +20,12 @@ public class MPTv2RETechTree {
                 });
 
                 //factory
+                node(MPTv2Blocks.metrenGlassSmelter, () -> {
+                    node(MPTv2Blocks.metrenDiamondCompressor);
+                    node(MPTv2Blocks.metrenSiliconSmelter, () -> {
+                        node(MPTv2Blocks.antimatterGenerator);
+                    });
+                });
 
                 //power
                 node(MPTv2Blocks.metrenNode, () -> {
@@ -42,8 +48,13 @@ public class MPTv2RETechTree {
 
                 //turrets
                 node(MPTv2Blocks.defendTurret, () -> {
+                    node(MPTv2Blocks.railgun, () -> {
+                        node(MPTv2Blocks.multiRailgun, () -> {
+                            node(MPTv2Blocks.antimatterRailgun);
+                        });
+                    });
                     node(MPTv2Blocks.emperorOfGuardian, () -> {
-                        node(MPTv2Blocks.antimatterRailgun);
+
                     });
                 });
 

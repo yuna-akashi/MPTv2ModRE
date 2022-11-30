@@ -1,20 +1,13 @@
 package mptv2re.expand.block.turrets;
 
 import arc.math.Mathf;
-import arc.struct.ObjectMap;
 import arc.util.Time;
 import arc.graphics.Color;
 import mindustry.entities.Mover;
 import mindustry.entities.bullet.BulletType;
-import mindustry.entities.pattern.ShootPattern;
 import mindustry.graphics.Pal;
-import mindustry.type.Item;
-import mindustry.type.Liquid;
-import mindustry.type.LiquidStack;
 import mindustry.ui.Bar;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
-import mindustry.world.consumers.ConsumeLiquid;
-import mindustry.world.consumers.ConsumeLiquids;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 
@@ -33,7 +26,7 @@ public class RailgunTurret extends ItemTurret {
                 (RailgunTurretBuild entity) -> new Bar(
                         () -> "Charge:",
                         () -> entity.requireCompleteCharging ? Pal.redderDust: Color.valueOf("FFFF7E"),
-                        () -> entity.shootChargeAmount / maxShootCharge
+                        () -> entity.shootChargeAmount / maxShootCharge * entity.chargeMultiplier
                 )
         );
     }
@@ -58,26 +51,25 @@ public class RailgunTurret extends ItemTurret {
 //    }
 
     public class RailgunTurretBuild extends ItemTurretBuild {
-        public float addCharge = 0f;
+        public float chargeMultiplier = 100f;
+        public float chargeCounter = 0f;
         public float shootChargeAmount = 0f;
         public boolean requireCompleteCharging = true;
         private boolean isCharging = false;
 
         @Override
         public void updateTile(){
-            if(requireCompleteCharging){
-                charge();
-                if(shootChargeAmount >= maxShootCharge){
-                    shootChargeAmount = maxShootCharge;
-                    isCharging = false;
-                    requireCompleteCharging = false;
-                }
-            }
 
-            if(shootChargeAmount > 0f && !requireCompleteCharging) {
+            if(shootChargeAmount > 0 && !requireCompleteCharging) {
                 super.updateTile();
             } else {
                 charge();
+                if(linearWarmup){
+                    shootWarmup = Mathf.approachDelta(shootWarmup, 0, chargeTimePer1Shot * 60f);
+                }else{
+                    shootWarmup = Mathf.lerpDelta(shootWarmup, 0, chargeTimePer1Shot * 60f);
+                }
+
                 unit.tile(this);
                 unit.rotation(rotation);
                 unit.team(team);
@@ -85,9 +77,8 @@ public class RailgunTurret extends ItemTurret {
                 if(logicControlTime > 0){
                     logicControlTime -= Time.delta;
                 }
-
-                if(shootChargeAmount >= maxShootCharge){
-                    shootChargeAmount = maxShootCharge;
+                if(shootChargeAmount >= maxShootCharge * chargeMultiplier){
+                    shootChargeAmount = maxShootCharge * chargeMultiplier;
                     isCharging = false;
                     requireCompleteCharging = false;
                 }
@@ -96,28 +87,26 @@ public class RailgunTurret extends ItemTurret {
 
         public void charge() {
             isCharging = true;
-            shootChargeAmount = Mathf.approachDelta(shootChargeAmount, maxShootCharge, chargeTimePer1Shot * maxShootCharge * 0.0001f);
+            shootChargeAmount = Mathf.approachDelta(shootChargeAmount, maxShootCharge * chargeMultiplier, chargeTimePer1Shot * maxShootCharge * 0.0003f);
         }
 
         @Override
         protected void updateShooting(){
-            if(reloadCounter >= maxShootCharge){
-                BulletType type = peekAmmo();
-
-                shoot(type);
-
-                reloadCounter = 0f;
-            } else {
-                reloadCounter += 1;
-                if(shootChargeAmount <= 0)requireCompleteCharging =true;
-            }
+            BulletType type = peekAmmo();
+            shoot(type);
+            if(shootChargeAmount < 1)requireCompleteCharging =true;
         }
 
         @Override
         protected void shoot(BulletType type){
             super.shoot(type);
             if(shootChargeAmount > 0) {
-                shootChargeAmount -= 1;
+                shootChargeAmount -= 100;
+//                if(linearWarmup){
+//                    shootWarmup = Mathf.approachDelta(shootWarmup, 0, 200);
+//                }else{
+//                    shootWarmup = Mathf.lerpDelta(shootWarmup, 0, 200);
+//                }
             } else requireCompleteCharging = true;
 
             if(consumeAmmoOnce){

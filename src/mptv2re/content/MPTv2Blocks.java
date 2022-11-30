@@ -37,10 +37,10 @@ public class MPTv2Blocks {
         assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian, emperorOfGuardian, antimatterRailgun,
 
         //distribution
-        superItemSource,
+        superItemSource, metrenConveyor, metrenBridgeConveyor, metrenRouter, metrenJunction,
 
         //liquids
-        superLiquidSource,
+        superLiquidSource, metrenConduit, metrenConduitRouter,
 
         //base factory
         metrenSmelter, titaniumAlloySmelter,
@@ -49,7 +49,9 @@ public class MPTv2Blocks {
         armorPlateCrafter, heavyArmorPlateCrafter, specialArmorPlateCrafter,
 
         //metren's factory
-        metrenGlassSmelter, metrenDiamondCompressor, metrenSiliconSmelter, antimatterGenerator,
+        metrenGlassSmelter, metrenDiamondCompressor, metrenSiliconSmelter,
+        multiMetrenSmelter, multiFrameCrafter,
+        cellFactory, deuteriumChamber, antimatterGenerator,
 
         //power
         metrenReactor, deuteriumReactor, antimatterReactor, superPowerSource,
@@ -70,7 +72,7 @@ public class MPTv2Blocks {
             itemCapacity = 40;
             liquidCapacity = 80;
             craftTime = 72;
-            consumePower(4.5f);
+            consumePower(2.5f);
             consumeItems(with(Items.titanium, 25));
             consumeLiquids(LiquidStack.with(Liquids.slag, 0.25f));
             outputItems = with(MPTv2Items.titaniumAlloy, 4);
@@ -214,6 +216,17 @@ public class MPTv2Blocks {
             requirements(Category.crafting, with(MPTv2Items.metren, 32));
         }};
 
+        cellFactory = new GenericCrafter("cellFactory"){{
+            size = 3;
+            health = 9000000;
+            hasItems = hasPower = true;
+            itemCapacity = 40;
+            consumePower(2.75f);
+            consumeItems(with(MPTv2Items.metren, 4, Items.coal, 4, Items.sand, 4));
+            outputItems = with(MPTv2Items.metrenSilicon, 4);
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metren, 18));
+        }};
+
         antimatterGenerator = new GenericCrafter("antimatterGenerator"){{
             size = 9;
             health = 81000000;
@@ -246,10 +259,10 @@ public class MPTv2Blocks {
             health = 25000000;
             range = 4000;
             hasPower = true;
-            reload = 200;
-            recoil = 0;
+            reload = 360;
+            recoil = 0.001f;
             chargeTimePer1Shot = 25;
-            maxShootCharge = 3;
+            maxShootCharge = 1;
             ammo(
                     MPTv2Items.metrenAmmo, new BasicBulletType(30, 500){{
                         width = 10;
@@ -262,6 +275,32 @@ public class MPTv2Blocks {
             );
             consumePowerCond(1000, RailgunTurretBuild::isCharge);
             requirements(Category.turret, with(MPTv2Items.largeMetrenFrame, 25, MPTv2Items.largeTurretFrame, 25, MPTv2Items.heavyArmorPlate, 25, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 50));
+        }};
+        multiRailgun = new RailgunTurret("multiRailgun"){{
+            size = 5;
+            health = 25000000;
+            range = 4000;
+            hasPower = true;
+            reload = 360;
+            recoil = 0.001f;
+            chargeTimePer1Shot = 25;
+            maxShootCharge = 5;
+            ammo(
+                    MPTv2Items.metrenAmmo, new BasicBulletType(30, 500){{
+                        width = 10;
+                        height = 15;
+                        hitColor = backColor = lightColor = trailColor = MPTv2Items.metrenAmmo.color.cpy().lerp(Color.white, 0.2f);
+                        frontColor = backColor.cpy().lerp(Color.white, 0.55f);
+                        ammoMultiplier = 20;
+                        pierceArmor = true;
+                    }}
+            );
+            consumePowerCond(1000, RailgunTurretBuild::isCharge);
+            requirements(Category.turret, with(MPTv2Items.largeMetrenFrame, 25, MPTv2Items.largeTurretFrame, 25, MPTv2Items.heavyArmorPlate, 25,MPTv2Items.multiCore, 5, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 50));
+        }};
+        guardian = new ItemTurret("guardian"){{
+            size = 5;
+            health = 25000000;
         }};
         emperorOfGuardian = new ItemTurret("emperorOfGuardian"){{
             size = 11;
@@ -337,7 +376,7 @@ public class MPTv2Blocks {
                 new RegionPart("-barrel-center"){{
                      under = mirror = true;
                     layerOffset = -0.0025f;
-                    moveX = -3.1f;
+                    moveX = -3.115f;
                     moveY = 25f;
                     y = 2;
                     x = 3f;
@@ -547,7 +586,6 @@ public class MPTv2Blocks {
     }
 
     public static void load(){
-        loadBaseFactory();
         metrenWall = new Wall("metrenWall"){{
             size = 1;
             health = 2000000;
@@ -563,6 +601,8 @@ public class MPTv2Blocks {
 
         loadTurrets();
         loadPower();
+        loadBaseFactory();
+        loadFactory();
         loadEffects();
         loadCore();
 
