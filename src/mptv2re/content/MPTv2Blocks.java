@@ -6,13 +6,14 @@ import arc.graphics.g2d.Lines;
 import arc.math.Angles;
 import arc.math.Interp;
 import arc.math.Mathf;
-import mindustry.content.Items;
-import mindustry.content.Liquids;
-import mindustry.content.UnitTypes;
+import mindustry.content.*;
 import mindustry.entities.Effect;
+import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.BasicBulletType;
+import mindustry.entities.bullet.ContinuousLaserBulletType;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootPattern;
+import mindustry.gen.Sounds;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
 
@@ -22,6 +23,7 @@ import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
+import mindustry.world.blocks.defense.turrets.LaserTurret;
 import mindustry.world.blocks.defense.turrets.PointDefenseTurret;
 import mindustry.world.blocks.defense.turrets.PowerTurret;
 import mindustry.world.blocks.distribution.Conveyor;
@@ -34,9 +36,11 @@ import mindustry.world.blocks.sandbox.LiquidSource;
 import mindustry.world.blocks.sandbox.PowerSource;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
+import mindustry.world.draw.DrawDefault;
+import mindustry.world.draw.DrawFlame;
+import mindustry.world.draw.DrawMulti;
 import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.BuildVisibility;
-import mptv2re.expand.block.drawer.MPTv2AntiRailCharge;
 import mptv2re.expand.block.turrets.RailgunTurret;
 
 public class MPTv2Blocks {
@@ -45,7 +49,7 @@ public class MPTv2Blocks {
         metrenWall, metrenWallLarge,
 
         //turrets
-        assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian, emperorOfGuardian, antimatterRailgun, antimatterBlaster,
+        assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian, emperorOfGuardian, antimatterRailgun, antimatterBlaster, antimatterShockwaveCannon,
 
         //distribution
         superItemSource, metrenConveyor, metrenBridgeConveyor, metrenRouter, metrenJunction,
@@ -83,10 +87,16 @@ public class MPTv2Blocks {
             itemCapacity = 40;
             liquidCapacity = 80;
             craftTime = 72;
+
             consumePower(2.5f);
             consumeItems(with(Items.titanium, 25));
             consumeLiquids(LiquidStack.with(Liquids.slag, 0.25f));
             outputItems = with(MPTv2Items.titaniumAlloy, 4);
+
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
+            ambientSound = Sounds.smelter;
+            craftEffect = Fx.smeltsmoke;
+
             requirements(Category.crafting, with(Items.copper, 156, Items.lead, 200, Items.titanium, 250));
         }};
 
@@ -96,9 +106,15 @@ public class MPTv2Blocks {
             hasItems = hasPower = true;
             itemCapacity = 120;
             craftTime = 72;
+
             consumePower(6);
             consumeItems(with(Items.graphite, 10,Items.lead, 15, Items.titanium, 25));
             outputItems = with(MPTv2Items.metren, 5);
+
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
+            ambientSound = Sounds.smelter;
+            craftEffect = Fx.smeltsmoke;
+
             requirements(Category.crafting, with(Items.copper, 156, Items.lead, 200, MPTv2Items.titaniumAlloy, 120));
         }};//done
     }
@@ -108,6 +124,7 @@ public class MPTv2Blocks {
             size = 3;
             health = 4000000;
             range = 320;
+            reload = 110;
             coolant = consumeCoolant(0.05F);
             ammo(MPTv2Items.metrenAmmo, new BasicBulletType(10, 50){{
                 width = 2;
@@ -182,6 +199,7 @@ public class MPTv2Blocks {
             size = 5;
             health = 25000000;
             range = 8000;
+            reload = 240;
             coolant = consumeCoolant(0.05F);
             maxAmmo = 240;
             ammo(
@@ -202,7 +220,7 @@ public class MPTv2Blocks {
             range = 12000;
             hasPower = true;
             shake = 0;
-            reload = 50;
+            reload = 260;
             canOverdrive = false;
             ammo(
                     MPTv2Items.metrenAmmo, new BasicBulletType(30, 9999999){{
@@ -237,7 +255,9 @@ public class MPTv2Blocks {
             reload = 240;
             recoil = 0;
             shootY = -11f;
+            rotateSpeed = 0.25f;
             coolant = consumeCoolant(0.05F);
+            canOverdrive = false;
             //maxShootCharge = 10;
             //chargeTimePer1Shot = 25;
             ammo(
@@ -279,13 +299,13 @@ public class MPTv2Blocks {
                             x = 3f;
                             progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
                         }});
-                //parts.add(new MPTv2AntiRailCharge){{
-                //    progress = aa;
-                // }}
+//                parts.add(new MPTv2AntiRailCharge){{
+//                    progress = aa;
+//                 }}
             }};
 
             consumePower(500000000);
-            //consumePowerCond(500000000, RailgunTurretBuild::isCharge);
+//            consumePowerCond(500000000, RailgunTurretBuild::isCharge);
             requirements(Category.turret, with(MPTv2Items.specialMetrenFrame, 256, MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
         }};
 
@@ -295,8 +315,11 @@ public class MPTv2Blocks {
             range = 160000;
             reload = 250f;
             recoil = 20;
-            coolant = consumeCoolant(0.05F);
+            rotateSpeed = 0.25f;
+            coolant = consumeCoolant(0.5F);
+            canOverdrive = false;
             shootY = -15;
+
             shootType = new BasicBulletType(6.5f, 99999999){{
                 hitEffect = new Effect(12.0F, (e) -> {
                     Draw.color(Pal.lancerLaser, Color.white, e.fout() * 0.75f);
@@ -316,7 +339,7 @@ public class MPTv2Blocks {
                 homingDelay = 1f;
                 homingPower = 0.2f;
                 homingRange = 120f;
-                //status = StatusEffects.shocked;
+                status = StatusEffects.shocked;
                 statusDuration = 30f;
                 width = 85f;
                 drawSize = 100f;
@@ -338,6 +361,61 @@ public class MPTv2Blocks {
                     progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
                 }});
             }};
+
+            shootSound = Sounds.laserblast;
+
+            requirements(Category.turret, with(MPTv2Items.specialMetrenFrame, 256, MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
+        }};
+
+        antimatterShockwaveCannon = new LaserTurret("antimatterShockwaveCannon"){{
+            size = 16;
+            health = 256000000;
+            range = 160000;
+            reload = 250f;
+            recoil = 20f;
+            shake = 7.5f;
+            rotateSpeed = 0.25f;
+            shootY = 20f;
+            shootDuration = 230f;
+            shootCone = 40f;
+
+            unitSort = UnitSorts.strongest;
+
+            coolant = consumeCoolant(0.5F);
+            canOverdrive = false;
+
+            consumePower(5000000);
+
+            shootType = new ContinuousLaserBulletType(999){{
+                length = 20000f;
+                width = 20f;
+                hitSize = 10f;
+                hitEffect = Fx.hitMeltdown;
+                hitColor = MPTv2Items.antimatterCell.color;
+                status = StatusEffects.melting;
+                drawSize = 840f;
+
+                incendChance = 0.4f;
+                incendSpread = 5f;
+                incendAmount = 1;
+                ammoMultiplier = 1f;
+            }};
+
+            drawer = new DrawTurret(){{
+                parts.add(new RegionPart("-side"){{
+                    under = turretShading = mirror = true;
+                    moveX = -4;
+                    moveY = 2.5f;
+                    y = -2;
+                    x = 4;
+                    progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
+                }});
+            }};
+
+            shootEffect = Fx.shootBigSmoke2;
+            shootSound = Sounds.laserbig;
+            loopSound = Sounds.beam;
+            loopSoundVolume = 20f;
 
             requirements(Category.turret, with(MPTv2Items.specialMetrenFrame, 256, MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
         }};
@@ -372,9 +450,15 @@ public class MPTv2Blocks {
             health = 4000000;
             hasItems = hasPower = true;
             itemCapacity = 40;
+
             consumePower(2);
             consumeItems(with(MPTv2Items.metren, 4, Items.sand, 4));
             outputItems = with(MPTv2Items.metrenGlass, 4);
+
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
+            ambientSound = Sounds.smelter;
+            craftEffect = Fx.smeltsmoke;
+
             requirements(Category.crafting, with(MPTv2Items.metren, 32));
         }};//done
 
@@ -394,9 +478,15 @@ public class MPTv2Blocks {
             health = 4000000;
             hasItems = hasPower = true;
             itemCapacity = 40;
+
             consumePower(2);
             consumeItems(with(MPTv2Items.metren, 4, Items.coal, 4, Items.sand, 4));
             outputItems = with(MPTv2Items.metrenSilicon, 4);
+
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+            ambientSound = Sounds.smelter;
+            craftEffect = Fx.smeltsmoke;
+
             requirements(Category.crafting, with(MPTv2Items.metren, 32));
         }};//done
 

@@ -101,7 +101,9 @@ public class MPTv2RETechTree {
                 });
 
                 node(MPTv2Blocks.defendTurret, () -> {
-                    node(MPTv2Blocks.antimatterBlaster);
+                    node(MPTv2Blocks.antimatterBlaster, () -> {
+                        node(MPTv2Blocks.antimatterShockwaveCannon);
+                    });
                 });
             });
         });
