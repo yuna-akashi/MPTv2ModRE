@@ -14,12 +14,12 @@ public class MPTv2RETechTree {
     public static void load() {
         nodeRoot("mptv2-re", MPTv2Blocks.titaniumAlloySmelter, () -> {
             //distribution
-//            node(MPTv2Blocks.metrenConveyor, () -> {
-//                node(MPTv2Blocks.metrenBridgeConveyor);
-//                node(MPTv2Blocks.metrenRouter, () -> {
-//                    node(MPTv2Blocks.metrenJunction);
-//                });
-//            });
+            node(MPTv2Blocks.metrenConveyor, () -> {
+                node(MPTv2Blocks.metrenBridgeConveyor);
+                node(MPTv2Blocks.metrenRouter, () -> {
+                    node(MPTv2Blocks.metrenJunction);
+                });
+            });
 
             //core
             node(MPTv2Blocks.coreMetren,() -> node(MPTv2Blocks.coreAdvance, () -> node(MPTv2Blocks.coreExperimental, () -> node(MPTv2Blocks.coreEmperorOfAntimatter))));
@@ -59,9 +59,9 @@ public class MPTv2RETechTree {
                     });
                 });
 
-//                node(MPTv2Blocks.metrenAmmoCrafter, () -> {
+                node(MPTv2Blocks.metrenAmmoCrafter, () -> {
 //                    node(MPTv2Blocks.metrenExplosiveAmmoCrafter);
-//                });
+                });
             });
 
             //power
@@ -104,6 +104,64 @@ public class MPTv2RETechTree {
                     node(MPTv2Blocks.antimatterBlaster, () -> {
                         node(MPTv2Blocks.antimatterShockwaveCannon);
                     });
+                });
+            });
+
+            nodeProduce(MPTv2Items.titaniumAlloy, () -> {
+                nodeProduce(MPTv2Items.metren, () -> {
+                    nodeProduce(MPTv2Items.metrenGlass, () -> {
+                        nodeProduce(MPTv2Items.metrenDiamond, () -> {
+                            nodeProduce(MPTv2Items.metrenSilicon, () -> {
+
+                            });
+                        });
+                    });
+
+                    nodeProduce(MPTv2Items.metrenFrame, () -> {
+                        nodeProduce(MPTv2Items.largeMetrenFrame, () -> {
+                            nodeProduce(MPTv2Items.specialMetrenFrame, () -> {
+
+                            });
+                        });
+
+                        nodeProduce(MPTv2Items.turretFrame, () -> {
+                            nodeProduce(MPTv2Items.largeTurretFrame, () -> {
+                                nodeProduce(MPTv2Items.specialTurretFrame, () -> {
+
+                                });
+                            });
+                        });
+
+                        nodeProduce(MPTv2Items.armorPlate, () -> {
+                            nodeProduce(MPTv2Items.heavyArmorPlate, () -> {
+                                nodeProduce(MPTv2Items.specialArmorPlate, () -> {
+
+                                });
+                            });
+                        });
+                    });
+
+                    nodeProduce(MPTv2Items.cell, () -> {
+                        nodeProduce(MPTv2Items.coolingCell, () -> {
+                            nodeProduce(MPTv2Items.antimatterCell, () -> {
+
+                            });
+                        });
+                    });
+
+                    nodeProduce(MPTv2Items.metrenAmmo, () -> {
+                        nodeProduce(MPTv2Items.emperorsCristal, () -> {
+
+                        });
+                    });
+
+                    nodeProduce(MPTv2Liquids.meter, () -> {
+
+                    });
+                });
+
+                nodeProduce(MPTv2Items.compressedThorium, () -> {
+
                 });
             });
         });

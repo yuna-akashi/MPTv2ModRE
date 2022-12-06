@@ -28,6 +28,8 @@ import mindustry.world.blocks.defense.turrets.PointDefenseTurret;
 import mindustry.world.blocks.defense.turrets.PowerTurret;
 import mindustry.world.blocks.distribution.Conveyor;
 import mindustry.world.blocks.distribution.ItemBridge;
+import mindustry.world.blocks.distribution.Junction;
+import mindustry.world.blocks.distribution.Router;
 import mindustry.world.blocks.liquid.Conduit;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.GenericCrafter;
@@ -425,11 +427,31 @@ public class MPTv2Blocks {
         metrenConveyor = new Conveyor("metrenConveyor"){{
             size = 1;
             health = 250000;
+            speed = 0.16f;
+            displayedSpeed = 18f;
             requirements(Category.distribution, with(MPTv2Items.metren, 1));
         }};
+
         metrenBridgeConveyor = new ItemBridge("metrenBridgeConveyor"){{
             size = 1;
             health = 1000000;
+            hasPower = false;
+            itemCapacity = 20;
+            range = 15;
+            requirements(Category.distribution, with(MPTv2Items.metren, 4));
+        }};
+
+        metrenRouter = new Router("metrenRouter"){{
+            size = 1;
+            health = 1000000;
+            itemCapacity = 10;
+            requirements(Category.distribution, with(MPTv2Items.metren, 4));
+        }};
+
+        metrenJunction = new Junction("metrenJunction"){{
+            size = 1;
+            health = 1000000;
+            itemCapacity = 10;
             requirements(Category.distribution, with(MPTv2Items.metren, 4));
         }};
     }
@@ -589,6 +611,15 @@ public class MPTv2Blocks {
             consumeItems(with(MPTv2Items.metren, 2));
             outputItems = with(MPTv2Items.cell, 1);
             requirements(Category.crafting, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metren, 18));
+        }};
+
+        metrenAmmoCrafter = new GenericCrafter("metrenAmmoCrafter"){{
+            size = 2;
+            health = 320;
+            consumePower(2.5f);
+            consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2));
+            outputItems = with(MPTv2Items.metrenAmmo, 1);
+            requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 40, Items.copper, 120, Items.lead, 80));
         }};
 
         antimatterGenerator = new GenericCrafter("antimatterGenerator"){{
