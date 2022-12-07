@@ -24,63 +24,65 @@ public class MPTv2RETechTree {
             //core
             node(MPTv2Blocks.coreMetren,() -> node(MPTv2Blocks.coreAdvance, () -> node(MPTv2Blocks.coreExperimental, () -> node(MPTv2Blocks.coreEmperorOfAntimatter))));
 
-            //effect
-            node(MPTv2Blocks.boostDriveProjector,() -> {
-                node(MPTv2Blocks.metrender, () -> {
-                    node(MPTv2Blocks.metrenShieldDome);
+            node(MPTv2Blocks.metrenDrill, () -> {
+                //effect
+                node(MPTv2Blocks.boostDriveProjector, () -> {
+                    node(MPTv2Blocks.metrender, () -> {
+                        node(MPTv2Blocks.metrenShieldDome);
+                    });
+
+                    node(MPTv2Blocks.metrenContainer);
                 });
 
-                node(MPTv2Blocks.metrenContainer);
-            });
+                //factory
+                node(MPTv2Blocks.metrenSmelter, () -> {
 
-            //factory
-            node(MPTv2Blocks.metrenSmelter, () -> {
-
-                node(MPTv2Blocks.metrenGlassSmelter, () -> {
-                    node(MPTv2Blocks.metrenDiamondCompressor);
-                    node(MPTv2Blocks.metrenSiliconSmelter, () -> {
-                        node(MPTv2Blocks.antimatterGenerator);
-                    });
-                });
-
-                node(MPTv2Blocks.metrenFrameCrafter, () -> {
-                    node(MPTv2Blocks.largeMetrenFrameCrafter, () -> {
-                        node(MPTv2Blocks.specialMetrenFrameCrafter);
-                    });
-                    node(MPTv2Blocks.turretFrameCrafter, () -> {
-                        node(MPTv2Blocks.largeTurretFrameCrafter, () -> {
-                            node(MPTv2Blocks.specialTurretFrameCrafter);
+                    node(MPTv2Blocks.metrenGlassSmelter, () -> {
+                        node(MPTv2Blocks.metrenDiamondCompressor);
+                        node(MPTv2Blocks.metrenSiliconSmelter, () -> {
+                            node(MPTv2Blocks.antimatterGenerator);
                         });
                     });
-                    node(MPTv2Blocks.armorPlateCrafter, () -> {
-                        node(MPTv2Blocks.heavyArmorPlateCrafter, () -> {
-                            node(MPTv2Blocks.specialArmorPlateCrafter);
+
+                    node(MPTv2Blocks.metrenFrameCrafter, () -> {
+                        node(MPTv2Blocks.largeMetrenFrameCrafter, () -> {
+                            node(MPTv2Blocks.specialMetrenFrameCrafter);
+                        });
+                        node(MPTv2Blocks.turretFrameCrafter, () -> {
+                            node(MPTv2Blocks.largeTurretFrameCrafter, () -> {
+                                node(MPTv2Blocks.specialTurretFrameCrafter);
+                            });
+                        });
+                        node(MPTv2Blocks.armorPlateCrafter, () -> {
+                            node(MPTv2Blocks.heavyArmorPlateCrafter, () -> {
+                                node(MPTv2Blocks.specialArmorPlateCrafter);
+                            });
                         });
                     });
-                });
 
-                node(MPTv2Blocks.metrenAmmoCrafter, () -> {
-//                    node(MPTv2Blocks.metrenExplosiveAmmoCrafter);
-                });
-            });
-
-            //power
-            node(MPTv2Blocks.metrenNode, () -> {
-                node(MPTv2Blocks.metrenLargeNode, () -> {
-                    node(MPTv2Blocks.metrenTowerNode);
-                });
-
-                node(MPTv2Blocks.metrenBattery, () -> {
-                    node(MPTv2Blocks.largeMetrenBattery, () -> {
-                        node(MPTv2Blocks.powerCondenser);
+                    node(MPTv2Blocks.metrenAmmoCrafter, () -> {
+//                        node(MPTv2Blocks.metrenExplosiveAmmoCrafter);
                     });
-                });
 
-//                node(MPTv2Blocks.metrenReactor, () -> {
-//                    node(MPTv2Blocks.deuteriumReactor, () -> {
+                    //power
+                    node(MPTv2Blocks.metrenNode, () -> {
+                        node(MPTv2Blocks.metrenLargeNode, () -> {
+                            node(MPTv2Blocks.metrenTowerNode);
+                        });
+
+                        node(MPTv2Blocks.metrenBattery, () -> {
+                            node(MPTv2Blocks.largeMetrenBattery, () -> {
+                                node(MPTv2Blocks.powerCondenser);
+                            });
+                        });
+
+//                        node(MPTv2Blocks.metrenReactor, () -> {
+//                            node(MPTv2Blocks.deuteriumReactor, () -> {
                         node(MPTv2Blocks.antimatterReactor);
-//                    });
-//                });
+//                            });
+//                        });
+                    });
+                });
             });
 
             //wall

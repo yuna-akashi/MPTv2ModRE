@@ -31,13 +31,18 @@ import mindustry.world.blocks.distribution.ItemBridge;
 import mindustry.world.blocks.distribution.Junction;
 import mindustry.world.blocks.distribution.Router;
 import mindustry.world.blocks.liquid.Conduit;
+import mindustry.world.blocks.liquid.LiquidBridge;
+import mindustry.world.blocks.liquid.LiquidJunction;
+import mindustry.world.blocks.liquid.LiquidRouter;
 import mindustry.world.blocks.power.*;
+import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.sandbox.ItemSource;
 import mindustry.world.blocks.sandbox.LiquidSource;
 import mindustry.world.blocks.sandbox.PowerSource;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
+import mindustry.world.blocks.storage.Unloader;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.draw.DrawFlame;
 import mindustry.world.draw.DrawMulti;
@@ -53,11 +58,13 @@ public class MPTv2Blocks {
         //turrets
         assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian, emperorOfGuardian, antimatterRailgun, antimatterBlaster, antimatterShockwaveCannon,
 
+        //drill
+        metrenDrill,
         //distribution
         superItemSource, metrenConveyor, metrenBridgeConveyor, metrenRouter, metrenJunction,
 
         //liquids
-        superLiquidSource, metrenConduit, metrenBridgeConduit, metrenConduitRouter, metrenConduitJunction, liquidTank,
+        superLiquidSource, metrenConduit, metrenBridgeConduit, metrenLiquidRouter, metrenLiquidJunction, metrenLiquidTank,
 
         //base factory
         metrenSmelter, titaniumAlloySmelter,
@@ -76,7 +83,7 @@ public class MPTv2Blocks {
         metrenBattery, largeMetrenBattery, powerCondenser,
 
         //effect
-        metrender, boostDriveProjector, metrenShieldDome, buildBlock,
+        metrender, boostDriveProjector, metrenShieldDome, buildBlock, metrenUnloader,
         //storage
         metrenContainer,
         coreMetren, coreAdvance, coreExperimental, coreEmperorOfAntimatter
@@ -423,6 +430,18 @@ public class MPTv2Blocks {
         }};
     }
 
+    private static void loadDrill() {
+        metrenDrill = new Drill("metrenDrill"){{
+            size = 2;
+            health = 4000000;
+            tier = 9;
+            drillTime = 150f;
+            liquidBoostIntensity = 1.65f;
+            consumeLiquid(Liquids.water, 0.1f).optional(true, true);
+            requirements(Category.production, with(MPTv2Items.metren, 28));
+        }};
+    }
+
     private static void loadDistribution() {
         metrenConveyor = new Conveyor("metrenConveyor"){{
             size = 1;
@@ -430,6 +449,13 @@ public class MPTv2Blocks {
             speed = 0.16f;
             displayedSpeed = 18f;
             requirements(Category.distribution, with(MPTv2Items.metren, 1));
+        }};
+
+        metrenJunction = new Junction("metrenJunction"){{
+            size = 1;
+            health = 1000000;
+            itemCapacity = 10;
+            requirements(Category.distribution, with(MPTv2Items.metren, 4));
         }};
 
         metrenBridgeConveyor = new ItemBridge("metrenBridgeConveyor"){{
@@ -447,23 +473,45 @@ public class MPTv2Blocks {
             itemCapacity = 10;
             requirements(Category.distribution, with(MPTv2Items.metren, 4));
         }};
-
-        metrenJunction = new Junction("metrenJunction"){{
-            size = 1;
-            health = 1000000;
-            itemCapacity = 10;
-            requirements(Category.distribution, with(MPTv2Items.metren, 4));
-        }};
     }
 
     private static void loadLiquid() {
         metrenConduit = new Conduit("metrenConduit"){{
             size = 1;
             health = 500000;
+            liquidCapacity = 20f;
             requirements(Category.liquid, with(MPTv2Items.metren, 2, MPTv2Items.metrenGlass, 1));
         }};
 
+        metrenLiquidRouter = new LiquidRouter("metrenLiquidRouter"){{
+            size = 1;
+            health = 1000000;
+            liquidCapacity = 40f;
+            requirements(Category.liquid, with(MPTv2Items.metren, 4, MPTv2Items.metrenGlass, 2));
+        }};
 
+        metrenLiquidTank = new LiquidRouter("metrenLiquidTank"){{
+            size = 4;
+            health = 16000000;
+            liquidCapacity = 70000f;
+            solid = true;
+            requirements(Category.liquid, with(MPTv2Items.metren, 30, MPTv2Items.metrenGlass, 40));
+        }};
+
+        metrenLiquidJunction = new LiquidJunction("metrenLiquidJunction"){{
+            size = 1;
+            health = 1000000;
+            requirements(Category.liquid, with(MPTv2Items.metren, 4, MPTv2Items.metrenGlass, 8));
+        }};
+
+        metrenBridgeConduit = new LiquidBridge("metrenBridgeConduit"){{
+            size = 1;
+            health = 1000000;
+            liquidCapacity = 20f;
+            range = 15;
+            hasPower = false;
+            requirements(Category.liquid, with(MPTv2Items.metren, 4, MPTv2Items.metrenGlass, 8));
+        }};
     }
 
     private static void loadFactory() {
@@ -622,6 +670,17 @@ public class MPTv2Blocks {
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 40, Items.copper, 120, Items.lead, 80));
         }};
 
+        deuteriumChamber = new GenericCrafter("deuteriumChamber"){{
+            size = 4;
+            health = 16000000;
+            hasItems = hasLiquids = hasPower = true;
+            itemCapacity = 40;
+            consumePower(4.5f);
+            consumeLiquids(LiquidStack.with(Liquids.water, 0.5f));
+            outputItems = with(MPTv2Items.deuterium, 1, MPTv2Items.solidOxygen, 2);
+            requirements(Category.crafting, with(MPTv2Items.largeMetrenFrame, 16, MPTv2Items.heavyArmorPlate, 16, MPTv2Items.metren, 32,MPTv2Items.metrenGlass, 30, MPTv2Items.metrenSilicon, 20));
+        }};
+
         antimatterGenerator = new GenericCrafter("antimatterGenerator"){{
             size = 9;
             health = 81000000;
@@ -731,17 +790,6 @@ public class MPTv2Blocks {
     }
 
     private static void loadEffects() {
-        boostDriveProjector = new OverdriveProjector("boostDriveProjector"){{
-            size = 3;
-            health = 9000000;
-            range = 320;
-            speedBoost = 12;
-            useTime =300F;
-            consumePower(10);
-            consumeItems(with(MPTv2Items.coolingCell, 1)).boost();
-            hasBoost = true;
-            requirements(Category.effect, with(MPTv2Items.largeMetrenFrame, 9, MPTv2Items.heavyArmorPlate, 9, MPTv2Items.multiCore, 3, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 18));
-        }};
         metrender = new MendProjector("metrender"){{
             size = 3;
             health = 9000000;
@@ -753,6 +801,18 @@ public class MPTv2Blocks {
             consumeItems(with(MPTv2Items.coolingCell, 1)).boost();
             phaseBoost = 80;
             phaseRangeBoost = 40;
+            requirements(Category.effect, with(MPTv2Items.largeMetrenFrame, 9, MPTv2Items.heavyArmorPlate, 9, MPTv2Items.multiCore, 3, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 18));
+        }};
+
+        boostDriveProjector = new OverdriveProjector("boostDriveProjector"){{
+            size = 3;
+            health = 9000000;
+            range = 320;
+            speedBoost = 12;
+            useTime =300F;
+            consumePower(10);
+            consumeItems(with(MPTv2Items.coolingCell, 1)).boost();
+            hasBoost = true;
             requirements(Category.effect, with(MPTv2Items.largeMetrenFrame, 9, MPTv2Items.heavyArmorPlate, 9, MPTv2Items.multiCore, 3, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 18));
         }};
 
@@ -771,6 +831,15 @@ public class MPTv2Blocks {
             phaseShieldBoost = 40000;
             requirements(Category.effect, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.multiCore, 3, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 18));
         }};
+
+        buildBlock = new BuildTurret("buildBlock"){{
+            size = 3;
+            health = 9000000;
+            buildSpeed = 5;
+            range = 800;
+            requirements(Category.effect, with(MPTv2Items.metrenFrame, 9, MPTv2Items.turretFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metren, 18));
+        }};
+        loadCore();
         //storage
         metrenContainer = new StorageBlock("metrenContainer"){{
             size = 5;
@@ -779,12 +848,10 @@ public class MPTv2Blocks {
             requirements(Category.effect, with(MPTv2Items.largeMetrenFrame, 4, MPTv2Items.metrenFrame, 9, MPTv2Items.heavyArmorPlate, 5, MPTv2Items.armorPlate, 9, MPTv2Items.metren, 50));
         }};
 
-        buildBlock = new BuildTurret("buildBlock"){{
-            size = 3;
-            health = 9000000;
-            buildSpeed = 5;
-            range = 1600;
-            requirements(Category.effect, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metren, 18));
+        metrenUnloader = new Unloader("metrenUnloader"){{
+            size = 1;
+            health = 1000000;
+            requirements(Category.effect, with(MPTv2Items.metren, 8));
         }};
     }
 
@@ -841,13 +908,13 @@ public class MPTv2Blocks {
         }};
 
         loadTurrets();
+        loadDrill();
         loadDistribution();
         loadLiquid();
         loadPower();
         loadBaseFactory();
         loadFactory();
         loadEffects();
-        loadCore();
 
         superPowerSource = new PowerSource("superPowerSource"){{
             size = 1;
