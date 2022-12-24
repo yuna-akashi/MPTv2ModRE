@@ -520,6 +520,7 @@ public class MPTv2Blocks {
             health = 4000000;
             hasItems = hasPower = true;
             itemCapacity = 40;
+            craftTime = 1.5f * 60f;
 
             consumePower(2);
             consumeItems(with(MPTv2Items.metren, 4, Items.sand, 4));
@@ -537,9 +538,14 @@ public class MPTv2Blocks {
             health = 4000000;
             hasItems = hasPower = true;
             itemCapacity = 80;
+            craftTime = 3f * 60f;
+
             consumePower(2.5f);
             consumeItems(with(Items.graphite, 8));
             outputItems = with(MPTv2Items.metrenDiamond, 4);
+
+            craftEffect = Fx.generate;
+
             requirements(Category.crafting, with(MPTv2Items.metren, 32));
         }};//done
 
@@ -548,6 +554,7 @@ public class MPTv2Blocks {
             health = 4000000;
             hasItems = hasPower = true;
             itemCapacity = 40;
+            craftTime = 1.76f * 60f;
 
             consumePower(2);
             consumeItems(with(MPTv2Items.metren, 4, Items.coal, 4, Items.sand, 4));
@@ -564,9 +571,11 @@ public class MPTv2Blocks {
             size = 2;
             health = 320;
             hasItems = hasPower = true;
+
             consumePower(2.5f);
             consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2));
             outputItems = with(MPTv2Items.metrenFrame, 1);
+
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 40, Items.copper, 120, Items.lead, 80));
         }};
 
@@ -574,9 +583,12 @@ public class MPTv2Blocks {
             size = 3;
             health = 960;
             hasItems = hasPower = true;
+            craftTime = 5.5f * 60f;
+
             consumePower(6);
             consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2, Items.silicon, 4, MPTv2Items.metrenFrame, 4));
             outputItems = with(MPTv2Items.largeMetrenFrame, 1);
+
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 80, Items.copper, 240, Items.lead, 160));
         }};
 
@@ -584,9 +596,12 @@ public class MPTv2Blocks {
             size = 4;
             health = 1280;
             hasItems = hasPower = true;
+            craftTime = 7.5f * 60f;
+
             consumePower(16);
             consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2, MPTv2Items.metrenSilicon, 4, MPTv2Items.largeMetrenFrame, 4));
             outputItems = with(MPTv2Items.specialMetrenFrame, 1);
+
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 120, Items.copper, 360, Items.lead, 240));
         }};
 
@@ -594,9 +609,11 @@ public class MPTv2Blocks {
             size = 2;
             health = 320;
             hasItems = hasPower = true;
+
             consumePower(2.5f);
             consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2, MPTv2Items.metrenSilicon, 2));
             outputItems = with(MPTv2Items.turretFrame, 2);
+
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 40, Items.copper, 120, Items.lead, 80));
         }};
 
@@ -604,9 +621,12 @@ public class MPTv2Blocks {
             size = 3;
             health = 960;
             hasItems = hasPower = true;
+            craftTime = 5.5f * 60f;
+
             consumePower(6);
             consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2, Items.silicon, 4, MPTv2Items.metrenSilicon, 2, MPTv2Items.turretFrame, 4));
             outputItems = with(MPTv2Items.largeTurretFrame, 1);
+
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 80, Items.copper, 240, Items.lead, 160));
         }};
 
@@ -614,9 +634,12 @@ public class MPTv2Blocks {
             size = 4;
             health = 1280;
             hasItems = hasPower = true;
+            craftTime = 7.5f * 60f;
+
             consumePower(16);
             consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2, MPTv2Items.metrenSilicon, 6, MPTv2Items.largeTurretFrame, 4));
             outputItems = with(MPTv2Items.specialTurretFrame, 1);
+
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 120, Items.copper, 360, Items.lead, 240));
         }};
 
@@ -624,9 +647,11 @@ public class MPTv2Blocks {
             size = 2;
             health = 320;
             hasItems = hasPower = true;
+
             consumePower(2.5f);
             consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2));
             outputItems = with(MPTv2Items.armorPlate, 1);
+
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 40, Items.copper, 120, Items.lead, 80));
         }};
 
@@ -634,9 +659,12 @@ public class MPTv2Blocks {
             size = 3;
             health = 960;
             hasItems = hasPower = true;
+            craftTime = 5.5f * 60f;
+
             consumePower(6);
             consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2, Items.silicon, 4, MPTv2Items.armorPlate, 4));
             outputItems = with(MPTv2Items.heavyArmorPlate, 1);
+
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 80, Items.copper, 240, Items.lead, 160));
         }};
 
@@ -644,9 +672,12 @@ public class MPTv2Blocks {
             size = 4;
             health = 1280;
             hasItems = hasPower = true;
+            craftTime = 7.5f * 60f;
+
             consumePower(16);
             consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2, MPTv2Items.metrenSilicon, 4, MPTv2Items.heavyArmorPlate, 4));
             outputItems = with(MPTv2Items.specialArmorPlate, 1);
+
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 120, Items.copper, 360, Items.lead, 240));
         }};
 
@@ -655,18 +686,24 @@ public class MPTv2Blocks {
             health = 9000000;
             hasItems = hasPower = true;
             itemCapacity = 40;
+            craftTime = 4f * 60f;
+
             consumePower(2.75f);
             consumeItems(with(MPTv2Items.metren, 2));
             outputItems = with(MPTv2Items.cell, 1);
+
             requirements(Category.crafting, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metren, 18));
         }};
 
         metrenAmmoCrafter = new GenericCrafter("metrenAmmoCrafter"){{
             size = 2;
             health = 320;
+            craftTime = 3.75f * 60f;
+
             consumePower(2.5f);
             consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2));
             outputItems = with(MPTv2Items.metrenAmmo, 1);
+
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 40, Items.copper, 120, Items.lead, 80));
         }};
 
@@ -675,9 +712,12 @@ public class MPTv2Blocks {
             health = 16000000;
             hasItems = hasLiquids = hasPower = true;
             itemCapacity = 40;
+            craftTime = 6.5f * 60f;
+
             consumePower(4.5f);
             consumeLiquids(LiquidStack.with(Liquids.water, 0.5f));
             outputItems = with(MPTv2Items.deuterium, 1, MPTv2Items.solidOxygen, 2);
+
             requirements(Category.crafting, with(MPTv2Items.largeMetrenFrame, 16, MPTv2Items.heavyArmorPlate, 16, MPTv2Items.metren, 32,MPTv2Items.metrenGlass, 30, MPTv2Items.metrenSilicon, 20));
         }};
 
@@ -686,9 +726,12 @@ public class MPTv2Blocks {
             health = 81000000;
             hasItems = hasPower = true;
             itemCapacity = 80;
+            craftTime = 20f * 60f;
+
             consumePower(25000000);
             consumeItems(with(MPTv2Items.cell, 1));
             outputItems = with(MPTv2Items.antimatterCell, 1);
+
             requirements(Category.crafting, with(MPTv2Items.specialArmorPlate, 81, MPTv2Items.specialArmorPlate, 81, MPTv2Items.metrenSilicon, 2000, MPTv2Items.metren, 648));
         }};
     }

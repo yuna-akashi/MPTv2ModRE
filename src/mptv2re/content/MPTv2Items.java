@@ -51,7 +51,7 @@ public class MPTv2Items {
             flammability = 1f;
         }};//done
         solidOxygen = new Item("solidOxygen", Color.valueOf("83F6AB")){{
-            flammability = 100000;
+            flammability = 1000;
         }};//done
         unitCore = new Item("unitCore", Color.valueOf("FF80F9"));//done
         multiCore = new Item("multiCore", Color.valueOf("FFA548"));//done
