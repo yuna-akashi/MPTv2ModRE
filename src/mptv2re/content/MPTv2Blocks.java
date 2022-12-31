@@ -1037,6 +1037,7 @@ public class MPTv2Blocks {
             requirements(Category.defense, with(MPTv2Items.metren, 32));
         }};
 
+        loadResearchCenter();
         loadTurrets();
         loadDrill();
         loadDistribution();
