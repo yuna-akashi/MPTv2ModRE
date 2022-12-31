@@ -53,7 +53,7 @@ import mptv2re.expand.block.turrets.RailgunTurret;
 public class MPTv2Blocks {
     public static Block
         //Research centers
-        researchCenter, advanceResearchCenter, experimentalResearchCenter, superResearchCenter, specialResearchCenter,
+        researchCenter, advancedResearchCenter, experimentalResearchCenter, superResearchCenter, specialResearchCenter,
         //wall
         metrenWall, metrenWallLarge,
 
@@ -106,7 +106,7 @@ public class MPTv2Blocks {
             requirements(Category.crafting, with(Items.copper, 140, MPTv2Items.titaniumAlloy, 20));
         }};
 
-        advanceResearchCenter = new GenericCrafter("advanceResearchCenter"){{
+        advancedResearchCenter = new GenericCrafter("advancedResearchCenter"){{
             size = 3;
             health = 340;
             hasItems = hasPower = true;
@@ -135,7 +135,7 @@ public class MPTv2Blocks {
         }};
 
         superResearchCenter = new GenericCrafter("superResearchCenter"){{
-            size = 3;
+            size = 5;
             health = 1360;
             hasItems = hasPower = true;
             itemCapacity = 45;

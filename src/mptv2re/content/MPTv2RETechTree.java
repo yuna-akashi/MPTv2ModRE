@@ -1,10 +1,6 @@
 package mptv2re.content;
 
-import arc.struct.ObjectMap;
-import arc.struct.Seq;
-import mindustry.game.Objectives;
 import mindustry.type.ItemStack;
-import mindustry.type.UnitType;
 
 import static mindustry.content.TechTree.*;
 
@@ -15,7 +11,7 @@ public class MPTv2RETechTree {
         nodeRoot("mptv2-re", MPTv2Blocks.titaniumAlloySmelter, () -> {
             //research center
             node(MPTv2Blocks.researchCenter, () -> {
-               node(MPTv2Blocks.advanceResearchCenter, ItemStack.with(MPTv2Items.smallResearchPack, 50), ()-> {
+               node(MPTv2Blocks.advancedResearchCenter, ItemStack.with(MPTv2Items.smallResearchPack, 50), ()-> {
                    node(MPTv2Blocks.experimentalResearchCenter, ItemStack.with(MPTv2Items.mediumResearchPack, 75), () -> {
                        node(MPTv2Blocks.superResearchCenter, ItemStack.with(MPTv2Items.largeResearchPack, 100), () -> {
                            node(MPTv2Blocks.specialResearchCenter, ItemStack.with(MPTv2Items.superResearchPack, 125), () ->{});
