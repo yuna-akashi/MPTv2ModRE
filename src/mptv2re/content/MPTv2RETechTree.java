@@ -13,72 +13,100 @@ public class MPTv2RETechTree {
 
     public static void load() {
         nodeRoot("mptv2-re", MPTv2Blocks.titaniumAlloySmelter, () -> {
+            //research center
+            node(MPTv2Blocks.researchCenter, () -> {
+               node(MPTv2Blocks.advanceResearchCenter, ItemStack.with(MPTv2Items.smallResearchPack, 50), ()-> {
+                   node(MPTv2Blocks.experimentalResearchCenter, ItemStack.with(MPTv2Items.mediumResearchPack, 75), () -> {
+                       node(MPTv2Blocks.superResearchCenter, ItemStack.with(MPTv2Items.largeResearchPack, 100), () -> {
+                           node(MPTv2Blocks.specialResearchCenter, ItemStack.with(MPTv2Items.superResearchPack, 125), () ->{});
+                       });
+                   });
+               });
+            });
             //distribution
-            node(MPTv2Blocks.metrenConveyor, () -> {
-                node(MPTv2Blocks.metrenBridgeConveyor);
-                node(MPTv2Blocks.metrenRouter, () -> {
-                    node(MPTv2Blocks.metrenJunction);
+            node(MPTv2Blocks.metrenConveyor, ItemStack.with(MPTv2Items.smallResearchPack, 1), () -> {
+                node(MPTv2Blocks.metrenBridgeConveyor,ItemStack.with(MPTv2Items.smallResearchPack, 1), () -> {});
+                node(MPTv2Blocks.metrenRouter, ItemStack.with(MPTv2Items.smallResearchPack, 1), () -> {
+                    node(MPTv2Blocks.metrenJunction, ItemStack.with(MPTv2Items.smallResearchPack, 1), () -> {});
                 });
             });
 
             //core
-            node(MPTv2Blocks.coreMetren,() -> node(MPTv2Blocks.coreAdvance, () -> node(MPTv2Blocks.coreExperimental, () -> node(MPTv2Blocks.coreEmperorOfAntimatter))));
+            node(MPTv2Blocks.coreMetren, ItemStack.with(MPTv2Items.smallResearchPack, 100), () -> {
+                node(MPTv2Blocks.coreAdvance, ItemStack.with(MPTv2Items.mediumResearchPack, 100), () -> {
+                    node(MPTv2Blocks.coreExperimental, ItemStack.with(MPTv2Items.largeResearchPack, 100), () -> {
+                        node(MPTv2Blocks.coreEmperorOfAntimatter, ItemStack.with(MPTv2Items.superResearchPack, 74, MPTv2Items.specialResearchPack, 126), () -> {
+                        });
+                    });
+                });
+            });
 
-            node(MPTv2Blocks.metrenDrill, () -> {
+            node(MPTv2Blocks.titaniumAlloyDrill, () -> {
                 //effect
-                node(MPTv2Blocks.boostDriveProjector, () -> {
-                    node(MPTv2Blocks.metrender, () -> {
-                        node(MPTv2Blocks.metrenShieldDome);
+                node(MPTv2Blocks.boostDriveProjector, ItemStack.with(MPTv2Items.mediumResearchPack, 8), () -> {
+                    node(MPTv2Blocks.metrender, ItemStack.with(MPTv2Items.largeResearchPack, 15), () -> {
+                        node(MPTv2Blocks.metrenShieldDome, ItemStack.with(MPTv2Items.largeResearchPack, 30), () -> {
+                        });
                     });
 
-                    node(MPTv2Blocks.metrenContainer);
+                    node(MPTv2Blocks.metrenContainer, ItemStack.with(MPTv2Items.mediumResearchPack, 10), ()-> {
+                    });
                 });
 
                 //factory
-                node(MPTv2Blocks.metrenSmelter, () -> {
-
-                    node(MPTv2Blocks.metrenGlassSmelter, () -> {
-                        node(MPTv2Blocks.metrenDiamondCompressor);
-                        node(MPTv2Blocks.metrenSiliconSmelter, () -> {
-                            node(MPTv2Blocks.antimatterGenerator);
-                        });
+                node(MPTv2Blocks.metrenSmelter, ItemStack.with(MPTv2Items.smallResearchPack, 5), () -> {
+                    node(MPTv2Blocks.metrenDrill, ItemStack.with(MPTv2Items.smallResearchPack, 6), () -> {
                     });
 
-                    node(MPTv2Blocks.metrenFrameCrafter, () -> {
-                        node(MPTv2Blocks.largeMetrenFrameCrafter, () -> {
-                            node(MPTv2Blocks.specialMetrenFrameCrafter);
+                    node(MPTv2Blocks.metrenGlassSmelter, ItemStack.with(MPTv2Items.smallResearchPack, 7), () -> {
+                        node(MPTv2Blocks.metrenDiamondCompressor, ItemStack.with(MPTv2Items.smallResearchPack, 7), () -> {
                         });
-                        node(MPTv2Blocks.turretFrameCrafter, () -> {
-                            node(MPTv2Blocks.largeTurretFrameCrafter, () -> {
-                                node(MPTv2Blocks.specialTurretFrameCrafter);
-                            });
-                        });
-                        node(MPTv2Blocks.armorPlateCrafter, () -> {
-                            node(MPTv2Blocks.heavyArmorPlateCrafter, () -> {
-                                node(MPTv2Blocks.specialArmorPlateCrafter);
+                        node(MPTv2Blocks.metrenSiliconSmelter, ItemStack.with(MPTv2Items.smallResearchPack, 7), () -> {
+                            node(MPTv2Blocks.antimatterGenerator, ItemStack.with(MPTv2Items.superResearchPack, 50), () -> {
                             });
                         });
                     });
 
-                    node(MPTv2Blocks.metrenAmmoCrafter, () -> {
-//                        node(MPTv2Blocks.metrenExplosiveAmmoCrafter);
+                    node(MPTv2Blocks.metrenFrameCrafter, ItemStack.with(MPTv2Items.smallResearchPack, 4), () -> {
+                        node(MPTv2Blocks.largeMetrenFrameCrafter, ItemStack.with(MPTv2Items.largeResearchPack, 5), () -> {
+                            node(MPTv2Blocks.specialMetrenFrameCrafter, ItemStack.with(MPTv2Items.specialResearchPack, 6), () -> {
+                            });
+                        });
+                        node(MPTv2Blocks.turretFrameCrafter, ItemStack.with(MPTv2Items.smallResearchPack, 4), () -> {
+                            node(MPTv2Blocks.largeTurretFrameCrafter, ItemStack.with(MPTv2Items.largeResearchPack, 6), () -> {
+                                node(MPTv2Blocks.specialTurretFrameCrafter, ItemStack.with(MPTv2Items.specialResearchPack, 8), () -> {
+                                });
+                            });
+                        });
+                        node(MPTv2Blocks.armorPlateCrafter, ItemStack.with(MPTv2Items.smallResearchPack, 6), () -> {
+                            node(MPTv2Blocks.heavyArmorPlateCrafter, ItemStack.with(MPTv2Items.largeResearchPack, 8), () -> {
+                                node(MPTv2Blocks.specialArmorPlateCrafter, ItemStack.with(MPTv2Items.specialResearchPack, 10), () -> {
+                                });
+                            });
+                        });
+                    });
+
+                    node(MPTv2Blocks.metrenAmmoCrafter, ItemStack.with(MPTv2Items.mediumResearchPack, 22), () -> {
+//                        node(MPTv2Blocks.metrenExplosiveAmmoCrafter, ItemStack.with(MPTv2Items.mediumResearchPack, 36), () -> {});
                     });
 
                     //power
-                    node(MPTv2Blocks.metrenNode, () -> {
-                        node(MPTv2Blocks.metrenLargeNode, () -> {
-                            node(MPTv2Blocks.metrenTowerNode);
-                        });
-
-                        node(MPTv2Blocks.metrenBattery, () -> {
-                            node(MPTv2Blocks.largeMetrenBattery, () -> {
-                                node(MPTv2Blocks.powerCondenser);
+                    node(MPTv2Blocks.metrenNode, ItemStack.with(MPTv2Items.smallResearchPack, 4), () -> {
+                        node(MPTv2Blocks.metrenLargeNode, ItemStack.with(MPTv2Items.mediumResearchPack, 8), () -> {
+                            node(MPTv2Blocks.metrenTowerNode, ItemStack.with(MPTv2Items.mediumResearchPack, 16), () -> {
                             });
                         });
 
-//                        node(MPTv2Blocks.metrenReactor, () -> {
-//                            node(MPTv2Blocks.deuteriumReactor, () -> {
-                        node(MPTv2Blocks.antimatterReactor);
+                        node(MPTv2Blocks.metrenBattery, ItemStack.with(MPTv2Items.smallResearchPack, 4), () -> {
+                            node(MPTv2Blocks.largeMetrenBattery, ItemStack.with(MPTv2Items.mediumResearchPack, 8), () -> {
+                                node(MPTv2Blocks.powerCondenser, ItemStack.with(MPTv2Items.superResearchPack, 35), () -> {
+                                });
+                            });
+                        });
+
+//                        node(MPTv2Blocks.metrenReactor, ItemStack.with(MPTv2Items.largeResearchPack, 45), () -> {
+//                            node(MPTv2Blocks.deuteriumReactor, ItemStack.with(MPTv2Items.superResearchPack, 30), () -> {
+                                node(MPTv2Blocks.antimatterReactor, ItemStack.with(MPTv2Items.specialResearchPack, 120), () -> {});
 //                            });
 //                        });
                     });
@@ -86,25 +114,29 @@ public class MPTv2RETechTree {
             });
 
             //wall
-            node(MPTv2Blocks.metrenWall, () -> {
-                node(MPTv2Blocks.metrenWallLarge);
+            node(MPTv2Blocks.metrenWall, ItemStack.with(MPTv2Items.smallResearchPack, 4), () -> {
+                node(MPTv2Blocks.metrenWallLarge, ItemStack.with(MPTv2Items.smallResearchPack, 8), () -> {
+                });
             });
 
             //turrets
-            node(MPTv2Blocks.assaultCannon, () -> {
-                node(MPTv2Blocks.railgun, () -> {
-                    node(MPTv2Blocks.multiRailgun, () -> {
-                        node(MPTv2Blocks.antimatterRailgun);
+            node(MPTv2Blocks.assaultCannon, ItemStack.with(MPTv2Items.smallResearchPack, 32), () -> {
+                node(MPTv2Blocks.railgun, ItemStack.with(MPTv2Items.mediumResearchPack, 55), () -> {
+                    node(MPTv2Blocks.multiRailgun, ItemStack.with(MPTv2Items.largeResearchPack, 70), () -> {
+                        node(MPTv2Blocks.antimatterRailgun, ItemStack.with(MPTv2Items.specialResearchPack, 200), () -> {
+                        });
                     });
                 });
 
-                node(MPTv2Blocks.guardian, () -> {
-                    node(MPTv2Blocks.emperorOfGuardian);
+                node(MPTv2Blocks.guardian, ItemStack.with(MPTv2Items.superResearchPack, 30), () -> {
+                    node(MPTv2Blocks.emperorOfGuardian, ItemStack.with(MPTv2Items.superResearchPack, 50), () -> {
+                    });
                 });
 
-                node(MPTv2Blocks.defendTurret, () -> {
-                    node(MPTv2Blocks.antimatterBlaster, () -> {
-                        node(MPTv2Blocks.antimatterShockwaveCannon);
+                node(MPTv2Blocks.defendTurret, ItemStack.with(MPTv2Items.mediumResearchPack, 25), () -> {
+                    node(MPTv2Blocks.antimatterBlaster, ItemStack.with(MPTv2Items.specialResearchPack, 250), () -> {
+                        node(MPTv2Blocks.antimatterShockwaveCannon, ItemStack.with(MPTv2Items.specialResearchPack, 300), () -> {
+                        });
                     });
                 });
             });

@@ -52,6 +52,8 @@ import mptv2re.expand.block.turrets.RailgunTurret;
 
 public class MPTv2Blocks {
     public static Block
+        //Research centers
+        researchCenter, advanceResearchCenter, experimentalResearchCenter, superResearchCenter, specialResearchCenter,
         //wall
         metrenWall, metrenWallLarge,
 
@@ -59,7 +61,7 @@ public class MPTv2Blocks {
         assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian, emperorOfGuardian, antimatterRailgun, antimatterBlaster, antimatterShockwaveCannon,
 
         //drill
-        metrenDrill,
+        titaniumAlloyDrill, metrenDrill,
         //distribution
         superItemSource, metrenConveyor, metrenBridgeConveyor, metrenRouter, metrenJunction,
 
@@ -88,6 +90,78 @@ public class MPTv2Blocks {
         metrenContainer,
         coreMetren, coreAdvance, coreExperimental, coreEmperorOfAntimatter
     ;
+
+    private static void loadResearchCenter(){
+        researchCenter = new GenericCrafter("researchCenter"){{
+            size = 2;
+            health = 170;
+            hasItems = hasPower = true;
+            itemCapacity = 60;
+            craftTime = 5f * 60f;
+
+            consumePower(2.5f);
+            consumeItems(with(Items.copper, 30, Items.metaglass, 15, Items.lead, 25, Items.silicon, 15, MPTv2Items.titaniumAlloy, 10));
+            outputItems = with(MPTv2Items.smallResearchPack, 1);
+
+            requirements(Category.crafting, with(Items.copper, 140, MPTv2Items.titaniumAlloy, 20));
+        }};
+
+        advanceResearchCenter = new GenericCrafter("advanceResearchCenter"){{
+            size = 3;
+            health = 340;
+            hasItems = hasPower = true;
+            itemCapacity = 45;
+            craftTime = 7.5f * 60f;
+
+            consumePower(5f);
+            consumeItems(with(Items.metaglass, 15, MPTv2Items.smallResearchPack, 5, Items.silicon, 15, MPTv2Items.metrenSilicon, 5, MPTv2Items.metren, 10));
+            outputItems = with(MPTv2Items.mediumResearchPack, 1);
+
+            requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 40, MPTv2Items.metren, 72));
+        }};
+
+        experimentalResearchCenter = new GenericCrafter("experimentalResearchCenter"){{
+            size = 4;
+            health = 680;
+            hasItems = hasPower = true;
+            itemCapacity = 45;
+            craftTime = 10f * 60f;
+
+            consumePower(7.5f);
+            consumeItems(with(Items.metaglass, 15, MPTv2Items.mediumResearchPack, 10, Items.silicon, 15, MPTv2Items.metrenSilicon, 10, MPTv2Items.metren, 10));
+            outputItems = with(MPTv2Items.largeResearchPack, 1);
+
+            requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 80, MPTv2Items.metren, 128));
+        }};
+
+        superResearchCenter = new GenericCrafter("superResearchCenter"){{
+            size = 3;
+            health = 1360;
+            hasItems = hasPower = true;
+            itemCapacity = 45;
+            craftTime = 12.5f * 60f;
+
+            consumePower(10f);
+            consumeItems(with(Items.metaglass, 15, MPTv2Items.largeResearchPack, 15, Items.silicon, 15, MPTv2Items.metrenSilicon, 15, MPTv2Items.metren, 10));
+            outputItems = with(MPTv2Items.superResearchPack, 1);
+
+            requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 160, MPTv2Items.metren, 200));
+        }};
+
+        specialResearchCenter = new GenericCrafter("specialResearchCenter"){{
+            size = 6;
+            health = 2720;
+            hasItems = hasPower = true;
+            itemCapacity = 60;
+            craftTime = 15f * 60f;
+
+            consumePower(12.5f);
+            consumeItems(with(Items.metaglass, 15, MPTv2Items.superResearchPack, 20, Items.silicon, 15, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10));
+            outputItems = with(MPTv2Items.specialResearchPack, 1);
+
+            requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 320, MPTv2Items.metren, 288));
+        }};
+    }
     private static void loadBaseFactory() {
         titaniumAlloySmelter = new GenericCrafter("titaniumAlloySmelter"){{
             size = 3;
@@ -95,7 +169,7 @@ public class MPTv2Blocks {
             hasItems = hasPower = hasLiquids = true;
             itemCapacity = 40;
             liquidCapacity = 80;
-            craftTime = 72;
+            craftTime = 0.75f * 60f;
 
             consumePower(2.5f);
             consumeItems(with(Items.titanium, 25));
@@ -431,13 +505,26 @@ public class MPTv2Blocks {
     }
 
     private static void loadDrill() {
+        titaniumAlloyDrill = new Drill("titaniumAlloyDrill"){{
+            size = 2;
+            health = 500;
+            tier = 4;
+            drillTime = 175f;
+            liquidBoostIntensity = 1.5f;
+
+            consumeLiquid(Liquids.water, 0.25f).optional(true, true);
+
+            requirements(Category.production, with(MPTv2Items.titaniumAlloy, 32));
+        }};
         metrenDrill = new Drill("metrenDrill"){{
             size = 2;
             health = 4000000;
             tier = 9;
             drillTime = 150f;
             liquidBoostIntensity = 1.65f;
-            consumeLiquid(Liquids.water, 0.1f).optional(true, true);
+
+            consumeLiquid(Liquids.water, 0.25f).optional(true, true);
+
             requirements(Category.production, with(MPTv2Items.metren, 28));
         }};
     }
