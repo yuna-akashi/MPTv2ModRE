@@ -15,7 +15,7 @@ public class MPTv2Items {
         //resources
         cell, coolingCell, deuterium, solidOxygen, unitCore, multiCore,
         //Research Items
-        smallResearchPack, mediumResearchPack, largeResearchPack, superResearchPack, specialResearchPack,
+        smallResearchPack, mediumResearchPack, largeResearchPack, superResearchPack, specialResearchPack, efficiencyTechnologyPack,
         antimatterCell,
         //ammo
         metrenAmmo, metrenMissile, emperorsCristal
@@ -60,11 +60,12 @@ public class MPTv2Items {
         antimatterCell = new Item("antimatterCell", Color.valueOf("470B70"));//done
 
         //Research Pack
-        smallResearchPack = new Item("smallResearchPack", Color.valueOf("F9423A"));
-        mediumResearchPack = new Item("mediumResearchPack", Color.valueOf("F6A04D"));
-        largeResearchPack = new Item("largeResearchPack", Color.valueOf("F3D321"));
-        superResearchPack = new Item("superResearchPack", Color.valueOf("00BC7B"));
-        specialResearchPack = new Item("specialResearchPack", Color.valueOf("486AFF"));
+        smallResearchPack = new Item("smallResearchPack", Color.valueOf("F9423A"));//done
+        mediumResearchPack = new Item("mediumResearchPack", Color.valueOf("F6A04D"));//done
+        largeResearchPack = new Item("largeResearchPack", Color.valueOf("F3D321"));//done
+        superResearchPack = new Item("superResearchPack", Color.valueOf("00BC7B"));//done
+        specialResearchPack = new Item("specialResearchPack", Color.valueOf("486AFF"));//done
+        efficiencyTechnologyPack = new Item("efficiencyTechnologyPack", Color.valueOf("4D49BE"));
 
         //ammo
         metrenAmmo = new Item("metrenAmmo", MPTv2Color.metren);
