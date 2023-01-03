@@ -53,9 +53,9 @@ import mptv2re.expand.block.turrets.RailgunTurret;
 public class MPTv2Blocks {
     public static Block
         //Research centers
-        researchCenter, advancedResearchCenter, experimentalResearchCenter, superResearchCenter, specialResearchCenter,
+        researchCenter, advancedResearchCenter, experimentalResearchCenter, superResearchCenter, specialResearchCenter, efficiencyTechnologyResearchCenter,
         //wall
-        metrenWall, metrenWallLarge,
+        titanoumAlloyWall, titaniumAlloyWallLarge, metrenWall, metrenWallLarge,
 
         //turrets
         assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian, emperorOfGuardian, antimatterRailgun, antimatterBlaster, antimatterShockwaveCannon,
@@ -93,17 +93,17 @@ public class MPTv2Blocks {
 
     private static void loadResearchCenter(){
         researchCenter = new GenericCrafter("researchCenter"){{
-            size = 2;
+            size = 3;
             health = 170;
             hasItems = hasPower = true;
             itemCapacity = 60;
             craftTime = 5f * 60f;
 
             consumePower(2.5f);
-            consumeItems(with(Items.copper, 30, Items.metaglass, 15, Items.lead, 25, Items.silicon, 15, MPTv2Items.titaniumAlloy, 10));
+            consumeItems(with(Items.copper, 30, Items.metaglass, 15, Items.lead, 25, Items.silicon, 15));
             outputItems = with(MPTv2Items.smallResearchPack, 1);
 
-            requirements(Category.crafting, with(Items.copper, 140, MPTv2Items.titaniumAlloy, 20));
+            requirements(Category.crafting, with(Items.copper, 140, Items.lead, 80, Items.metaglass, 40));
         }};
 
         advancedResearchCenter = new GenericCrafter("advancedResearchCenter"){{
@@ -114,10 +114,10 @@ public class MPTv2Blocks {
             craftTime = 7.5f * 60f;
 
             consumePower(5f);
-            consumeItems(with(Items.metaglass, 15, MPTv2Items.smallResearchPack, 5, Items.silicon, 15, MPTv2Items.metrenSilicon, 5, MPTv2Items.metren, 10));
+            consumeItems(with(Items.metaglass, 15, MPTv2Items.smallResearchPack, 2, MPTv2Items.metrenGlass, 5, MPTv2Items.metrenDiamond, 5, Items.silicon, 15, MPTv2Items.metrenSilicon, 5, MPTv2Items.metren, 10));
             outputItems = with(MPTv2Items.mediumResearchPack, 1);
 
-            requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 40, MPTv2Items.metren, 72));
+            requirements(Category.crafting, with(Items.copper, 280, MPTv2Items.titaniumAlloy, 40));
         }};
 
         experimentalResearchCenter = new GenericCrafter("experimentalResearchCenter"){{
@@ -128,7 +128,7 @@ public class MPTv2Blocks {
             craftTime = 10f * 60f;
 
             consumePower(7.5f);
-            consumeItems(with(Items.metaglass, 15, MPTv2Items.mediumResearchPack, 5, Items.silicon, 15, MPTv2Items.metrenSilicon, 10, MPTv2Items.metren, 10));
+            consumeItems(with(Items.metaglass, 15, MPTv2Items.mediumResearchPack, 2, MPTv2Items.metrenFrame, 5, MPTv2Items.turretFrame, 5, MPTv2Items.armorPlate, 5, Items.silicon, 15, MPTv2Items.metrenSilicon, 10, MPTv2Items.metren, 10));
             outputItems = with(MPTv2Items.largeResearchPack, 1);
 
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 80, MPTv2Items.metren, 128));
@@ -142,7 +142,7 @@ public class MPTv2Blocks {
             craftTime = 12.5f * 60f;
 
             consumePower(10f);
-            consumeItems(with(Items.metaglass, 15, MPTv2Items.largeResearchPack, 5, Items.silicon, 15, MPTv2Items.metrenSilicon, 15, MPTv2Items.metren, 10));
+            consumeItems(with(Items.metaglass, 15, MPTv2Items.largeResearchPack, 2, MPTv2Items.metrenFrame, 5, MPTv2Items.turretFrame, 5, MPTv2Items.armorPlate, 5, Items.silicon, 15, MPTv2Items.metrenSilicon, 15, MPTv2Items.metren, 10));
             outputItems = with(MPTv2Items.superResearchPack, 1);
 
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 160, MPTv2Items.metren, 200));
@@ -156,50 +156,24 @@ public class MPTv2Blocks {
             craftTime = 15f * 60f;
 
             consumePower(12.5f);
-            consumeItems(with(Items.metaglass, 15, MPTv2Items.superResearchPack, 5, Items.silicon, 15, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10));
+            consumeItems(with(Items.metaglass, 15, MPTv2Items.superResearchPack, 2, MPTv2Items.largeMetrenFrame, 5, MPTv2Items.largeTurretFrame, 5, MPTv2Items.heavyArmorPlate, 5, Items.silicon, 15, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10));
             outputItems = with(MPTv2Items.specialResearchPack, 1);
 
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 320, MPTv2Items.metren, 288));
         }};
-    }
-    private static void loadBaseFactory() {
-        titaniumAlloySmelter = new GenericCrafter("titaniumAlloySmelter"){{
+        efficiencyTechnologyResearchCenter = new GenericCrafter("efficiencyTechnologyResearchCenter"){{
             size = 3;
-            health = 320;
-            hasItems = hasPower = hasLiquids = true;
-            itemCapacity = 40;
-            liquidCapacity = 80;
-            craftTime = 0.75f * 60f;
-
-            consumePower(2.5f);
-            consumeItems(with(Items.titanium, 25));
-            consumeLiquids(LiquidStack.with(Liquids.slag, 0.25f));
-            outputItems = with(MPTv2Items.titaniumAlloy, 4);
-
-            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
-            ambientSound = Sounds.smelter;
-            craftEffect = Fx.smeltsmoke;
-
-            requirements(Category.crafting, with(Items.copper, 156, Items.lead, 200, Items.titanium, 250));
-        }};
-
-        metrenSmelter = new GenericCrafter("metrenSmelter"){{
-            size = 3;
-            health = 320;
+            health = 340;
             hasItems = hasPower = true;
-            itemCapacity = 120;
-            craftTime = 72;
+            itemCapacity = 45;
+            craftTime = 8f * 60f;
 
-            consumePower(6);
-            consumeItems(with(Items.graphite, 10,Items.lead, 15, Items.titanium, 25));
-            outputItems = with(MPTv2Items.metren, 5);
+            consumePower(12.5f);
+            consumeItems(with(Items.metaglass, 15, Items.phaseFabric, 5, MPTv2Items.coolingCell, 3, Items.silicon, 15, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10));
+            outputItems = with(MPTv2Items.specialResearchPack, 1);
 
-            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
-            ambientSound = Sounds.smelter;
-            craftEffect = Fx.smeltsmoke;
-
-            requirements(Category.crafting, with(Items.copper, 156, Items.lead, 200, MPTv2Items.titaniumAlloy, 120));
-        }};//done
+            requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 50, MPTv2Items.metren, 72));
+        }};
     }
 
     private static void loadTurrets() {
@@ -602,6 +576,44 @@ public class MPTv2Blocks {
     }
 
     private static void loadFactory() {
+        titaniumAlloySmelter = new GenericCrafter("titaniumAlloySmelter"){{
+            size = 3;
+            health = 320;
+            hasItems = hasPower = hasLiquids = true;
+            itemCapacity = 40;
+            liquidCapacity = 80;
+            craftTime = 0.75f * 60f;
+
+            consumePower(2.5f);
+            consumeItems(with(Items.titanium, 25));
+            consumeLiquids(LiquidStack.with(Liquids.slag, 0.25f));
+            outputItems = with(MPTv2Items.titaniumAlloy, 4);
+
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
+            ambientSound = Sounds.smelter;
+            craftEffect = Fx.smeltsmoke;
+
+            requirements(Category.crafting, with(Items.copper, 156, Items.lead, 200, Items.titanium, 250));
+        }};
+
+        metrenSmelter = new GenericCrafter("metrenSmelter"){{
+            size = 3;
+            health = 320;
+            hasItems = hasPower = true;
+            itemCapacity = 120;
+            craftTime = 72;
+
+            consumePower(6);
+            consumeItems(with(Items.graphite, 10,Items.lead, 15, Items.titanium, 25));
+            outputItems = with(MPTv2Items.metren, 5);
+
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
+            ambientSound = Sounds.smelter;
+            craftEffect = Fx.smeltsmoke;
+
+            requirements(Category.crafting, with(Items.copper, 156, Items.lead, 200, MPTv2Items.titaniumAlloy, 120));
+        }};//done
+
         metrenGlassSmelter = new GenericCrafter("metrenGlassSmelter"){{
             size = 2;
             health = 4000000;
@@ -1024,6 +1036,26 @@ public class MPTv2Blocks {
     }
 
     public static void load(){
+        loadResearchCenter();
+
+        loadFactory();
+
+        titanoumAlloyWall = new Wall("titaniumAlloyWall"){{
+            size = 1;
+            health = 1500;
+            armor = 15;
+
+            requirements(Category.defense, with(MPTv2Items.titaniumAlloy, 8));
+        }};
+
+        titaniumAlloyWallLarge = new Wall("titaniumAlloyWallLarge"){{
+            size = 2;
+            health = 4500;
+            armor = 45;
+
+            requirements(Category.defense, with(MPTv2Items.titaniumAlloy, 32));
+        }};
+
         metrenWall = new Wall("metrenWall"){{
             size = 1;
             health = 2000000;
@@ -1037,14 +1069,16 @@ public class MPTv2Blocks {
             requirements(Category.defense, with(MPTv2Items.metren, 32));
         }};
 
-        loadResearchCenter();
         loadTurrets();
+
         loadDrill();
+
         loadDistribution();
+
         loadLiquid();
+
         loadPower();
-        loadBaseFactory();
-        loadFactory();
+
         loadEffects();
 
         superPowerSource = new PowerSource("superPowerSource"){{
