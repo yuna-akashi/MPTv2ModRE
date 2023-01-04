@@ -114,7 +114,7 @@ public class MPTv2Blocks {
             craftTime = 7.5f * 60f;
 
             consumePower(5f);
-            consumeItems(with(Items.metaglass, 15, MPTv2Items.smallResearchPack, 2, MPTv2Items.metrenGlass, 5, MPTv2Items.metrenDiamond, 5, Items.silicon, 15, MPTv2Items.metrenSilicon, 5, MPTv2Items.metren, 10));
+            consumeItems(with(Items.metaglass, 15, MPTv2Items.smallResearchPack, 2, Items.silicon, 15, MPTv2Items.titaniumAlloy, 10));
             outputItems = with(MPTv2Items.mediumResearchPack, 1);
 
             requirements(Category.crafting, with(Items.copper, 280, MPTv2Items.titaniumAlloy, 40));
@@ -128,7 +128,7 @@ public class MPTv2Blocks {
             craftTime = 10f * 60f;
 
             consumePower(7.5f);
-            consumeItems(with(Items.metaglass, 15, MPTv2Items.mediumResearchPack, 2, MPTv2Items.metrenFrame, 5, MPTv2Items.turretFrame, 5, MPTv2Items.armorPlate, 5, Items.silicon, 15, MPTv2Items.metrenSilicon, 10, MPTv2Items.metren, 10));
+            consumeItems(with(Items.metaglass, 15, MPTv2Items.mediumResearchPack, 2, MPTv2Items.metrenGlass, 5, MPTv2Items.metrenDiamond, 5, Items.silicon, 15, MPTv2Items.metrenSilicon, 10, MPTv2Items.metren, 10));
             outputItems = with(MPTv2Items.largeResearchPack, 1);
 
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 80, MPTv2Items.metren, 128));
