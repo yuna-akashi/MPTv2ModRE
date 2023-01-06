@@ -1001,17 +1001,22 @@ public class MPTv2Blocks {
         coreMetren = new CoreBlock("coreMetren"){{
             size = 6;
             health = 72000000;
+            armor = 2500;
             itemCapacity = 2000000;
+            //unitType = MPTv2UnitTypes.metre;
             unitType = UnitTypes.gamma;
-            unitCapModifier = 25;
+            incinerateNonBuildable = true;
+            unitCapModifier = 20;
             requirements(Category.effect, with(MPTv2Items.metrenFrame, 36, MPTv2Items.armorPlate, 36, MPTv2Items.metren, 288));
         }};
 
         coreAdvance = new CoreBlock("coreAdvance"){{
             size = 7;
             health = 98000000;
+            armor = 5000;
             itemCapacity = 4000000;
             unitType = UnitTypes.gamma;
+            incinerateNonBuildable = true;
             unitCapModifier = 30;
             requirements(Category.effect, with(MPTv2Items.largeMetrenFrame, 49, MPTv2Items.heavyArmorPlate, 49,MPTv2Items.metren, 392));
         }};
@@ -1021,6 +1026,7 @@ public class MPTv2Blocks {
             health = 128000000;
             itemCapacity = 8000000;
             unitType = UnitTypes.gamma;
+            incinerateNonBuildable = true;
             unitCapModifier = 40;
             requirements(Category.effect, with(MPTv2Items.largeMetrenFrame, 64, MPTv2Items.heavyArmorPlate, 64, MPTv2Items.metren, 512));
         }};
@@ -1030,6 +1036,7 @@ public class MPTv2Blocks {
             health = 162000000;
             itemCapacity = 16000000;
             unitType = UnitTypes.gamma;
+            incinerateNonBuildable = true;
             unitCapModifier = 60;
             requirements(Category.effect, with(MPTv2Items.specialMetrenFrame, 81, MPTv2Items.specialArmorPlate, 81, MPTv2Items.metren, 648));
         }};
