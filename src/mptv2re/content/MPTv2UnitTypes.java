@@ -7,6 +7,7 @@ import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.content.UnitTypes;
 import mindustry.entities.*;
+import mindustry.entities.abilities.ForceFieldAbility;
 import mindustry.entities.abilities.RepairFieldAbility;
 import mindustry.entities.abilities.UnitSpawnAbility;
 import mindustry.entities.bullet.*;
@@ -18,6 +19,9 @@ import mindustry.type.ItemStack;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
 import mindustry.type.ammo.PowerAmmoType;
+import mindustry.type.weapons.RepairBeamWeapon;
+import mindustry.world.Block;
+import mindustry.world.meta.BlockFlag;
 import mptv2re.MPTv2RE;
 
 import static mindustry.content.Fx.none;
@@ -30,20 +34,20 @@ public class MPTv2UnitTypes {
         roombaWeapon,
         alcChargeLaser;
     public static UnitType
-        //CoreUnits
+        /*CoreUnits*/
         metre, advance, experimental, emperor,
-        //Rommbas
+
+        /*Rommbas*/
         roomba, miningRoomba, builderRoomba, rebuildRoomba, repairRoomba, shieldRoomba, attackRoomba, jibakuRoomba, jibakuNukeRoomba,
-        jibakuCarrierRoomba, jibakuNukeCarrierRoomba, heavyCarrierRoomba,
-        //AirShip
-        stingray,
+        jibakuCarrierRoomba, jibakuNukeCarrierRoomba, heavyCarrierRoomba, supportCarrierRoomba,
+
+        /*AirUnits*/
+        //AirShips
+        stingray, bommer, destroyer, cruiser, battleship, carrier,
+        //AntimatteredShips
+        antimatterDestroyer, antimatterCruiser, antimatterBattleship,
         antimatterBattleCarrier, antimatterLightCarrier, antimatterHeavyCarrier
     ;
-
-    static{
-        EntityMapping.nameMap.put(MPTv2RE.name("metre"), EntityMapping.idMap[3]);
-    }
-
 
     public static class MPTv2UnitType extends UnitType{
         public MPTv2UnitType(String name){
@@ -101,9 +105,11 @@ public class MPTv2UnitTypes {
 
             flying = true;
             itemCapacity = 75;
+
             hitSize = 80.0F;
             armor = 486;
             health = 246000;
+
             speed = 3.5F;
             rotateSpeed = 0.5F;
             accel = 0.02F;
@@ -156,15 +162,12 @@ public class MPTv2UnitTypes {
             flying = false;
 
             itemCapacity = 10;
-            hitSize = 1;
             health = 50000;
             armor = 500;
 
             speed = 10F;
-            range = 120;
+            range = 250;
             rotateSpeed = 20F;
-            accel = 1;
-            drag = 1;
             faceTarget = false;
 
             legCount = 100;
@@ -172,9 +175,12 @@ public class MPTv2UnitTypes {
             legMoveSpace = 1.4f;
             legSplashDamage = 500000000;
             legSplashRange = 10.75f;
-            hovering = false;
+            hovering = true;
+
+            targetFlags = new BlockFlag[]{BlockFlag.repair, BlockFlag.turret, BlockFlag.reactor, BlockFlag.generator, BlockFlag.core, null};
         }};
 
+        //Special
         miningRoomba = new MPTv2UnitType("miningRoomba"){{
             constructor = EntityMapping.map(3);
             controller = u -> new MinerAI();
@@ -183,12 +189,10 @@ public class MPTv2UnitTypes {
             health = 500;
 
             flying = true;
-            drag = 0.06f;
-            accel = 0.12f;
-            speed = 1.5f;
 
+            speed = 1.5f;
             engineSize = 0f;
-            engineOffset = 0f;
+
             range = 50f;
             isEnemy = false;
 
@@ -211,12 +215,10 @@ public class MPTv2UnitTypes {
 
             armor = 250;
             health = 50000;
+            buildSpeed = 5f;
 
             speed = 5F;
             rotateSpeed = 18F;
-            buildSpeed = 5f;
-            accel = 0.1F;
-            drag = 0.035F;
             engineSize = 0F;
 
             weapons.add(new Weapon("none"){{
@@ -233,7 +235,7 @@ public class MPTv2UnitTypes {
                 }};
 
                 inaccuracy = 3f;
-                ejectEffect = Fx.casing1;
+                ejectEffect = none;
 
                 bullet = new BasicBulletType(3.5f, 11){{
                     width = 6.5f;
@@ -249,18 +251,17 @@ public class MPTv2UnitTypes {
 
         rebuildRoomba = new MPTv2UnitType("rebuildRoomba"){{
             constructor= EntityMapping.map(3);
+            aiController = RepairAI::new;
             defaultCommand = UnitCommand.rebuildCommand;
 
             flying = true;
-            drag = 0.05f;
+
             speed = 2.6f;
             rotateSpeed = 15f;
-            accel = 0.1f;
             range = 130f;
             health = 400;
             buildSpeed = 0.5f;
             engineSize = 0f;
-            hitSize = 9f;
             lowAltitude = true;
 
             ammoType = new PowerAmmoType(900);
@@ -268,7 +269,7 @@ public class MPTv2UnitTypes {
             mineTier = 2;
             mineSpeed = 3.5f;
 
-            abilities.add(new RepairFieldAbility(5f, 60f * 8, 100f));
+            abilities.add(new RepairFieldAbility(500f, 60f * 8, 100f));
 
             weapons.add(new Weapon("poly-weapon"){{
                 top = false;
@@ -301,47 +302,103 @@ public class MPTv2UnitTypes {
                 }};
             }});
 
-            repairRoomba = new MPTv2UnitType("repairRoomba"){{
+            repairRoomba = new MPTv2UnitType("healerRoomba"){{
                 constructor = EntityMapping.map(3);
-                aiController = RepairAI::new;
+                aiController = DefenderAI::new;
 
                 flying = true;
 
                 health = 1200;
                 armor = 10;
-                hitSize = 1;
 
                 faceTarget = true;
                 itemCapacity = 20;
                 range = 240;
 
+                speed = 5F;
+                rotateSpeed = 18F;
                 engineSize = 0f;
 
+                abilities.add(new RepairFieldAbility(500f, 60f * 8, 100f));
+
                 weapons.add(
-                    new Weapon("none"){{
+                    new RepairBeamWeapon("none"){{
                         x = 0;
                         y = 0;
-                        reload = 0;
-                        alternate = false;
                         shootY = 0;
                         shootSound = lasershoot;
-                        bullet = new LaserBoltBulletType(){{
-                            damage = 13;
-                            speed = 5.2f;
-                            healPercent = 100;
-                            backColor = Color.valueOf("98ffa9");
-                            frontColor = Color.valueOf("ffffff");
-                            lifetime = 50;
-                            pierce = pierceBuilding = collidesTeam = true;
+                        repairSpeed = 50000;
+                        bullet = new BulletType(){{
+                            maxRange = 240;
                         }};
                     }}
                 );
+            }};
+
+            shieldRoomba = new MPTv2UnitType("shieldRoomba"){{
+                constructor = EntityMapping.map(3);
+                aiController = DefenderAI::new;
+
+                flying= true;
+
+                health = 1200;
+                armor = 120;
+
+                speed = 5F;
+                rotateSpeed = 18F;
+                engineSize = 0F;
+
+                abilities.add(new ForceFieldAbility(140f, 5f, 10000f, 60f * 12));
+            }};
+
+            //attacker
+            jibakuRoomba = new MPTv2UnitType("jibakuRoomba"){{
+                constructor = EntityMapping.map(3);
+                aiController = SuicideAI::new;
+
+                flying= false;
+
+                health = 1200;
+                armor = 120;
+
+                speed = 5F;
+                rotateSpeed = 18F;
+                engineSize = 0F;
+
+                weapons.add(
+                        new Weapon("none"){{
+                            x = 0;
+                            y = 0;
+                            shootOnDeath = true;
+                            reload = 24;
+                            shootCone = 180;
+                            ejectEffect = none;
+                            shootSound = explosion;
+                            shootY = 0;
+                            mirror = false;
+                            bullet = new BombBulletType(){{
+                                hitEffect = pulverize;
+                                lifetime = 10;
+                                speed = 1;
+                                instantDisappear = killShooter = collidesAir = true;
+                                hittable = false;
+                                splashDamage = 250;
+                                splashDamageRadius = 100;
+                            }};
+                        }}
+                );
+            }};
+            attackRoomba = new MPTv2UnitType("attackRoomba"){{
+                constructor = EntityMapping.map(3);
+
+                flying = false;
             }};
         }};
     }
 
     public static void loadCoreUnits() {
         metre = new UnitType("metre"){{
+            constructor = EntityMapping.map(3);
             aiController = BuilderAI::new;
             isEnemy = false;
 
@@ -353,86 +410,76 @@ public class MPTv2UnitTypes {
             mineTier = 9;
             itemCapacity = 75;
 
-            range = 160;
+            range = 240;
 
             speed = 3.5F;
             faceTarget = true;
             rotateSpeed = 18F;
             buildSpeed = 5f;
-            accel = 0.1F;
-            drag = 0.035F;
             engineOffset = 6.0F;
             engineSize = 5.0F;
 
             weapons.add(
                 new Weapon(MPTv2RE.name("roombaWeapon")){{
-                    top = alternate = autoTarget  = true;
+                    top = alternate = autoTarget = autoFindTarget = true;
                     mirror = rotate = false;
                     x = 14;
                     y = 13;
                     reload = 22f;
                     recoil = 1.5f;
                     inaccuracy = 0;
-                    shoot = new ShootPattern();
 
                     shootSound = lasershoot;
 
                     bullet = new LaserBulletType(200){{
-                        lifetime = 45f;
                         status = StatusEffects.shocked;
                         statusDuration = 60f;
                     }};
                 }},
                 new Weapon(MPTv2RE.name("roombaWeapon")){{
-                    top = alternate = autoTarget  = true;
+                    top = alternate = autoTarget = autoFindTarget = true;
                     mirror  = rotate = false;
                     x = -14;
                     y = 13;
                     reload = 22f;
                     recoil = 1.5f;
                     inaccuracy = 0;
-                    shoot = new ShootPattern();
 
                     shootSound = lasershoot;
 
                     bullet = new LaserBulletType(200){{
-                        lifetime = 45f;
                         status = StatusEffects.shocked;
                         statusDuration = 60f;
                     }};
                 }},
                 new Weapon(MPTv2RE.name("roombaWeapon")){{
-                    top = alternate = autoTarget  = true;
+                    top = alternate = autoTarget = autoFindTarget = true;
                     mirror = rotate = false;
                     x = 20;
                     y = 0;
                     reload = 22f;
                     recoil = 1.5f;
                     inaccuracy = 0;
-                    shoot = new ShootPattern();
 
                     shootSound = lasershoot;
 
                     bullet = new LaserBulletType(200){{
-                        lifetime = 45f;
                         status = StatusEffects.shocked;
                         statusDuration = 60f;
                     }};
                 }},
                 new Weapon(MPTv2RE.name("roombaWeapon")){{
-                    top = alternate = autoTarget  = true;
+                    top = alternate = autoTarget = autoFindTarget = true;
                     mirror  = rotate = false;
                     x = -20;
                     y = 0;
                     reload = 22f;
                     recoil = 1.5f;
                     inaccuracy = 0;
-                    shoot = new ShootPattern();
 
                     shootSound = lasershoot;
 
                     bullet = new LaserBulletType(200){{
-                        lifetime = 45f;
                         status = StatusEffects.shocked;
                         statusDuration = 60f;
                     }};

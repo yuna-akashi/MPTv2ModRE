@@ -139,6 +139,31 @@ public class MPTv2RETechTree {
                 });
             });
 
+            //units
+            node(MPTv2Blocks.roombaFactory, ItemStack.with(MPTv2Items.largeResearchPack, 55), () -> {
+                node(MPTv2UnitTypes.roomba, ItemStack.with(MPTv2Items.largeResearchPack, 25), () -> {
+//                    node(MPTv2UnitTypes.jibakuRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 20), () -> {
+//                        node(MPTv2UnitTypes.jibakuNukeRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 30), () -> {});
+//                        node(MPTv2UnitTypes.attackRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 30), () -> {});
+//                    });
+                    node(MPTv2UnitTypes.miningRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 25), () -> {
+                        node(MPTv2UnitTypes.repairRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 30), () -> {
+                            node(MPTv2UnitTypes.builderRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 40), () -> {
+                                node(MPTv2UnitTypes.rebuildRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 45), () -> {
+                                    node(MPTv2UnitTypes.shieldRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 50), () -> {});
+                                });
+                            });
+                        });
+                    });
+                });
+//                node(MPTv2Blocks.metrenedAirFactory, ItemStack.with(MPTv2Items.largeResearchPack, 50), () -> {});
+//                node(MPTv2Blocks.metrenedAdditiveReconstructor, ItemStack.with(MPTv2Items.largeResearchPack, 110), () -> {
+//                    node(MPTv2Blocks.metrenedExponentialReconstructor, ItemStack.with(MPTv2Items.largeResearchPack, 165), () -> {
+//                        node(MPTv2Blocks.metrenedTetrativeReconstructor, ItemStack.with(MPTv2Items.superResearchPack, 50), () -> {});
+//                    });
+//                });
+            });
+
             nodeProduce(MPTv2Items.smallResearchPack, () -> {
                 nodeProduce(MPTv2Items.mediumResearchPack, () -> {
                     nodeProduce(MPTv2Items.largeResearchPack, () -> {

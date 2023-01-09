@@ -6,6 +6,7 @@ import arc.graphics.g2d.Lines;
 import arc.math.Angles;
 import arc.math.Interp;
 import arc.math.Mathf;
+import arc.struct.Seq;
 import mindustry.content.*;
 import mindustry.entities.Effect;
 import mindustry.entities.UnitSorts;
@@ -43,6 +44,8 @@ import mindustry.world.blocks.sandbox.PowerSource;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.blocks.storage.Unloader;
+import mindustry.world.blocks.units.Reconstructor;
+import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.draw.DrawFlame;
 import mindustry.world.draw.DrawMulti;
@@ -83,6 +86,11 @@ public class MPTv2Blocks {
         metrenReactor, deuteriumReactor, antimatterReactor, superPowerSource,
         metrenNode, metrenLargeNode, metrenTowerNode,
         metrenBattery, largeMetrenBattery, powerCondenser,
+
+        //units
+        roombaFactory, metrenedAirFactory,
+        metrenedAdditiveReconstructor, metrenedMultiplicativeReconstructor, metrenedExponentialReconstructor, metrenedTetrativeReconstructor, antimatteredReconstructor,
+        specialUnitFactory,
 
         //effect
         metrender, boostDriveProjector, metrenShieldDome, buildBlock, metrenUnloader,
@@ -931,6 +939,27 @@ public class MPTv2Blocks {
         }};//done
     }
 
+    private static void loadUnits() {
+        roombaFactory = new UnitFactory("roombaFactory"){{
+            size = 3;
+
+            consumePower(3f);
+
+            plans = Seq.with(
+                    new UnitPlan(MPTv2UnitTypes.roomba, 60f * 20, with(MPTv2Items.metrenSilicon, 10)),
+                    new UnitPlan(MPTv2UnitTypes.miningRoomba, 60f * 40, with(MPTv2Items.metren, 4, MPTv2Items.metrenSilicon, 10))
+            );
+
+            requirements(Category.units, with(MPTv2Items.metren, 10,MPTv2Items.metrenSilicon, 80));
+        }};
+
+        metrenedAdditiveReconstructor = new Reconstructor("metrenedAdditiveReconstructor"){{
+            size = 3;
+
+            consumePower(5);
+        }};
+    }
+
     private static void loadEffects() {
         metrender = new MendProjector("metrender"){{
             size = 3;
@@ -1085,6 +1114,8 @@ public class MPTv2Blocks {
         loadLiquid();
 
         loadPower();
+
+        loadUnits();
 
         loadEffects();
 
