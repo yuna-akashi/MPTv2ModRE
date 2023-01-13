@@ -9,6 +9,7 @@ import mindustry.content.UnitTypes;
 import mindustry.entities.*;
 import mindustry.entities.abilities.ForceFieldAbility;
 import mindustry.entities.abilities.RepairFieldAbility;
+import mindustry.entities.abilities.SuppressionFieldAbility;
 import mindustry.entities.abilities.UnitSpawnAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.pattern.ShootPattern;
@@ -46,7 +47,7 @@ public class MPTv2UnitTypes {
         stingray, bommer, destroyer, cruiser, battleship, carrier,
         //AntimatteredShips
         antimatterDestroyer, antimatterCruiser, antimatterBattleship,
-        antimatterBattleCarrier, antimatterLightCarrier, antimatterHeavyCarrier
+        antimatterBattleCarrier, antimatterLightCarrier, antimatterCarrier
     ;
 
     public static class MPTv2UnitType extends UnitType{
@@ -148,6 +149,83 @@ public class MPTv2UnitTypes {
                     spawnX = -14.5f;
                     spawnY = 14;
                 }}
+            );
+        }};
+
+        antimatterCarrier = new MPTv2UnitType("antimatterCarrier"){{
+            constructor = EntityMapping.map(20);
+            aiController = DefenderAI::new;
+            isEnemy = true;
+
+            flying = true;
+            itemCapacity = 75;
+
+            hitSize = 260F;
+            armor = 1000;
+            health = 5400000;
+
+            speed = 0.35F;
+            rotateSpeed = 0.35F;
+            accel = 0.1F;
+            drag = 0.01F;
+            engineOffset = 140.0F;
+            engineSize = 32.5F;
+
+            float orbRad = 9f, partRad = 4f;
+            int parts = 10;
+
+            abilities.add(
+                    new UnitSpawnAbility(UnitTypes.toxopid , 62f * 60f, 95f, -12f),
+                    new UnitSpawnAbility(UnitTypes.toxopid , 62f * 60f, -95f, -12f),
+                    new UnitSpawnAbility(UnitTypes.collaris , 65f * 60f, 55f, 40f),
+                    new UnitSpawnAbility(UnitTypes.collaris , 65f * 60f, -55f, 40f)
+            );
+
+            abilities.add(
+                    new UnitSpawnAbility(UnitTypes.corvus, 65f * 60f, 88f, -63f),
+                    new UnitSpawnAbility(UnitTypes.corvus, 65f * 60f, -88f, -63f)
+            );
+
+            abilities.add(
+                    new UnitSpawnAbility(UnitTypes.eclipse, 65f * 60f, 0f, -95f)
+            );
+
+            abilities.add(
+                    new UnitSpawnAbility(UnitTypes.flare , 25f * 60f, 65f, 115f),
+                    new UnitSpawnAbility(UnitTypes.flare , 25f * 60f, -65f, 115f),
+                    new UnitSpawnAbility(UnitTypes.horizon , 30f * 60f, 70f, 80f),
+                    new UnitSpawnAbility(UnitTypes.horizon , 30f * 60f, -70f, 80f)
+            );
+
+            abilities.add(
+                    new RepairFieldAbility(1000, 10f * 60f, 1600),
+                    new SuppressionFieldAbility() {{
+                        y = 20f;
+                        orbRadius = orbRad;
+                        particleSize = partRad;
+                        particles = parts;
+                    }},
+                    new SuppressionFieldAbility(){{
+                        x = 44;
+                        y = -36f;
+                        orbRadius = orbRad;
+                        particleSize = partRad;
+                        particles = parts;
+                        display = active = false;
+                    }},
+                    new SuppressionFieldAbility(){{
+                        x = -44;
+                        y = -36f;
+                        orbRadius = orbRad;
+                        particleSize = partRad;
+                        particles = parts;
+                        display = active = false;
+                    }}
+            );
+
+            setEnginesMirror(
+                    new UnitEngine(55f, -150f, 22f, 330f),
+                    new UnitEngine(100f, -130f, 22f, 315f)
             );
         }};
     }

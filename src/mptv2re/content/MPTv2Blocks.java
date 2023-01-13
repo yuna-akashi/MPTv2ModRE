@@ -897,37 +897,37 @@ public class MPTv2Blocks {
             requirements(Category.power, with(MPTv2Items.specialMetrenFrame, 25, MPTv2Items.specialArmorPlate, 25, MPTv2Items.metrenSilicon, 40, MPTv2Items.metren, 50, Items.lead, 60));
         }};
 
-//        metrenReactor = new NuclearReactor("metrenReactor"){{
-//            size = 4;
-//            health = 16000000;
-//            hasItems = hasPower = hasLiquids = true;
-//            itemCapacity = 80;
-//            liquidCapacity = 600f;
-//            itemDuration = 300f;
-//            powerProduction = 2000;
-//            baseExplosiveness = 1000000;
-//            heating = 0.02f;
-//            explosionRadius = 56;
-//            explosionDamage = 99999999;
-//            smokeThreshold = 0.5f;
-//            flashThreshold = 0.75f;
-//            coolantPower = 0.225f;
-//            consumeItems(with(MPTv2Items.compressedThorium, 1));
-//            consumeLiquid(MPTv2Liquids.meter, 0.55f / 100f);
-//            requirements(Category.power, with(MPTv2Items.metrenFrame, 16, MPTv2Items.armorPlate, 16, MPTv2Items.metren, 32));
-//        }};
+        metrenReactor = new NuclearReactor("metrenReactor"){{
+            size = 4;
+            health = 16000000;
+            hasItems = hasPower = hasLiquids = true;
+            itemCapacity = 80;
+            liquidCapacity = 600f;
+            itemDuration = 300f;
+            powerProduction = 2000;
+            baseExplosiveness = 1000000;
+            heating = 0.02f;
+            explosionRadius = 56;
+            explosionDamage = 99999999;
+            smokeThreshold = 0.5f;
+            flashThreshold = 0.75f;
+            coolantPower = 0.225f;
+            consumeItems(with(MPTv2Items.compressedThorium, 1));
+            consumeLiquid(Liquids.cryofluid, 0.55f / 100f);
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 16, MPTv2Items.armorPlate, 16, MPTv2Items.metren, 32));
+        }};
 
-//        deuteriumReactor = new ImpactReactor("deuteriumReactor"){{
-//            size = 7;
-//            health = 49000000;
-//            itemCapacity = 120;
-//            liquidCapacity = 750f;
-//            powerProduction = 10000;
-//            consumePower(500);
-//            consumeItem(MPTv2Items.deuterium, 1);
-//            consumeLiquid(MPTv2Liquids.meter, 0.15f / 90f);
-//            requirements(Category.power, with(MPTv2Items.largeMetrenFrame, 49, MPTv2Items.heavyArmorPlate, 49, MPTv2Items.metrenSilicon, 80, MPTv2Items.metren, 98));
-//        }};
+        deuteriumReactor = new ImpactReactor("deuteriumReactor"){{
+            size = 7;
+            health = 49000000;
+            itemCapacity = 120;
+            liquidCapacity = 750f;
+            powerProduction = 10000;
+            consumePower(500);
+            consumeItem(MPTv2Items.deuterium, 1);
+            consumeLiquid(Liquids.cryofluid, 0.15f / 90f);
+            requirements(Category.power, with(MPTv2Items.largeMetrenFrame, 49, MPTv2Items.heavyArmorPlate, 49, MPTv2Items.metrenSilicon, 80, MPTv2Items.metren, 98));
+        }};
 
         antimatterReactor = new ConsumeGenerator("antimatterReactor"){{
             size = 11;
