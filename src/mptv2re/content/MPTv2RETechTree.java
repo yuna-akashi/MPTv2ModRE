@@ -53,7 +53,7 @@ public class MPTv2RETechTree {
                 });
 
                 //factory
-                node(MPTv2Blocks.metrenSmelter, ItemStack.with(MPTv2Items.mediumResearchPack, 3), () -> {
+                node(MPTv2Blocks.metrenSmelter, ItemStack.with(MPTv2Items.smallResearchPack, 3), () -> {
                     node(MPTv2Blocks.metrenGlassSmelter, ItemStack.with(MPTv2Items.mediumResearchPack, 7), () -> {
                         node(MPTv2Blocks.metrenDiamondCompressor, ItemStack.with(MPTv2Items.mediumResearchPack, 7), () -> {
                         });
