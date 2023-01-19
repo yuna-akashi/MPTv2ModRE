@@ -83,7 +83,7 @@ public class MPTv2RETechTree {
                     });
 
                     node(MPTv2Blocks.metrenAmmoCrafter, ItemStack.with(MPTv2Items.mediumResearchPack, 20), () -> {
-//                        node(MPTv2Blocks.metrenExplosiveAmmoCrafter, ItemStack.with(MPTv2Items.mediumResearchPack, 36), () -> {});
+                        node(MPTv2Blocks.metrenExplosiveAmmoCrafter, ItemStack.with(MPTv2Items.mediumResearchPack, 28), () -> {});
                     });
                 });
 
@@ -110,7 +110,7 @@ public class MPTv2RETechTree {
             });
 
             //wall
-            node(MPTv2Blocks.titanoumAlloyWall, ItemStack.with(MPTv2Items.smallResearchPack, 4), () -> {
+            node(MPTv2Blocks.titaniumAlloyWall, ItemStack.with(MPTv2Items.smallResearchPack, 4), () -> {
                 node(MPTv2Blocks.titaniumAlloyWallLarge, ItemStack.with(MPTv2Items.smallResearchPack, 16), () -> {});
                 node(MPTv2Blocks.metrenWall, ItemStack.with(MPTv2Items.mediumResearchPack, 4), () -> {
                     node(MPTv2Blocks.metrenWallLarge, ItemStack.with(MPTv2Items.mediumResearchPack, 16), () -> {});
@@ -118,7 +118,10 @@ public class MPTv2RETechTree {
             });
 
             //turrets
-            node(MPTv2Blocks.assaultCannon, ItemStack.with(MPTv2Items.smallResearchPack, 32), () -> {
+            node(MPTv2Blocks.assaultCannon, ItemStack.with(MPTv2Items.mediumResearchPack, 32), () -> {
+                node(MPTv2Blocks.missileSilo, ItemStack.with(MPTv2Items.mediumResearchPack, 36), () -> {
+                });
+
                 node(MPTv2Blocks.railgun, ItemStack.with(MPTv2Items.largeResearchPack, 55), () -> {
                     node(MPTv2Blocks.multiRailgun, ItemStack.with(MPTv2Items.superResearchPack, 70), () -> {
                         node(MPTv2Blocks.antimatterRailgun, ItemStack.with(MPTv2Items.specialResearchPack, 200), () -> {
@@ -127,8 +130,6 @@ public class MPTv2RETechTree {
                 });
 
                 node(MPTv2Blocks.guardian, ItemStack.with(MPTv2Items.superResearchPack, 30), () -> {
-                    node(MPTv2Blocks.emperorOfGuardian, ItemStack.with(MPTv2Items.superResearchPack, 50), () -> {
-                    });
                 });
 
                 node(MPTv2Blocks.defendTurret, ItemStack.with(MPTv2Items.mediumResearchPack, 25), () -> {
@@ -143,8 +144,10 @@ public class MPTv2RETechTree {
             node(MPTv2Blocks.roombaFactory, ItemStack.with(MPTv2Items.largeResearchPack, 55), () -> {
                 node(MPTv2UnitTypes.roomba, ItemStack.with(MPTv2Items.largeResearchPack, 25), () -> {
                     node(MPTv2UnitTypes.jibakuRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 20), () -> {
-//                        node(MPTv2UnitTypes.jibakuNukeRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 30), () -> {});
-//                        node(MPTv2UnitTypes.attackRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 30), () -> {});
+                        node(MPTv2UnitTypes.jibakuNukeRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 30), () -> {});
+                        node(MPTv2UnitTypes.attackRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 30), () -> {
+//                            node(MPTv2UnitTypes.);
+                        });
                     });
                     node(MPTv2UnitTypes.miningRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 25), () -> {
                         node(MPTv2UnitTypes.repairRoomba, ItemStack.with(MPTv2Items.largeResearchPack, 30), () -> {

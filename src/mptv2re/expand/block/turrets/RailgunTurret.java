@@ -65,9 +65,9 @@ public class RailgunTurret extends ItemTurret {
             } else {
                 charge();
                 if(linearWarmup){
-                    shootWarmup = Mathf.approachDelta(shootWarmup, 0, chargeTimePer1Shot * 60f);
+                    shootWarmup = Mathf.approachDelta(shootWarmup, 0, chargeTimePer1Shot * 0.06f);
                 }else{
-                    shootWarmup = Mathf.lerpDelta(shootWarmup, 0, chargeTimePer1Shot * 60f);
+                    shootWarmup = Mathf.lerpDelta(shootWarmup, 0, chargeTimePer1Shot * 0.06f);
                 }
 
                 unit.tile(this);
@@ -87,7 +87,7 @@ public class RailgunTurret extends ItemTurret {
 
         public void charge() {
             isCharging = true;
-            shootChargeAmount = Mathf.approachDelta(shootChargeAmount, maxShootCharge * chargeMultiplier, chargeTimePer1Shot * maxShootCharge * 0.0003f);
+            shootChargeAmount = Mathf.approachDelta(shootChargeAmount, maxShootCharge * chargeMultiplier, chargeTimePer1Shot * maxShootCharge * 0.006f);
         }
 
         @Override
@@ -102,11 +102,11 @@ public class RailgunTurret extends ItemTurret {
             super.shoot(type);
             if(shootChargeAmount > 0) {
                 shootChargeAmount -= 100;
-//                if(linearWarmup){
-//                    shootWarmup = Mathf.approachDelta(shootWarmup, 0, 200);
-//                }else{
-//                    shootWarmup = Mathf.lerpDelta(shootWarmup, 0, 200);
-//                }
+                if(linearWarmup){
+                    shootWarmup = Mathf.approachDelta(shootWarmup, 0, 200);
+                }else{
+                    shootWarmup = Mathf.lerpDelta(shootWarmup, 0, 200);
+                }
             } else requireCompleteCharging = true;
 
             if(consumeAmmoOnce){

@@ -37,9 +37,9 @@ public class MPTv2RE extends Mod{
 
         {
             MPTv2Items.load();
+            MPTv2UnitTypes.load();
             MPTv2Blocks.load();
             MPTv2Liquids.load();
-            MPTv2UnitTypes.load();
             MPTv2RETechTree.load();
         }
         Log.info("Loading some MPTv2 content.");

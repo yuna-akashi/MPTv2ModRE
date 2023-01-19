@@ -6,22 +6,19 @@ import mindustry.ai.types.*;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.content.UnitTypes;
-import mindustry.entities.*;
 import mindustry.entities.abilities.ForceFieldAbility;
 import mindustry.entities.abilities.RepairFieldAbility;
 import mindustry.entities.abilities.SuppressionFieldAbility;
 import mindustry.entities.abilities.UnitSpawnAbility;
 import mindustry.entities.bullet.*;
+import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.pattern.ShootPattern;
 import mindustry.entities.pattern.ShootSpread;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
-import mindustry.type.ItemStack;
-import mindustry.type.UnitType;
-import mindustry.type.Weapon;
+import mindustry.type.*;
 import mindustry.type.ammo.PowerAmmoType;
 import mindustry.type.weapons.RepairBeamWeapon;
-import mindustry.world.Block;
 import mindustry.world.meta.BlockFlag;
 import mptv2re.MPTv2RE;
 
@@ -31,24 +28,42 @@ import static mindustry.gen.Sounds.explosion;
 import static mindustry.gen.Sounds.lasershoot;
 
 public class MPTv2UnitTypes {
+
     public static Weapon
         roombaWeapon,
         alcChargeLaser;
+
     public static UnitType
-        /*CoreUnits*/
-        metre, advance, experimental, emperor,
+        ///*CoreUnits*/
+        metre/*, advance, experimental, emperor*/,
 
-        /*Rommbas*/
-        roomba, miningRoomba, builderRoomba, rebuildRoomba, repairRoomba, shieldRoomba, attackRoomba, jibakuRoomba, jibakuNukeRoomba,
-        jibakuCarrierRoomba, jibakuNukeCarrierRoomba, heavyCarrierRoomba, supportCarrierRoomba,
+        ///*Rommbas*/
+        roomba, miningRoomba, builderRoomba, rebuildRoomba, repairRoomba, shieldRoomba, attackRoomba, jibakuRoomba, jibakuNukeRoomba/*,
+        jibakuCarrierRoomba, jibakuNukeCarrierRoomba, heavyCarrierRoomba, supportCarrierRoomba,*/
 
-        /*AirUnits*/
+        ///*AirUnits*/
         //AirShips
-        stingray, bommer, destroyer, cruiser, battleship, carrier,
+        /*stingray, bommer, destroyer, cruiser, battleship, carrier,
         //AntimatteredShips
         antimatterDestroyer, antimatterCruiser, antimatterBattleship,
-        antimatterBattleCarrier, antimatterLightCarrier, antimatterCarrier
+        antimatterBattleCarrier*/, antimatterLightCarrier, antimatterCarrier
     ;
+
+    static{
+
+        EntityMapping.nameMap.put(MPTv2RE.name("metre"), EntityMapping.idMap[5]);
+        EntityMapping.nameMap.put(MPTv2RE.name("roomba"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(MPTv2RE.name("jibakuRoomba"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(MPTv2RE.name("attackRoomba"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(MPTv2RE.name("minerRoomba"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(MPTv2RE.name("builderRoomba"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(MPTv2RE.name("rebuildRoomba"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(MPTv2RE.name("healerRoomba"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(MPTv2RE.name("shieldRoomba"), EntityMapping.idMap[3]);
+
+        EntityMapping.nameMap.put(MPTv2RE.name("antimatterLightCarrier"), EntityMapping.idMap[25]);
+        EntityMapping.nameMap.put(MPTv2RE.name("antimatterCarrier"), EntityMapping.idMap[30]);
+    }
 
     public static class MPTv2UnitType extends UnitType{
         public MPTv2UnitType(String name){
@@ -100,7 +115,7 @@ public class MPTv2UnitTypes {
 
     public static void loadAirUnits() {
         antimatterLightCarrier= new MPTv2UnitType("antimatterLightCarrier"){{
-            constructor = EntityMapping.map(5);
+            constructor = EntityMapping.map(3);
             aiController = FlyingAI::new;
             isEnemy = true;
 
@@ -153,7 +168,7 @@ public class MPTv2UnitTypes {
         }};
 
         antimatterCarrier = new MPTv2UnitType("antimatterCarrier"){{
-            constructor = EntityMapping.map(20);
+            constructor = EntityMapping.map(3);
             aiController = DefenderAI::new;
             isEnemy = true;
 
@@ -243,7 +258,7 @@ public class MPTv2UnitTypes {
             health = 50000;
             armor = 500;
 
-            speed = 10F;
+            speed = 5F;
             range = 250;
             rotateSpeed = 20F;
             faceTarget = false;
@@ -328,7 +343,7 @@ public class MPTv2UnitTypes {
         }};
 
         rebuildRoomba = new MPTv2UnitType("rebuildRoomba"){{
-            constructor= EntityMapping.map(3);
+            constructor = EntityMapping.map(3);
             aiController = RepairAI::new;
             defaultCommand = UnitCommand.rebuildCommand;
 
@@ -350,6 +365,7 @@ public class MPTv2UnitTypes {
             abilities.add(new RepairFieldAbility(500f, 60f * 8, 100f));
 
             weapons.add(new Weapon("poly-weapon"){{
+                constructor = EntityMapping.map(3);
                 top = false;
                 y = -2.5f;
                 x = 3.75f;
@@ -466,6 +482,44 @@ public class MPTv2UnitTypes {
                         }}
                 );
             }};
+
+            jibakuNukeRoomba = new MPTv2UnitType("jibakuNukeRoomba"){{
+                constructor = EntityMapping.map(3);
+                aiController = SuicideAI::new;
+
+                flying= false;
+
+                health = 1200;
+                armor = 120;
+
+                speed = 2F;
+                rotateSpeed = 18F;
+                engineSize = 0F;
+
+                weapons.add(
+                        new Weapon("none"){{
+                            x = 0;
+                            y = 0;
+                            shootOnDeath = true;
+                            reload = 24;
+                            shootCone = 180;
+                            ejectEffect = none;
+                            shootSound = explosion;
+                            shootY = 0;
+                            mirror = false;
+                            bullet = new BombBulletType(){{
+                                hitEffect = pulverize;
+                                lifetime = 10;
+                                speed = 1;
+                                instantDisappear = killShooter = collidesAir = true;
+                                hittable = false;
+                                splashDamage = 1000;
+                                splashDamageRadius = 250;
+                            }};
+                        }}
+                );
+            }};
+
             attackRoomba = new MPTv2UnitType("attackRoomba"){{
                 constructor = EntityMapping.map(3);
 

@@ -12,6 +12,7 @@ import mindustry.entities.Effect;
 import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.ContinuousLaserBulletType;
+import mindustry.entities.bullet.MissileBulletType;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootPattern;
 import mindustry.gen.Sounds;
@@ -58,10 +59,10 @@ public class MPTv2Blocks {
         //Research centers
         researchCenter, advancedResearchCenter, experimentalResearchCenter, superResearchCenter, specialResearchCenter, efficiencyTechnologyResearchCenter,
         //wall
-        titanoumAlloyWall, titaniumAlloyWallLarge, metrenWall, metrenWallLarge,
+        titaniumAlloyWall, titaniumAlloyWallLarge, metrenWall, metrenWallLarge,
 
         //turrets
-        assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian, emperorOfGuardian, antimatterRailgun, antimatterBlaster, antimatterShockwaveCannon,
+        assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian, antimatterRailgun, antimatterBlaster, antimatterShockwaveCannon,
 
         //drill
         titaniumAlloyDrill, metrenDrill,
@@ -78,9 +79,9 @@ public class MPTv2Blocks {
         armorPlateCrafter, heavyArmorPlateCrafter, specialArmorPlateCrafter,
 
         //metren's factory
-        metrenGlassSmelter, metrenDiamondCompressor, metrenSiliconSmelter, metrenAmmoCrafter,
-        multiMetrenSmelter, multiFrameCrafter,
-        cellFactory, deuteriumChamber, antimatterGenerator,
+        metrenGlassSmelter, metrenDiamondCompressor, metrenSiliconSmelter, metrenAmmoCrafter, metrenExplosiveAmmoCrafter/*,
+        multiMetrenSmelter, multiFrameCrafter*/,
+        cellFactory, thoriumCompressor, deuteriumChamber, antimatterGenerator,
 
         //power
         metrenReactor, deuteriumReactor, antimatterReactor, superPowerSource,
@@ -88,9 +89,9 @@ public class MPTv2Blocks {
         metrenBattery, largeMetrenBattery, powerCondenser,
 
         //units
-        roombaFactory, metrenedAirFactory,
-        metrenedAdditiveReconstructor, metrenedMultiplicativeReconstructor, metrenedExponentialReconstructor, metrenedTetrativeReconstructor, antimatteredReconstructor,
-        specialUnitFactory,
+        roombaFactory/*, metrenedAirFactory*/,
+        metrenedAdditiveReconstructor/*, metrenedMultiplicativeReconstructor, metrenedExponentialReconstructor, metrenedTetrativeReconstructor, antimatteredReconstructor,
+        specialUnitFactory*/,
 
         //effect
         metrender, boostDriveProjector, metrenShieldDome, buildBlock, metrenUnloader,
@@ -198,8 +199,29 @@ public class MPTv2Blocks {
                 frontColor = backColor.cpy().lerp(Color.white, 0.55f);
                 ammoMultiplier = 20;
             }});
-            requirements(Category.turret, with(MPTv2Items.metrenFrame, 8, MPTv2Items.turretFrame, 8, MPTv2Items.armorPlate, 8));
+
+            requirements(Category.turret, with( MPTv2Items.turretFrame, 8, MPTv2Items.armorPlate, 8));
         }};
+
+        missileSilo = new ItemTurret("missileSilo"){{
+            size = 3;
+            health = 4000000;
+            range = 800;
+            reload = 200;
+            coolant = consumeCoolant(0.05f);
+
+            ammo(
+                    MPTv2Items.metrenMissile, new MissileBulletType(){{
+                        damage = 250;
+                        homingPower = 20;
+                        homingRange = 80;
+                        ammoMultiplier = 1;
+                    }}
+            );
+
+            requirements(Category.turret, with( MPTv2Items.turretFrame, 8, MPTv2Items.armorPlate, 8));
+        }};
+
         defendTurret = new PointDefenseTurret("defendTurret"){{
             size = 2;
             health = 4000000;
@@ -211,7 +233,7 @@ public class MPTv2Blocks {
             shootLength = 10f;
             bulletDamage = 100f;
             reload = 7.5f;
-            requirements(Category.turret, BuildVisibility.shown, with(MPTv2Items.metrenFrame, 4, MPTv2Items.turretFrame, 4, MPTv2Items.armorPlate, 4, MPTv2Items.metren, 8));
+            requirements(Category.turret, BuildVisibility.shown, with( MPTv2Items.turretFrame, 4, MPTv2Items.armorPlate, 4, MPTv2Items.metren, 8));
         }};
 
         railgun = new RailgunTurret("railgun"){{
@@ -221,11 +243,11 @@ public class MPTv2Blocks {
             hasPower = true;
             reload = 360;
             recoil = 0.001f;
-            coolant = consumeCoolant(0.05F);
             chargeTimePer1Shot = 25;
             maxShootCharge = 1;
             ammo(
-                    MPTv2Items.metrenAmmo, new BasicBulletType(30, 500){{
+                    MPTv2Items.metrenAmmo, new BasicBulletType(50, 500){{
+                        lifetime = 80;
                         width = 10;
                         height = 15;
                         hitColor = backColor = lightColor = trailColor = MPTv2Items.metrenAmmo.color.cpy().lerp(Color.white, 0.2f);
@@ -235,7 +257,7 @@ public class MPTv2Blocks {
                     }}
             );
             consumePowerCond(1000, RailgunTurretBuild::isCharge);
-            requirements(Category.turret, with(MPTv2Items.largeMetrenFrame, 25, MPTv2Items.largeTurretFrame, 25, MPTv2Items.heavyArmorPlate, 25, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 50));
+            requirements(Category.turret, with( MPTv2Items.largeTurretFrame, 25, MPTv2Items.heavyArmorPlate, 25, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 50));
         }};
         multiRailgun = new RailgunTurret("multiRailgun"){{
             size = 5;
@@ -248,7 +270,8 @@ public class MPTv2Blocks {
             chargeTimePer1Shot = 25;
             maxShootCharge = 5;
             ammo(
-                    MPTv2Items.metrenAmmo, new BasicBulletType(30, 500){{
+                    MPTv2Items.metrenAmmo, new BasicBulletType(50, 500){{
+                        lifetime = 80;
                         width = 10;
                         height = 15;
                         hitColor = backColor = lightColor = trailColor = MPTv2Items.metrenAmmo.color.cpy().lerp(Color.white, 0.2f);
@@ -258,7 +281,8 @@ public class MPTv2Blocks {
                     }}
             );
             consumePowerCond(1000, RailgunTurretBuild::isCharge);
-            requirements(Category.turret, with(MPTv2Items.largeMetrenFrame, 25, MPTv2Items.largeTurretFrame, 25, MPTv2Items.heavyArmorPlate, 25,MPTv2Items.multiCore, 5, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 50));
+
+            requirements(Category.turret, with( MPTv2Items.largeTurretFrame, 25, MPTv2Items.heavyArmorPlate, 25,MPTv2Items.multiCore, 5, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 50));
         }};
         guardian = new ItemTurret("guardian"){{
             size = 5;
@@ -277,42 +301,11 @@ public class MPTv2Blocks {
                         pierceArmor = true;
                     }}
             );
-            requirements(Category.turret,with(MPTv2Items.specialMetrenFrame, 25, MPTv2Items.specialTurretFrame, 25, MPTv2Items.specialArmorPlate, 25));
+
+            requirements(Category.turret,with( MPTv2Items.specialTurretFrame, 25, MPTv2Items.specialArmorPlate, 25));
         }};
-        emperorOfGuardian = new ItemTurret("emperorOfGuardian"){{
-            size = 11;
-            health = 121000000;
-            range = 12000;
-            hasPower = true;
-            shake = 0;
-            reload = 260;
-            canOverdrive = false;
-            ammo(
-                    MPTv2Items.metrenAmmo, new BasicBulletType(30, 9999999){{
-                        width = 6;
-                        height = 15;
-                        hitColor = backColor = lightColor = trailColor = MPTv2Items.metrenAmmo.color.cpy().lerp(Color.white, 0.2f);
-                        frontColor = backColor.cpy().lerp(Color.white, 0.55f);
-                        ammoMultiplier = 20;
-                        pierceArmor = true;
-                    }},
-                    MPTv2Items.emperorsCristal, new BasicBulletType(55, 999999999){{
-                        width = 20;
-                        height = 20;
-                        frontColor = backColor = MPTv2Items.emperorsCristal.color.cpy().lerp(Color.white, 0.1f);
-                        hitColor = lightColor = trailColor = MPTv2Items.emperorsCristal.color.cpy().lerp(Color.white, 0.4f);
-                        ammoMultiplier = 1;
-                        pierceArmor = true;
-                        splashDamage = 150000;
-                        splashDamageRadius = 500;
-                    }}
-            );
-            maxAmmo = 400;
-            ammoPerShot = 5;
-            consumePower(2000000);
-            requirements(Category.turret, with(MPTv2Items.specialMetrenFrame, 121, MPTv2Items.specialTurretFrame, 121, MPTv2Items.specialArmorPlate, 121, MPTv2Items.metren, 242));
-        }};
-        antimatterRailgun = new ItemTurret("antimatterRailgun"){{
+
+        antimatterRailgun = new RailgunTurret("antimatterRailgun"){{
             size = 16;
             health = 256000000;
             range = 160000;
@@ -323,8 +316,8 @@ public class MPTv2Blocks {
             rotateSpeed = 0.25f;
             coolant = consumeCoolant(0.05F);
             canOverdrive = false;
-            //maxShootCharge = 10;
-            //chargeTimePer1Shot = 25;
+            maxShootCharge = 10;
+            chargeTimePer1Shot = 30f * 60f;
             ammo(
                     MPTv2Items.metrenAmmo, new BasicBulletType(99, 999999999){{
                         width = 32;
@@ -369,9 +362,10 @@ public class MPTv2Blocks {
 //                 }}
             }};
 
-            consumePower(500000000);
-//            consumePowerCond(500000000, RailgunTurretBuild::isCharge);
-            requirements(Category.turret, with(MPTv2Items.specialMetrenFrame, 256, MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
+//            consumePower(500000000);
+            consumePowerCond(500000000, RailgunTurretBuild::isCharge);
+
+            requirements(Category.turret, with( MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
         }};
 
         antimatterBlaster = new PowerTurret("antimatterBlaster"){{
@@ -429,7 +423,7 @@ public class MPTv2Blocks {
 
             shootSound = Sounds.laserblast;
 
-            requirements(Category.turret, with(MPTv2Items.specialMetrenFrame, 256, MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
+            requirements(Category.turret, with( MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
         }};
 
         antimatterShockwaveCannon = new LaserTurret("antimatterShockwaveCannon"){{
@@ -482,7 +476,7 @@ public class MPTv2Blocks {
             loopSound = Sounds.beam;
             loopSoundVolume = 20f;
 
-            requirements(Category.turret, with(MPTv2Items.specialMetrenFrame, 256, MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
+            requirements(Category.turret, with( MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
         }};
     }
 
@@ -498,6 +492,7 @@ public class MPTv2Blocks {
 
             requirements(Category.production, with(MPTv2Items.titaniumAlloy, 32));
         }};
+
         metrenDrill = new Drill("metrenDrill"){{
             size = 2;
             health = 4000000;
@@ -802,6 +797,18 @@ public class MPTv2Blocks {
             requirements(Category.crafting, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metren, 18));
         }};
 
+        thoriumCompressor = new GenericCrafter("thoriumCompressor"){{
+            size = 3;
+            health = 900;
+            craftTime = 5f * 60f;
+
+            consumePower(3);
+            consumeItems(with(Items.thorium, 3));
+            outputItems = with(MPTv2Items.compressedThorium, 1);
+
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metrenDiamond,  18));
+        }};
+
         metrenAmmoCrafter = new GenericCrafter("metrenAmmoCrafter"){{
             size = 2;
             health = 320;
@@ -809,9 +816,21 @@ public class MPTv2Blocks {
 
             consumePower(2.5f);
             consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2));
-            outputItems = with(MPTv2Items.metrenAmmo, 1);
+            outputItems = with(MPTv2Items.metrenAmmo, 2);
 
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 40, Items.copper, 120, Items.lead, 80));
+        }};
+
+        metrenExplosiveAmmoCrafter = new GenericCrafter("metrenExplosiveAmmoCrafter"){{
+            size = 3;
+            health = 900;
+            craftTime = 6f * 60f;
+
+            consumePower(3);
+            consumeItems(with(MPTv2Items.compressedThorium, 3, MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2));
+            outputItems = with(MPTv2Items.metrenExplosiveAmmo, 2);
+
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metrenDiamond,  18));
         }};
 
         deuteriumChamber = new GenericCrafter("deuteriumChamber"){{
@@ -946,8 +965,8 @@ public class MPTv2Blocks {
             consumePower(3f);
 
             plans = Seq.with(
-                    new UnitPlan(MPTv2UnitTypes.roomba, 60f * 20, with(MPTv2Items.metrenSilicon, 10)),
-                    new UnitPlan(MPTv2UnitTypes.miningRoomba, 60f * 40, with(MPTv2Items.metren, 4, MPTv2Items.metrenSilicon, 10))
+                    new UnitPlan(MPTv2UnitTypes.roomba, 30f * 60f, with(MPTv2Items.metrenSilicon, 40)),
+                    new UnitPlan(MPTv2UnitTypes.miningRoomba, 30f * 60f, with(MPTv2Items.metrenSilicon, 40))
             );
 
             requirements(Category.units, with(MPTv2Items.metren, 10,MPTv2Items.metrenSilicon, 80));
@@ -1032,8 +1051,8 @@ public class MPTv2Blocks {
             health = 72000000;
             armor = 2500;
             itemCapacity = 2000000;
-            //unitType = MPTv2UnitTypes.metre;
-            unitType = UnitTypes.gamma;
+            unitType = MPTv2UnitTypes.metre;
+//            unitType = UnitTypes.gamma;
             incinerateNonBuildable = true;
             unitCapModifier = 20;
             requirements(Category.effect, with(MPTv2Items.metrenFrame, 36, MPTv2Items.armorPlate, 36, MPTv2Items.metren, 288));
@@ -1044,7 +1063,8 @@ public class MPTv2Blocks {
             health = 98000000;
             armor = 5000;
             itemCapacity = 4000000;
-            unitType = UnitTypes.gamma;
+            unitType = MPTv2UnitTypes.metre;
+//            unitType = UnitTypes.gamma;
             incinerateNonBuildable = true;
             unitCapModifier = 30;
             requirements(Category.effect, with(MPTv2Items.largeMetrenFrame, 49, MPTv2Items.heavyArmorPlate, 49,MPTv2Items.metren, 392));
@@ -1054,7 +1074,8 @@ public class MPTv2Blocks {
             size = 8;
             health = 128000000;
             itemCapacity = 8000000;
-            unitType = UnitTypes.gamma;
+            unitType = MPTv2UnitTypes.metre;
+//            unitType = UnitTypes.gamma;
             incinerateNonBuildable = true;
             unitCapModifier = 40;
             requirements(Category.effect, with(MPTv2Items.largeMetrenFrame, 64, MPTv2Items.heavyArmorPlate, 64, MPTv2Items.metren, 512));
@@ -1064,7 +1085,8 @@ public class MPTv2Blocks {
             size = 9;
             health = 162000000;
             itemCapacity = 16000000;
-            unitType = UnitTypes.gamma;
+            unitType = MPTv2UnitTypes.metre;
+//            unitType = UnitTypes.gamma;
             incinerateNonBuildable = true;
             unitCapModifier = 60;
             requirements(Category.effect, with(MPTv2Items.specialMetrenFrame, 81, MPTv2Items.specialArmorPlate, 81, MPTv2Items.metren, 648));
@@ -1076,7 +1098,7 @@ public class MPTv2Blocks {
 
         loadFactory();
 
-        titanoumAlloyWall = new Wall("titaniumAlloyWall"){{
+        titaniumAlloyWall = new Wall("titaniumAlloyWall"){{
             size = 1;
             health = 1500;
             armor = 15;
