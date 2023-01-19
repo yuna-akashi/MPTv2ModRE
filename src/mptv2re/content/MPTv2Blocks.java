@@ -305,7 +305,7 @@ public class MPTv2Blocks {
             requirements(Category.turret,with( MPTv2Items.specialTurretFrame, 25, MPTv2Items.specialArmorPlate, 25));
         }};
 
-        antimatterRailgun = new RailgunTurret("antimatterRailgun"){{
+        antimatterRailgun = new ItemTurret("antimatterRailgun"){{
             size = 16;
             health = 256000000;
             range = 160000;
@@ -316,8 +316,8 @@ public class MPTv2Blocks {
             rotateSpeed = 0.25f;
             coolant = consumeCoolant(0.05F);
             canOverdrive = false;
-            maxShootCharge = 10;
-            chargeTimePer1Shot = 30f * 60f;
+//            maxShootCharge = 10;
+//            chargeTimePer1Shot = 30f * 60f;
             ammo(
                     MPTv2Items.metrenAmmo, new BasicBulletType(99, 999999999){{
                         width = 32;
@@ -362,8 +362,8 @@ public class MPTv2Blocks {
 //                 }}
             }};
 
-//            consumePower(500000000);
-            consumePowerCond(500000000, RailgunTurretBuild::isCharge);
+            consumePower(500000000);
+//            consumePowerCond(500000000, RailgunTurretBuild::isCharge);
 
             requirements(Category.turret, with( MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
         }};
