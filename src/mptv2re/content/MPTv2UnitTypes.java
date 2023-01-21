@@ -11,7 +11,6 @@ import mindustry.entities.abilities.RepairFieldAbility;
 import mindustry.entities.abilities.SuppressionFieldAbility;
 import mindustry.entities.abilities.UnitSpawnAbility;
 import mindustry.entities.bullet.*;
-import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.pattern.ShootPattern;
 import mindustry.entities.pattern.ShootSpread;
 import mindustry.gen.*;
@@ -35,7 +34,7 @@ public class MPTv2UnitTypes {
 
     public static UnitType
         ///*CoreUnits*/
-        metre/*, advance, experimental, emperor*/,
+        metre/*, advance, experimental, antimatter*/,
 
         ///*Rommbas*/
         roomba, miningRoomba, builderRoomba, rebuildRoomba, repairRoomba, shieldRoomba, attackRoomba, jibakuRoomba, jibakuNukeRoomba/*,
@@ -43,17 +42,15 @@ public class MPTv2UnitTypes {
 
         ///*AirUnits*/
         //AirShips
-        /*stingray, bommer, destroyer, cruiser, battleship, carrier,
+        /*stingray, bommer, destroyer, cruiser, battleship, carrier*/,
         //AntimatteredShips
-        antimatterDestroyer, antimatterCruiser, antimatterBattleship,
-        antimatterBattleCarrier*/, antimatterLightCarrier, antimatterCarrier
+        beast, matter, ecru, eter, destAllier
     ;
 
     static{
-
-        EntityMapping.nameMap.put(MPTv2RE.name("metre"), EntityMapping.idMap[5]);
         EntityMapping.nameMap.put(MPTv2RE.name("roomba"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(MPTv2RE.name("jibakuRoomba"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(MPTv2RE.name("jibakuNukeRoomba"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(MPTv2RE.name("attackRoomba"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(MPTv2RE.name("minerRoomba"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(MPTv2RE.name("builderRoomba"), EntityMapping.idMap[3]);
@@ -62,7 +59,7 @@ public class MPTv2UnitTypes {
         EntityMapping.nameMap.put(MPTv2RE.name("shieldRoomba"), EntityMapping.idMap[3]);
 
         EntityMapping.nameMap.put(MPTv2RE.name("antimatterLightCarrier"), EntityMapping.idMap[25]);
-        EntityMapping.nameMap.put(MPTv2RE.name("antimatterCarrier"), EntityMapping.idMap[30]);
+        EntityMapping.nameMap.put(MPTv2RE.name("destAllier"), EntityMapping.idMap[30]);
     }
 
     public static class MPTv2UnitType extends UnitType{
@@ -114,60 +111,109 @@ public class MPTv2UnitTypes {
     }
 
     public static void loadAirUnits() {
-        antimatterLightCarrier= new MPTv2UnitType("antimatterLightCarrier"){{
+        beast = new MPTv2UnitType("beast"){{
             constructor = EntityMapping.map(3);
-            aiController = FlyingAI::new;
+
+            speed = 2.7f;
+            accel = 0.08f;
+            drag = 0.04f;
+            flying = true;
+            health = 70;
+            engineOffset = 5.75f;
+            targetFlags = new BlockFlag[]{BlockFlag.generator, null};
+            hitSize = 9;
+            itemCapacity = 10;
+
+            weapons.add(new Weapon(){{
+                y = 0f;
+                x = 2f;
+                reload = 20f;
+                ejectEffect = Fx.casing1;
+                bullet = new BasicBulletType(2.5f, 9){{
+                    width = 7f;
+                    height = 9f;
+                    lifetime = 45f;
+                    shootEffect = Fx.shootSmall;
+                    smokeEffect = Fx.shootSmallSmoke;
+                    ammoMultiplier = 2;
+                }};
+                shootSound = Sounds.pew;
+            }});
+        }};
+
+        matter = new MPTv2UnitType("matter"){{
+            constructor = EntityMapping.map(3);
+
+            health = 340;
+            speed = 1.65f;
+            accel = 0.08f;
+            drag = 0.016f;
+            flying = true;
+            hitSize = 10f;
+        }};
+
+        ecru = new MPTv2UnitType("ecru"){{
+            constructor = EntityMapping.map(3);
+
+            speed = 0.8f;
+            accel = 0.04f;
+            drag = 0.04f;
+            rotateSpeed = 1.9f;
+            flying = true;
+            lowAltitude = true;
+            health = 7200;
+            armor = 9f;
+            engineOffset = 21;
+            engineSize = 5.3f;
+            hitSize = 46f;
+        }};
+
+        eter = new MPTv2UnitType("eter"){{
+            constructor = EntityMapping.map(3);
             isEnemy = true;
 
             flying = true;
             itemCapacity = 75;
 
-            hitSize = 80.0F;
-            armor = 486;
-            health = 246000;
+            hitSize = 200F;
+            armor = 600;
+            health = 2700000;
 
-            speed = 3.5F;
-            rotateSpeed = 0.5F;
-            accel = 0.02F;
-            drag = 0.02F;
-            engineOffset = 55.0F;
-            engineSize = 10.0F;
+            speed = 0.55F;
+            rotateSpeed = 0.55F;
+            accel = 0.3F;
+            drag = 0.03F;
+            engineOffset = 100.0F;
+            engineSize = 28F;
 
-            weapons.add(new Weapon(MPTv2RE.name("alc-chargeLaser")){{
-                top = true;
-                reload = 100f;
-                rotate = false;
-                mirror = false;
-                x = 0f;
-                y = 0f;
-                shootY = 60;
-                recoil = 0;
-
-                inaccuracy = 0f;
-
-                bullet = new LaserBulletType(5000){{
-                    width = 20f;
-                    range = 500;
-                }};
-            }});
+            float orbRad = 9f, partRad = 4f;
+            int parts = 10;
 
             abilities.add(
-                new UnitSpawnAbility(){{
-                    unit = UnitTypes.horizon;
-                    spawnTime = 650;
-                    spawnX = 14.5f;
-                    spawnY = 14;
-                }},
-                new UnitSpawnAbility(){{
-                    unit = UnitTypes.horizon;
-                    spawnTime = 650;
-                    spawnX = -14.5f;
-                    spawnY = 14;
-                }}
+                    new SuppressionFieldAbility() {{
+                        y = 20f;
+                        orbRadius = orbRad;
+                        particleSize = partRad;
+                        particles = parts;
+                    }},
+                    new SuppressionFieldAbility(){{
+                        y = 0f;
+                        orbRadius = orbRad;
+                        particleSize = partRad;
+                        particles = parts;
+                        display = active = false;
+                    }},
+                    new SuppressionFieldAbility(){{
+                        y = -36f;
+                        orbRadius = orbRad;
+                        particleSize = partRad;
+                        particles = parts;
+                        display = active = false;
+                    }}
             );
         }};
 
-        antimatterCarrier = new MPTv2UnitType("antimatterCarrier"){{
+        destAllier = new MPTv2UnitType("destAllier"){{
             constructor = EntityMapping.map(3);
             aiController = DefenderAI::new;
             isEnemy = true;

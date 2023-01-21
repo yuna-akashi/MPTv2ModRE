@@ -22,6 +22,8 @@ import mindustry.type.Category;
 import static mindustry.type.ItemStack.with;
 
 import mindustry.type.LiquidStack;
+import mindustry.type.PayloadStack;
+import mindustry.type.UnitType;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
@@ -36,6 +38,8 @@ import mindustry.world.blocks.liquid.Conduit;
 import mindustry.world.blocks.liquid.LiquidBridge;
 import mindustry.world.blocks.liquid.LiquidJunction;
 import mindustry.world.blocks.liquid.LiquidRouter;
+import mindustry.world.blocks.payloads.Constructor;
+import mindustry.world.blocks.payloads.PayloadDeconstructor;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
@@ -46,6 +50,8 @@ import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.blocks.storage.Unloader;
 import mindustry.world.blocks.units.Reconstructor;
+import mindustry.world.blocks.units.UnitAssembler;
+import mindustry.world.blocks.units.UnitAssemblerModule;
 import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.draw.DrawFlame;
@@ -90,8 +96,12 @@ public class MPTv2Blocks {
 
         //units
         roombaFactory/*, metrenedAirFactory*/,
-        metrenedAdditiveReconstructor/*, metrenedMultiplicativeReconstructor, metrenedExponentialReconstructor, metrenedTetrativeReconstructor, antimatteredReconstructor,
-        specialUnitFactory*/,
+        metrenedAdditiveReconstructor/*, metrenedMultiplicativeReconstructor, metrenedExponentialReconstructor, metrenedTetrativeReconstructor*/,
+
+        antimatteredUnitFactory,
+        antimatteredAdditiveReconstructor, antimatteredMultiplicativeReconstructor, antimatteredAssembler, antimatteredAssemblerModule,
+
+        metrenConstructor, metrenLargeConstructor, smallMetrenDeconstructor, metrenDeconstructor,
 
         //effect
         metrender, boostDriveProjector, metrenShieldDome, buildBlock, metrenUnloader,
@@ -976,6 +986,124 @@ public class MPTv2Blocks {
             size = 3;
 
             consumePower(5);
+        }};
+
+        antimatteredUnitFactory = new UnitFactory("antimatteredUnitFactory"){{
+            size = 3;
+            health = 9000000;
+
+            configurable = false;
+            plans.add(new UnitPlan(MPTv2UnitTypes.beast, 27f * 60f, with(MPTv2Items.metren, 20, MPTv2Items.metrenSilicon, 10,MPTv2Items.metrenDiamond, 8)));
+            consumePower(4f);
+
+            requirements(Category.units, with(MPTv2Items.specialMetrenFrame, 9, MPTv2Items.specialArmorPlate, 9, MPTv2Items.metrenSilicon, 220));
+        }};
+
+        antimatteredAdditiveReconstructor = new Reconstructor("antimatteredAdditiveReconstructor"){{
+            size = 3;
+            health = 9000000;
+
+            consumePower(4.5f);
+            consumeItems(with(MPTv2Items.armorPlate, 10, MPTv2Items.metrenSilicon, 20));
+
+            constructTime = 35f * 60f;
+
+            upgrades.addAll(
+                    new UnitType[]{MPTv2UnitTypes.beast, MPTv2UnitTypes.matter}
+            );
+
+            requirements(Category.units, with(MPTv2Items.specialMetrenFrame, 9, MPTv2Items.specialArmorPlate, 9, MPTv2Items.metrenSilicon, 260));
+        }};
+
+        antimatteredMultiplicativeReconstructor = new Reconstructor("antimatteredMultiplicativeReconstructor"){{
+            size = 5;
+            health = 25000000;
+
+            consumePower(5f);
+            consumeItems(with(MPTv2Items.heavyArmorPlate, 10, MPTv2Items.metrenSilicon, 20));
+
+            constructTime = 45f * 60f;
+
+            upgrades.addAll(
+                    new UnitType[]{MPTv2UnitTypes.matter, MPTv2UnitTypes.ecru}
+            );
+
+            requirements(Category.units, with(MPTv2Items.specialMetrenFrame, 25, MPTv2Items.specialArmorPlate, 25, MPTv2Items.metrenSilicon, 320));
+        }};
+
+        antimatteredAssembler = new UnitAssembler("antimatteredAssembler"){{
+            size = 7;
+            health = 49000000;
+
+            areaSize = 50;
+
+            plans.add(
+                    new AssemblerUnitPlan(MPTv2UnitTypes.eter, 240f * 60f, PayloadStack.list(MPTv2UnitTypes.matter, 8, MPTv2Blocks.metrenWall, 24)),
+                    new AssemblerUnitPlan(MPTv2UnitTypes.destAllier, 600f * 60f, PayloadStack.list(MPTv2UnitTypes.ecru, 10, MPTv2Blocks.metrenWallLarge, 48))
+            );
+
+            consumePower(8);
+            consumeLiquid(Liquids.cryofluid,  12f / 60f);
+
+            requirements(Category.units, with(MPTv2Items.specialMetrenFrame, 49, MPTv2Items.specialArmorPlate, 49, MPTv2Items.metrenSilicon, 380));
+        }};
+
+        antimatteredAssemblerModule = new UnitAssemblerModule("antimatteredAssemblerModule"){{
+            size = 5;
+            health = 25000000;
+
+            consumePower(6.5f);
+
+            requirements(Category.units, with(MPTv2Items.specialMetrenFrame, 25, MPTv2Items.specialArmorPlate, 25, MPTv2Items.metrenSilicon, 420));
+        }};
+
+        metrenConstructor = new Constructor("metrenConstructor"){{
+            size = 3;
+            health = 9000000;
+
+            consumePower(3);
+            buildSpeed = 0.65f;
+            hasPower = true;
+
+            filter = Seq.with(MPTv2Blocks.titaniumAlloyWall, MPTv2Blocks.titaniumAlloyWallLarge, MPTv2Blocks.metrenWall, MPTv2Blocks.metrenWallLarge);
+
+            requirements(Category.units, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9,MPTv2Items.metrenSilicon, 20));
+        }};
+
+        metrenLargeConstructor = new Constructor("metrenLargeConstructor"){{
+            size = 7;
+            health = 49000000;
+
+            consumePower(6);
+            buildSpeed = 0.7f;
+            hasPower = true;
+
+            maxBlockSize = 9;
+            minBlockSize = 3;
+
+            requirements(Category.units, with(MPTv2Items.largeMetrenFrame, 49, MPTv2Items.heavyArmorPlate, 49, MPTv2Items.metrenSilicon, 80));
+        }};
+
+        smallMetrenDeconstructor = new PayloadDeconstructor("smallMetrenDeconstructor"){{
+            size = 3;
+            health = 9000000;
+
+            itemCapacity = 250;
+            consumePower(3);
+            deconstructSpeed = 2f;
+
+            requirements(Category.units, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metrenSilicon, 20));
+        }};
+
+        metrenDeconstructor = new PayloadDeconstructor("metrenDeconstructor"){{
+            size = 7;
+            health = 49000000;
+
+            itemCapacity = 500;
+            consumePower(6);
+            deconstructSpeed = 3f;
+
+            requirements(Category.units, with(MPTv2Items.largeMetrenFrame, 49, MPTv2Items.heavyArmorPlate, 49, MPTv2Items.metrenSilicon, 80));
         }};
     }
 

@@ -65,9 +65,9 @@ public class RailgunTurret extends ItemTurret {
             } else {
                 charge();
                 if(linearWarmup){
-                    shootWarmup = Mathf.approachDelta(shootWarmup, 0, chargeTimePer1Shot * 0.06f);
+                    shootWarmup = Mathf.approachDelta(shootWarmup, 0, chargeTimePer1Shot * 0.006f);
                 }else{
-                    shootWarmup = Mathf.lerpDelta(shootWarmup, 0, chargeTimePer1Shot * 0.06f);
+                    shootWarmup = Mathf.lerpDelta(shootWarmup, 0, chargeTimePer1Shot * 0.006f);
                 }
 
                 unit.tile(this);
