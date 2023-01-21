@@ -2,7 +2,7 @@ displayName: "MPTv2 RE"
 name: "mptv2-re"
 author: "ゆなてゃ"
 main: "mptv2re.MPTv2RE"
-description: "Java mod for Mindustry<V7>"
+description: "Java mod for Mindustry<V7>. It is beta."
 version: 0.0.5
 minGameVersion: 139
 java: true
