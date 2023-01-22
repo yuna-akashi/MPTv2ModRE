@@ -22,9 +22,13 @@ import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.type.ammo.PowerAmmoType;
+import mindustry.type.unit.ErekirUnitType;
 import mindustry.type.unit.MissileUnitType;
+import mindustry.type.weapons.PointDefenseWeapon;
 import mindustry.type.weapons.RepairBeamWeapon;
+import mindustry.world.blocks.defense.turrets.PointDefenseTurret;
 import mindustry.world.meta.BlockFlag;
+import mindustry.world.meta.Env;
 import mptv2re.MPTv2RE;
 
 import static mindustry.content.Fx.none;
@@ -49,7 +53,9 @@ public class MPTv2UnitTypes {
         //AirShips
         /*stingray, bommer, destroyer, cruiser, battleship, carrier*/,
         //AntimatteredShips
-        beast, matter, ecru, eter, destAllier
+        beast, matter, ecru, eter, destAllier,
+        //special
+        metrenAssemblyDrone
     ;
 
     static{
@@ -164,6 +170,7 @@ public class MPTv2UnitTypes {
             hitSize = 160F;
             armor = 600;
             health = 2700000;
+            forceMultiTarget = true;
 
             speed = 0.55F;
             rotateSpeed = 0.4F;
@@ -177,6 +184,7 @@ public class MPTv2UnitTypes {
 
             weapons.add(
                     new Weapon(MPTv2RE.name("eter-main-weapon")){{
+                        drawCell = true;
                         top = rotate = mirror = false;
                         shootY = 83f;
                         recoil = 0;
@@ -221,13 +229,10 @@ public class MPTv2UnitTypes {
                             sideLength = 0f;
                             colors = new Color[]{Pal.suppress.cpy().a(0.4f), Pal.suppress, Color.white};
                         }};
-                        parts.add(
-                                new RegionPart("-cell"){{
-                                }}
-                        );
                     }},
-                    new Weapon(MPTv2RE.name("eter-sub-weapon-r")){{
-                        top = rotate = mirror = false;
+                    new Weapon(MPTv2RE.name("eter-sub-weapon")){{
+                        top = rotate = false;
+                        mirror = true;
                         shootY = 43f;
                         shootX = 60f;
                         x = y = 0;
@@ -238,7 +243,7 @@ public class MPTv2UnitTypes {
                         minWarmup = 0.95f;
                         shootWarmupSpeed = 0.1f;
                         shoot.shots = 3;
-                        shoot.shotDelay = 5f;
+                        shoot.shotDelay = 7f;
                         bullet = new BulletType(){{
                             shootEffect = Fx.sparkShoot;
                             smokeEffect = Fx.shootSmokeTitan;
@@ -247,78 +252,7 @@ public class MPTv2UnitTypes {
                             speed = 0f;
                             keepVelocity = false;
 
-                            spawnUnit = new MissileUnitType("disrupt-missile-r"){{
-                                speed = 4.6f;
-                                maxRange = 5f;
-                                outlineColor = Pal.darkOutline;
-                                health = 70;
-                                homingDelay = 10f;
-                                lowAltitude = true;
-                                engineSize = 3f;
-                                engineColor = trailColor = Pal.sapBulletBack;
-                                engineLayer = Layer.effect;
-                                deathExplosionEffect = Fx.none;
-                                loopSoundVolume = 0.1f;
-
-                                parts.add(new ShapePart(){{
-                                    layer = Layer.effect;
-                                    circle = true;
-                                    y = -0.25f;
-                                    radius = 1.5f;
-                                    color = Pal.suppress;
-                                    colorTo = Color.white;
-                                    progress = PartProgress.life.curve(Interp.pow5In);
-                                }});
-
-                                weapons.add(new Weapon(){{
-                                    shootCone = 360f;
-                                    mirror = false;
-                                    reload = 1f;
-                                    shootOnDeath = true;
-                                    bullet = new ExplosionBulletType(140f, 25f){{
-                                        suppressionRange = 140f;
-                                        shootEffect = new ExplosionEffect(){{
-                                            lifetime = 50f;
-                                            waveStroke = 5f;
-                                            waveLife = 8f;
-                                            waveColor = Color.white;
-                                            sparkColor = smokeColor = Pal.suppress;
-                                            waveRad = 40f;
-                                            smokeSize = 4f;
-                                            smokes = 7;
-                                            smokeSizeBase = 0f;
-                                            sparks = 10;
-                                            sparkRad = 40f;
-                                            sparkLen = 6f;
-                                            sparkStroke = 2f;
-                                        }};
-                                    }};
-                                }});
-                            }};
-                        }};
-                    }},
-                    new Weapon(MPTv2RE.name("eter-sub-weapon-l")){{
-                        top = rotate = mirror = false;
-                        shootY = 43f;
-                        shootX = -60f;
-                        x = y = 0;
-                        reload = 140f;
-                        recoil = 1.5f;
-                        inaccuracy = 0;
-                        shootSound = Sounds.missileLarge;
-                        minWarmup = 0.95f;
-                        shootWarmupSpeed = 0.1f;
-                        shoot.shots = 3;
-                        shoot.shotDelay = 5f;
-                        bullet = new BulletType(){{
-                            shootEffect = Fx.sparkShoot;
-                            smokeEffect = Fx.shootSmokeTitan;
-                            hitColor = Pal.suppress;
-                            shake = 1f;
-                            speed = 0f;
-                            keepVelocity = false;
-
-                            spawnUnit = new MissileUnitType("disrupt-missile-l"){{
+                            spawnUnit = new MissileUnitType("disrupt-missile"){{
                                 speed = 4.6f;
                                 maxRange = 5f;
                                 outlineColor = Pal.darkOutline;
@@ -370,10 +304,9 @@ public class MPTv2UnitTypes {
                     }}
             );
 
-            weapons.add(
+            weapons.addAll(
                     new Weapon(MPTv2RE.name("eter-cannon")){{
-                        mirror = false;
-                        rotate = true;
+                        mirror = rotate = true;
                         rotateSpeed = 20f;
                         y = 70.5f;
                         x = 18.5f;
@@ -381,7 +314,7 @@ public class MPTv2UnitTypes {
                         recoil = 1.5f;
                         inaccuracy = 0;
                         shoot.shots = 3;
-                        shoot.shotDelay = 4.5f;
+                        shoot.shotDelay = 6f;
 
                         bullet = new BasicBulletType(40, 250){{
                             lifetime = 20;
@@ -389,43 +322,17 @@ public class MPTv2UnitTypes {
                             reload = 200f;
                             shootSound = Sounds.cannon;
                         }};
-//                        parts.add(
-//                                new RegionPart("-heat")
-//                        );
                     }},
                     new Weapon(MPTv2RE.name("eter-cannon")){{
-                        mirror = false;
-                        rotate = true;
-                        rotateSpeed = 20f;
-                        y = 70.5f;
-                        x = -18.5f;
-                        reload = 140f;
-                        recoil = 1.5f;
-                        inaccuracy = 0;
-                        shoot.shots = 3;
-                        shoot.shotDelay = 4.5f;
-
-                        bullet = new BasicBulletType(40, 250){{
-                            lifetime = 20;
-                            range = 40;
-                            reload = 200f;
-                            shootSound = Sounds.cannon;
-                        }};
-//                        parts.add(
-//                                new RegionPart("-heat")
-//                        );
-                    }},
-                    new Weapon(MPTv2RE.name("eter-cannon")){{
-                        mirror = false;
-                        rotate = true;
+                        mirror = rotate = true;
                         rotateSpeed = 20f;
                         y = 41f;
                         x = 21.2f;
-                        reload = 140f;
+                        reload = 70f;
                         recoil = 1.5f;
                         inaccuracy = 0;
                         shoot.shots = 3;
-                        shoot.shotDelay = 4.5f;
+                        shoot.shotDelay = 6f;
 
                         bullet = new BasicBulletType(40, 250){{
                             lifetime = 20;
@@ -433,45 +340,17 @@ public class MPTv2UnitTypes {
                             reload = 200f;
                             shootSound = Sounds.cannon;
                         }};
-//                        parts.add(
-//                                new RegionPart("-heat")
-//                        );
                     }},
                     new Weapon(MPTv2RE.name("eter-cannon")){{
-                        mirror = false;
-                        rotate = true;
-                        rotateSpeed = 20f;
-                        y = 41f;
-                        x = -21.2f;
-                        reload = 140f;
-                        recoil = 1.5f;
-                        inaccuracy = 0;
-                        shoot.shots = 3;
-                        shoot.shotDelay = 4.5f;
-
-                        bullet = new BasicBulletType(40, 250){{
-                            lifetime = 20;
-                            range = 40;
-                            reload = 200f;
-                            shootSound = Sounds.cannon;
-                        }};
-//                        parts.add(
-//                                new RegionPart("-heat")
-//                        );
-                    }}
-            );
-            weapons.add(
-                    new Weapon(MPTv2RE.name("eter-cannon")){{
-                        mirror = false;
-                        rotate = true;
+                        mirror = rotate = true;
                         rotateSpeed = 20f;
                         y = 12f;
                         x = 23f;
-                        reload = 140f;
+                        reload = 70f;
                         recoil = 1.5f;
                         inaccuracy = 0;
                         shoot.shots = 3;
-                        shoot.shotDelay = 4.5f;
+                        shoot.shotDelay = 6f;
 
                         bullet = new BasicBulletType(40, 250){{
                             lifetime = 20;
@@ -479,32 +358,9 @@ public class MPTv2UnitTypes {
                             reload = 200f;
                             shootSound = Sounds.cannon;
                         }};
-//                        parts.add(
-//                                new RegionPart("-heat")
-//                        );
-                    }},
-                    new Weapon(MPTv2RE.name("eter-cannon")){{
-                        mirror = false;
-                        rotate = true;
-                        rotateSpeed = 20f;
-                        y = 12f;
-                        x = -23f;
-                        reload = 140f;
-                        recoil = 1.5f;
-                        inaccuracy = 0;
-                        shoot.shots = 3;
-                        shoot.shotDelay = 4.5f;
-
-                        bullet = new BasicBulletType(40, 250){{
-                            lifetime = 20;
-                            range = 40;
-                            reload = 200f;
-                            shootSound = Sounds.cannon;
-                        }};
-//                        parts.add(
-//                                new RegionPart("-heat")
-//                        );
-                    }},
+                    }}
+            );
+            weapons.add(
                     new Weapon(MPTv2RE.name("eter-missile")){{
                         rotate = mirror = false;
                         rotateSpeed = 20f;
@@ -523,9 +379,6 @@ public class MPTv2UnitTypes {
                             reload = 200f;
                             shootSound = Sounds.missile;
                         }};
-//                        parts.add(
-//                                new RegionPart("-heat")
-//                        );
                     }},
                     new Weapon(MPTv2RE.name("eter-missile")){{
                         rotate = mirror = false;
@@ -545,27 +398,121 @@ public class MPTv2UnitTypes {
                             reload = 200f;
                             shootSound = Sounds.missile;
                         }};
-//                        parts.add(
-//                                new RegionPart("-heat")
-//                        );
+                    }}
+            );
+
+            weapons.addAll(
+                    new PointDefenseWeapon(MPTv2RE.name("eter-pointDefense-weapon")){{
+                        rotate = true;
+                        rotateSpeed = 250f;
+                        x = 37.5f;
+                        y = 38.5f;
+                        range = 160;
+                        maxRange = 160;
+                        reload = 1f;
+                        targetAir = targetGround = false;
+                        bullet = new BasicBulletType(250, 250);
+                    }},
+                    new PointDefenseWeapon(MPTv2RE.name("eter-pointDefense-weapon")){{
+                        rotate = true;
+                        rotateSpeed = 250f;
+                        x = 37.5f;
+                        y = 31f;
+                        range = 160;
+                        maxRange = 160;
+                        reload = 1f;
+                        targetAir = targetGround = false;
+                        bullet = new BasicBulletType(250, 250);
+                    }},
+                    new PointDefenseWeapon(MPTv2RE.name("eter-pointDefense-weapon")){{
+                        rotate = true;
+                        rotateSpeed = 250f;
+                        x = 37.5f;
+                        y = 23f;
+                        range = 160;
+                        maxRange = 160;
+                        reload = 1f;
+                        targetAir = targetGround = false;
+                        bullet = new BasicBulletType(250, 250);
+                    }},
+                    new PointDefenseWeapon(MPTv2RE.name("eter-pointDefense-weapon")){{
+                        rotate = true;
+                        rotateSpeed = 250f;
+                        x = 37.5f;
+                        y = 16f;
+                        range = 160;
+                        maxRange = 160;
+                        reload = 1f;
+                        targetAir = targetGround = false;
+                        bullet = new BasicBulletType(250, 250);
+                    }},
+                    new PointDefenseWeapon(MPTv2RE.name("eter-pointDefense-weapon")){{
+                        rotate = true;
+                        rotateSpeed = 250f;
+                        x = 37.5f;
+                        y = 7f;
+                        range = 160;
+                        maxRange = 160;
+                        reload = 1f;
+                        targetAir = targetGround = false;
+                        bullet = new BasicBulletType(250, 250);
+                    }},
+
+                    new PointDefenseWeapon(MPTv2RE.name("eter-pointDefense-weapon")){{
+                        rotate = true;
+                        rotateSpeed = 250f;
+                        x = 42f;
+                        y = -36.2f;
+                        range = 160;
+                        maxRange = 160;
+                        reload = 1f;
+                        targetAir = targetGround = false;
+                        bullet = new BasicBulletType(250, 250);
+                    }},
+                    new PointDefenseWeapon(MPTv2RE.name("eter-pointDefense-weapon")){{
+                        rotate = true;
+                        rotateSpeed = 250f;
+                        x = 42f;
+                        y = -44f;
+                        range = 160;
+                        maxRange = 160;
+                        reload = 1f;
+                        targetAir = targetGround = false;
+                        bullet = new BasicBulletType(250, 250);
+                    }},
+                    new PointDefenseWeapon(MPTv2RE.name("eter-pointDefense-weapon")){{
+                        rotate = true;
+                        rotateSpeed = 250f;
+                        x = 42f;
+                        y = -51f;
+                        range = 160;
+                        maxRange = 160;
+                        reload = 1f;
+                        targetAir = targetGround = false;
+                        bullet = new BasicBulletType(250, 250);
                     }}
             );
 
             abilities.add(
                     new SuppressionFieldAbility() {{
-                        y = -24f;
+                        y = -23.8f;
                         x = 30f;
                         orbRadius = orbRad;
                         particleSize = partRad;
                         particles = parts;
                     }},
                     new SuppressionFieldAbility() {{
-                        y = -24f;
+                        y = -23.8f;
                         x = -30f;
                         orbRadius = orbRad;
                         particleSize = partRad;
                         particles = parts;
                     }}
+            );
+
+            setEnginesMirror(
+                    new UnitEngine(30f, -65f, 10f, 120f),
+                    new UnitEngine(60f, -80f, 20f, 140f)
             );
         }};
 
@@ -575,11 +522,12 @@ public class MPTv2UnitTypes {
             isEnemy = true;
 
             flying = true;
-            itemCapacity = 75;
+            itemCapacity = 275;
 
             hitSize = 260F;
             armor = 1000;
             health = 5400000;
+            range = 800f;
 
             speed = 0.35F;
             rotateSpeed = 0.35F;
@@ -1027,5 +975,31 @@ public class MPTv2UnitTypes {
         loadCoreUnits();
         loadAirUnits();
         loadRoombas();
+        metrenAssemblyDrone = new ErekirUnitType("metren-assembly-drone"){{
+            constructor = EntityMapping.map(3);
+            controller = u -> new AssemblerAI();
+
+            flying = true;
+            drag = 0.06f;
+            accel = 0.11f;
+            speed = 2.5f;
+            health = 9000;
+            engineSize = 2f;
+            engineOffset = 6.5f;
+            payloadCapacity = 0f;
+            targetable = false;
+            bounded = false;
+
+            outlineColor = Pal.darkOutline;
+            isEnemy = false;
+            hidden = true;
+            useUnitCap = false;
+            logicControllable = false;
+            playerControllable = false;
+            allowedInPayloads = false;
+            createWreck = false;
+            envEnabled = Env.any;
+            envDisabled = Env.none;
+        }};
     }
 }

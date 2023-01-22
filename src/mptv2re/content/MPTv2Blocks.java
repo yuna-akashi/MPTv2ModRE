@@ -1036,6 +1036,7 @@ public class MPTv2Blocks {
             health = 49000000;
 
             areaSize = 50;
+            droneType = MPTv2UnitTypes.metrenAssemblyDrone;
 
             plans.add(
                     new AssemblerUnitPlan(MPTv2UnitTypes.eter, 360f * 60f, PayloadStack.list(MPTv2UnitTypes.matter, 8, MPTv2Blocks.metrenWall, 24)),
