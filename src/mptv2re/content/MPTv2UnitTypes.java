@@ -1,6 +1,7 @@
 package mptv2re.content;
 
 import arc.graphics.Color;
+import arc.math.Interp;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.*;
 import mindustry.content.Fx;
@@ -11,12 +12,17 @@ import mindustry.entities.abilities.RepairFieldAbility;
 import mindustry.entities.abilities.SuppressionFieldAbility;
 import mindustry.entities.abilities.UnitSpawnAbility;
 import mindustry.entities.bullet.*;
+import mindustry.entities.effect.ExplosionEffect;
+import mindustry.entities.part.RegionPart;
+import mindustry.entities.part.ShapePart;
 import mindustry.entities.pattern.ShootPattern;
 import mindustry.entities.pattern.ShootSpread;
 import mindustry.gen.*;
+import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.type.ammo.PowerAmmoType;
+import mindustry.type.unit.MissileUnitType;
 import mindustry.type.weapons.RepairBeamWeapon;
 import mindustry.world.meta.BlockFlag;
 import mptv2re.MPTv2RE;
@@ -29,8 +35,7 @@ import static mindustry.gen.Sounds.lasershoot;
 public class MPTv2UnitTypes {
 
     public static Weapon
-        roombaWeapon,
-        alcChargeLaser;
+        roombaWeapon;
 
     public static UnitType
         ///*CoreUnits*/
@@ -73,25 +78,6 @@ public class MPTv2UnitTypes {
     }
 
     public static void loadPreviousWeapon(){
-        alcChargeLaser = new Weapon(MPTv2RE.name("alc-chargeLaser")){{
-            top = alternate = autoTarget  = true;
-            mirror = predictTarget = controllable = rotate = false;
-            x = 0;
-            y = 10;
-            reload = 12f;
-            recoil = 3f;
-            inaccuracy = 0;
-            shoot = new ShootPattern();
-            bullet = new ShrapnelBulletType(){{
-                lifetime = 45f;
-                length = 200f;
-                damage = 180.0F;
-                status = StatusEffects.shocked;
-                statusDuration = 60f;
-                serrationSpaceOffset = 40f;
-                width = 6f;
-            }};
-        }};
 
         roombaWeapon = new Weapon(MPTv2RE.name("roombaWeapon")){{
             top = alternate = autoTarget  = true;
@@ -175,40 +161,410 @@ public class MPTv2UnitTypes {
             flying = true;
             itemCapacity = 75;
 
-            hitSize = 200F;
+            hitSize = 160F;
             armor = 600;
             health = 2700000;
 
             speed = 0.55F;
-            rotateSpeed = 0.55F;
+            rotateSpeed = 0.4F;
             accel = 0.3F;
             drag = 0.03F;
-            engineOffset = 100.0F;
-            engineSize = 28F;
+            engineOffset = 80.0F;
+            engineSize = 14F;
 
-            float orbRad = 9f, partRad = 4f;
+            float orbRad = 4f, partRad = 2f;
             int parts = 10;
+
+            weapons.add(
+                    new Weapon(MPTv2RE.name("eter-main-weapon")){{
+                        top = rotate = mirror = false;
+                        shootY = 83f;
+                        recoil = 0;
+                        inaccuracy = 0;
+                        shootSound = Sounds.laserblast;
+                        chargeSound = Sounds.lasercharge;
+                        soundPitchMin = 1f;
+                        shake = 14f;
+                        x = y = 0;
+                        reload = 350f;
+
+                        cooldownTime = 350f;
+
+                        shootStatusDuration = 60f * 2f;
+                        shootStatus = StatusEffects.unmoving;
+                        shoot.firstShotDelay = Fx.greenLaserCharge.lifetime;
+                        parentizeEffects = true;
+
+                        bullet = new LaserBulletType(){{
+                            length = 460f;
+                            damage = 2000f;
+                            width = 45f;
+
+                            lifetime = 70f;
+
+                            lightningSpacing = 35f;
+                            lightningLength = 5;
+                            lightningDelay = 1.1f;
+                            lightningLengthRand = 15;
+                            lightningDamage = 50;
+                            lightningAngleRand = 40f;
+                            largeHit = true;
+                            lightColor = lightningColor = Pal.suppress;
+
+                            chargeEffect = Fx.greenLaserCharge;
+
+                            healPercent = 25f;
+                            collidesTeam = true;
+
+                            sideAngle = 15f;
+                            sideWidth = 0f;
+                            sideLength = 0f;
+                            colors = new Color[]{Pal.suppress.cpy().a(0.4f), Pal.suppress, Color.white};
+                        }};
+                        parts.add(
+                                new RegionPart("-cell"){{
+                                }}
+                        );
+                    }},
+                    new Weapon(MPTv2RE.name("eter-sub-weapon-r")){{
+                        top = rotate = mirror = false;
+                        shootY = 43f;
+                        shootX = 60f;
+                        x = y = 0;
+                        reload = 140f;
+                        recoil = 1.5f;
+                        inaccuracy = 0;
+                        shootSound = Sounds.missileLarge;
+                        minWarmup = 0.95f;
+                        shootWarmupSpeed = 0.1f;
+                        shoot.shots = 3;
+                        shoot.shotDelay = 5f;
+                        bullet = new BulletType(){{
+                            shootEffect = Fx.sparkShoot;
+                            smokeEffect = Fx.shootSmokeTitan;
+                            hitColor = Pal.suppress;
+                            shake = 1f;
+                            speed = 0f;
+                            keepVelocity = false;
+
+                            spawnUnit = new MissileUnitType("disrupt-missile-r"){{
+                                speed = 4.6f;
+                                maxRange = 5f;
+                                outlineColor = Pal.darkOutline;
+                                health = 70;
+                                homingDelay = 10f;
+                                lowAltitude = true;
+                                engineSize = 3f;
+                                engineColor = trailColor = Pal.sapBulletBack;
+                                engineLayer = Layer.effect;
+                                deathExplosionEffect = Fx.none;
+                                loopSoundVolume = 0.1f;
+
+                                parts.add(new ShapePart(){{
+                                    layer = Layer.effect;
+                                    circle = true;
+                                    y = -0.25f;
+                                    radius = 1.5f;
+                                    color = Pal.suppress;
+                                    colorTo = Color.white;
+                                    progress = PartProgress.life.curve(Interp.pow5In);
+                                }});
+
+                                weapons.add(new Weapon(){{
+                                    shootCone = 360f;
+                                    mirror = false;
+                                    reload = 1f;
+                                    shootOnDeath = true;
+                                    bullet = new ExplosionBulletType(140f, 25f){{
+                                        suppressionRange = 140f;
+                                        shootEffect = new ExplosionEffect(){{
+                                            lifetime = 50f;
+                                            waveStroke = 5f;
+                                            waveLife = 8f;
+                                            waveColor = Color.white;
+                                            sparkColor = smokeColor = Pal.suppress;
+                                            waveRad = 40f;
+                                            smokeSize = 4f;
+                                            smokes = 7;
+                                            smokeSizeBase = 0f;
+                                            sparks = 10;
+                                            sparkRad = 40f;
+                                            sparkLen = 6f;
+                                            sparkStroke = 2f;
+                                        }};
+                                    }};
+                                }});
+                            }};
+                        }};
+                    }},
+                    new Weapon(MPTv2RE.name("eter-sub-weapon-l")){{
+                        top = rotate = mirror = false;
+                        shootY = 43f;
+                        shootX = -60f;
+                        x = y = 0;
+                        reload = 140f;
+                        recoil = 1.5f;
+                        inaccuracy = 0;
+                        shootSound = Sounds.missileLarge;
+                        minWarmup = 0.95f;
+                        shootWarmupSpeed = 0.1f;
+                        shoot.shots = 3;
+                        shoot.shotDelay = 5f;
+                        bullet = new BulletType(){{
+                            shootEffect = Fx.sparkShoot;
+                            smokeEffect = Fx.shootSmokeTitan;
+                            hitColor = Pal.suppress;
+                            shake = 1f;
+                            speed = 0f;
+                            keepVelocity = false;
+
+                            spawnUnit = new MissileUnitType("disrupt-missile-l"){{
+                                speed = 4.6f;
+                                maxRange = 5f;
+                                outlineColor = Pal.darkOutline;
+                                health = 70;
+                                homingDelay = 10f;
+                                lowAltitude = true;
+                                engineSize = 3f;
+                                engineColor = trailColor = Pal.sapBulletBack;
+                                engineLayer = Layer.effect;
+                                deathExplosionEffect = Fx.none;
+                                loopSoundVolume = 0.1f;
+
+                                parts.add(new ShapePart(){{
+                                    layer = Layer.effect;
+                                    circle = true;
+                                    y = -0.25f;
+                                    radius = 1.5f;
+                                    color = Pal.suppress;
+                                    colorTo = Color.white;
+                                    progress = PartProgress.life.curve(Interp.pow5In);
+                                }});
+
+                                weapons.add(new Weapon(){{
+                                    shootCone = 360f;
+                                    mirror = false;
+                                    reload = 1f;
+                                    shootOnDeath = true;
+                                    bullet = new ExplosionBulletType(140f, 25f){{
+                                        suppressionRange = 140f;
+                                        shootEffect = new ExplosionEffect(){{
+                                            lifetime = 50f;
+                                            waveStroke = 5f;
+                                            waveLife = 8f;
+                                            waveColor = Color.white;
+                                            sparkColor = smokeColor = Pal.suppress;
+                                            waveRad = 40f;
+                                            smokeSize = 4f;
+                                            smokes = 7;
+                                            smokeSizeBase = 0f;
+                                            sparks = 10;
+                                            sparkRad = 40f;
+                                            sparkLen = 6f;
+                                            sparkStroke = 2f;
+                                        }};
+                                    }};
+                                }});
+                            }};
+                        }};
+                    }}
+            );
+
+            weapons.add(
+                    new Weapon(MPTv2RE.name("eter-cannon")){{
+                        mirror = false;
+                        rotate = true;
+                        rotateSpeed = 20f;
+                        y = 70.5f;
+                        x = 18.5f;
+                        reload = 140f;
+                        recoil = 1.5f;
+                        inaccuracy = 0;
+                        shoot.shots = 3;
+                        shoot.shotDelay = 4.5f;
+
+                        bullet = new BasicBulletType(40, 250){{
+                            lifetime = 20;
+                            range = 40;
+                            reload = 200f;
+                            shootSound = Sounds.cannon;
+                        }};
+//                        parts.add(
+//                                new RegionPart("-heat")
+//                        );
+                    }},
+                    new Weapon(MPTv2RE.name("eter-cannon")){{
+                        mirror = false;
+                        rotate = true;
+                        rotateSpeed = 20f;
+                        y = 70.5f;
+                        x = -18.5f;
+                        reload = 140f;
+                        recoil = 1.5f;
+                        inaccuracy = 0;
+                        shoot.shots = 3;
+                        shoot.shotDelay = 4.5f;
+
+                        bullet = new BasicBulletType(40, 250){{
+                            lifetime = 20;
+                            range = 40;
+                            reload = 200f;
+                            shootSound = Sounds.cannon;
+                        }};
+//                        parts.add(
+//                                new RegionPart("-heat")
+//                        );
+                    }},
+                    new Weapon(MPTv2RE.name("eter-cannon")){{
+                        mirror = false;
+                        rotate = true;
+                        rotateSpeed = 20f;
+                        y = 41f;
+                        x = 21.2f;
+                        reload = 140f;
+                        recoil = 1.5f;
+                        inaccuracy = 0;
+                        shoot.shots = 3;
+                        shoot.shotDelay = 4.5f;
+
+                        bullet = new BasicBulletType(40, 250){{
+                            lifetime = 20;
+                            range = 40;
+                            reload = 200f;
+                            shootSound = Sounds.cannon;
+                        }};
+//                        parts.add(
+//                                new RegionPart("-heat")
+//                        );
+                    }},
+                    new Weapon(MPTv2RE.name("eter-cannon")){{
+                        mirror = false;
+                        rotate = true;
+                        rotateSpeed = 20f;
+                        y = 41f;
+                        x = -21.2f;
+                        reload = 140f;
+                        recoil = 1.5f;
+                        inaccuracy = 0;
+                        shoot.shots = 3;
+                        shoot.shotDelay = 4.5f;
+
+                        bullet = new BasicBulletType(40, 250){{
+                            lifetime = 20;
+                            range = 40;
+                            reload = 200f;
+                            shootSound = Sounds.cannon;
+                        }};
+//                        parts.add(
+//                                new RegionPart("-heat")
+//                        );
+                    }}
+            );
+            weapons.add(
+                    new Weapon(MPTv2RE.name("eter-cannon")){{
+                        mirror = false;
+                        rotate = true;
+                        rotateSpeed = 20f;
+                        y = 12f;
+                        x = 23f;
+                        reload = 140f;
+                        recoil = 1.5f;
+                        inaccuracy = 0;
+                        shoot.shots = 3;
+                        shoot.shotDelay = 4.5f;
+
+                        bullet = new BasicBulletType(40, 250){{
+                            lifetime = 20;
+                            range = 40;
+                            reload = 200f;
+                            shootSound = Sounds.cannon;
+                        }};
+//                        parts.add(
+//                                new RegionPart("-heat")
+//                        );
+                    }},
+                    new Weapon(MPTv2RE.name("eter-cannon")){{
+                        mirror = false;
+                        rotate = true;
+                        rotateSpeed = 20f;
+                        y = 12f;
+                        x = -23f;
+                        reload = 140f;
+                        recoil = 1.5f;
+                        inaccuracy = 0;
+                        shoot.shots = 3;
+                        shoot.shotDelay = 4.5f;
+
+                        bullet = new BasicBulletType(40, 250){{
+                            lifetime = 20;
+                            range = 40;
+                            reload = 200f;
+                            shootSound = Sounds.cannon;
+                        }};
+//                        parts.add(
+//                                new RegionPart("-heat")
+//                        );
+                    }},
+                    new Weapon(MPTv2RE.name("eter-missile")){{
+                        rotate = mirror = false;
+                        rotateSpeed = 20f;
+                        y = -110f;
+                        x = -60f;
+                        reload = 220f;
+                        recoil = 1.5f;
+                        inaccuracy = 0;
+                        shoot.shots = 4;
+                        shoot.shotDelay = 10f;
+
+                        bullet = new MissileBulletType(40, 300){{
+                            lifetime = 200;
+                            homingPower = 40;
+                            range = 10;
+                            reload = 200f;
+                            shootSound = Sounds.missile;
+                        }};
+//                        parts.add(
+//                                new RegionPart("-heat")
+//                        );
+                    }},
+                    new Weapon(MPTv2RE.name("eter-missile")){{
+                        rotate = mirror = false;
+                        rotateSpeed = 20f;
+                        y = -110f;
+                        x = 60f;
+                        reload = 220f;
+                        recoil = 1.5f;
+                        inaccuracy = 0;
+                        shoot.shots = 4;
+                        shoot.shotDelay = 10f;
+
+                        bullet = new MissileBulletType(40, 300){{
+                            lifetime = 200;
+                            homingPower = 10;
+                            range = 40;
+                            reload = 200f;
+                            shootSound = Sounds.missile;
+                        }};
+//                        parts.add(
+//                                new RegionPart("-heat")
+//                        );
+                    }}
+            );
 
             abilities.add(
                     new SuppressionFieldAbility() {{
-                        y = 20f;
+                        y = -24f;
+                        x = 30f;
                         orbRadius = orbRad;
                         particleSize = partRad;
                         particles = parts;
                     }},
-                    new SuppressionFieldAbility(){{
-                        y = 0f;
+                    new SuppressionFieldAbility() {{
+                        y = -24f;
+                        x = -30f;
                         orbRadius = orbRad;
                         particleSize = partRad;
                         particles = parts;
-                        display = active = false;
-                    }},
-                    new SuppressionFieldAbility(){{
-                        y = -36f;
-                        orbRadius = orbRad;
-                        particleSize = partRad;
-                        particles = parts;
-                        display = active = false;
                     }}
             );
         }};
