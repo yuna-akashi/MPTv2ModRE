@@ -26,13 +26,11 @@ import mindustry.type.unit.ErekirUnitType;
 import mindustry.type.unit.MissileUnitType;
 import mindustry.type.weapons.PointDefenseWeapon;
 import mindustry.type.weapons.RepairBeamWeapon;
-import mindustry.world.blocks.defense.turrets.PointDefenseTurret;
 import mindustry.world.meta.BlockFlag;
 import mindustry.world.meta.Env;
 import mptv2re.MPTv2RE;
 
-import static mindustry.content.Fx.none;
-import static mindustry.content.Fx.pulverize;
+import static mindustry.content.Fx.*;
 import static mindustry.gen.Sounds.explosion;
 import static mindustry.gen.Sounds.lasershoot;
 
@@ -43,7 +41,7 @@ public class MPTv2UnitTypes {
 
     public static UnitType
         ///*CoreUnits*/
-        metre/*, advance, experimental, antimatter*/,
+        metre/*, advance, experimental*/, aoe,
 
         ///*Rommbas*/
         roomba, miningRoomba, builderRoomba, rebuildRoomba, repairRoomba, shieldRoomba, attackRoomba, jibakuRoomba, jibakuNukeRoomba/*,
@@ -200,7 +198,7 @@ public class MPTv2UnitTypes {
 
                         shootStatusDuration = 60f * 2f;
                         shootStatus = StatusEffects.unmoving;
-                        shoot.firstShotDelay = Fx.greenLaserCharge.lifetime;
+                        shoot.firstShotDelay = MPTv2Fx.purpleLaserCharge.lifetime;
                         parentizeEffects = true;
 
                         bullet = new LaserBulletType(){{
@@ -219,7 +217,7 @@ public class MPTv2UnitTypes {
                             largeHit = true;
                             lightColor = lightningColor = Pal.suppress;
 
-                            chargeEffect = Fx.greenLaserCharge;
+                            chargeEffect = MPTv2Fx.purpleLaserCharge;
 
                             healPercent = 25f;
                             collidesTeam = true;
@@ -968,13 +966,286 @@ public class MPTv2UnitTypes {
                 }}
             );
         }};
+
+        aoe = new ErekirUnitType("aoeUnit"){{
+            constructor = EntityMapping.map(3);
+            aiController = BuilderAI::new;
+            isEnemy = false;
+
+            hitSize = 160.0F;
+            armor = 7951;
+            health = 900000000;
+
+            flying = true;
+            mineTier = 9;
+            itemCapacity = 250000;
+
+            range = 16000;
+
+            rotateMoveFirst = false;
+            speed = 0.12F;
+            forceMultiTarget = true;
+            faceTarget = false;
+            rotateSpeed = 18F;
+            buildSpeed = 50f;
+            engineOffset = 0F;
+            engineSize = 25F;
+
+            weapons.addAll(
+                    new Weapon(MPTv2RE.name("aoeUnit-shockwaveCannon")){{
+                        rotate = mirror = false;
+                        top = true;
+                        shootY = 100f;
+                        recoil = 0;
+                        inaccuracy = 0;
+                        shootSound = Sounds.laserblast;
+                        chargeSound = Sounds.lasercharge;
+                        soundPitchMin = 1f;
+                        shake = 24f;
+                        x = y = 0;
+                        reload = 1200f;
+
+                        cooldownTime = 500f;
+
+                        shootStatusDuration = 60f * 2f;
+                        shoot.firstShotDelay = Fx.greenLaserCharge.lifetime;
+                        parentizeEffects = true;
+
+                        bullet = new LaserBulletType(){{
+                            length = 8000f;
+                            damage = 20000000f;
+                            width = 225f;
+
+                            lifetime = 150f;
+
+                            lightningSpacing = 35f;
+                            lightningLength = 50;
+                            lightningDelay = 1.1f;
+                            lightningLengthRand = 15;
+                            lightningDamage = 5000;
+                            lightningAngleRand = 40f;
+                            largeHit = true;
+                            lightColor = lightningColor = Pal.heal;
+
+                            chargeEffect = Fx.greenLaserCharge;
+
+                            healPercent = 1000f;
+                            collidesTeam = true;
+
+                            sideAngle = 15f;
+                            sideWidth = 0f;
+                            sideLength = 0f;
+                            colors = new Color[]{Pal.heal.cpy().a(0.4f), Pal.heal, Color.white};
+                        }};
+                    }},
+
+                    new Weapon(MPTv2RE.name("aoeUnit-cannons")){{
+                        drawCell = true;
+                        top = mirror = false;
+                        rotate = true;
+                        rotateSpeed = 250f;
+                        shootY = 0f;
+                        recoil = 0;
+                        inaccuracy = 0;
+                        shootSound = Sounds.laserblast;
+                        chargeSound = Sounds.lasercharge;
+                        soundPitchMin = 1f;
+                        shake = 14f;
+                        x = y = 180;
+                        reload = 550f;
+
+                        cooldownTime = 450f;
+
+                        shootStatusDuration = 60f * 2f;
+                        shoot.firstShotDelay = MPTv2Fx.purpleLaserCharge.lifetime;
+                        parentizeEffects = true;
+
+                        bullet = new LaserBulletType(){{
+                            length = 800f;
+                            damage = 20000f;
+                            width = 100f;
+
+                            lifetime = 90f;
+
+                            lightningSpacing = 35f;
+                            lightningLength = 5;
+                            lightningDelay = 1.1f;
+                            lightningLengthRand = 15;
+                            lightningDamage = 500;
+                            lightningAngleRand = 40f;
+                            largeHit = true;
+                            lightColor = lightningColor = Pal.suppress;
+
+                            chargeEffect = MPTv2Fx.purpleLaserCharge;
+
+                            healPercent = 100f;
+                            collidesTeam = true;
+
+                            sideAngle = 15f;
+                            sideWidth = 0f;
+                            sideLength = 0f;
+                            colors = new Color[]{Pal.suppress.cpy().a(0.4f), Pal.suppress, Color.white};
+                        }};
+                    }},
+                    new Weapon(MPTv2RE.name("aoeUnit-cannons")){{
+                        drawCell = true;
+                        top = mirror = false;
+                        rotate = true;
+                        rotateSpeed = 60f;
+                        shootY = 0f;
+                        recoil = 0;
+                        inaccuracy = 0;
+                        shootSound = Sounds.laserblast;
+                        chargeSound = Sounds.lasercharge;
+                        soundPitchMin = 1f;
+                        shake = 14f;
+                        x = y = -180;
+                        reload = 550f;
+
+                        cooldownTime = 450f;
+
+                        shootStatusDuration = 60f * 2f;
+                        shoot.firstShotDelay = MPTv2Fx.purpleLaserCharge.lifetime;
+                        parentizeEffects = true;
+
+                        bullet = new LaserBulletType(){{
+                            length = 800f;
+                            damage = 20000f;
+                            width = 100f;
+
+                            lifetime = 90f;
+
+                            lightningSpacing = 35f;
+                            lightningLength = 5;
+                            lightningDelay = 1.1f;
+                            lightningLengthRand = 15;
+                            lightningDamage = 500;
+                            lightningAngleRand = 40f;
+                            largeHit = true;
+                            lightColor = lightningColor = Pal.suppress;
+
+                            chargeEffect = MPTv2Fx.purpleLaserCharge;
+
+                            healPercent = 100f;
+                            collidesTeam = true;
+
+                            sideAngle = 15f;
+                            sideWidth = 0f;
+                            sideLength = 0f;
+                            colors = new Color[]{Pal.suppress.cpy().a(0.4f), Pal.suppress, Color.white};
+                        }};
+                    }},
+                    new Weapon(MPTv2RE.name("aoeUnit-cannons")){{
+                        drawCell = true;
+                        top = mirror = false;
+                        rotate = true;
+                        rotateSpeed = 250f;
+                        shootY = 0f;
+                        recoil = 0;
+                        inaccuracy = 0;
+                        shootSound = Sounds.laserblast;
+                        chargeSound = Sounds.lasercharge;
+                        soundPitchMin = 1f;
+                        shake = 14f;
+                        x = -180;
+                        y = 180;
+                        reload = 550f;
+
+                        cooldownTime = 450f;
+
+                        shootStatusDuration = 60f * 2f;
+                        shoot.firstShotDelay = MPTv2Fx.purpleLaserCharge.lifetime;
+                        parentizeEffects = true;
+
+                        bullet = new LaserBulletType(){{
+                            length = 800f;
+                            damage = 20000f;
+                            width = 100f;
+
+                            lifetime = 90f;
+
+                            lightningSpacing = 35f;
+                            lightningLength = 5;
+                            lightningDelay = 1.1f;
+                            lightningLengthRand = 15;
+                            lightningDamage = 500;
+                            lightningAngleRand = 40f;
+                            largeHit = true;
+                            lightColor = lightningColor = Pal.suppress;
+
+                            chargeEffect = MPTv2Fx.purpleLaserCharge;
+
+                            healPercent = 100f;
+                            collidesTeam = true;
+
+                            sideAngle = 15f;
+                            sideWidth = 0f;
+                            sideLength = 0f;
+                            colors = new Color[]{Pal.suppress.cpy().a(0.4f), Pal.suppress, Color.white};
+                        }};
+                    }},
+                    new Weapon(MPTv2RE.name("aoeUnit-cannons")){{
+                        drawCell = true;
+                        top = mirror = false;
+                        rotate = true;
+                        rotateSpeed = 250f;
+                        shootY = 0f;
+                        recoil = 0;
+                        inaccuracy = 0;
+                        shootSound = Sounds.laserblast;
+                        chargeSound = Sounds.lasercharge;
+                        soundPitchMin = 1f;
+                        shake = 14f;
+                        x = 180;
+                        y = -180;
+                        reload = 550f;
+
+                        cooldownTime = 450f;
+
+                        shootStatusDuration = 60f * 2f;
+                        shoot.firstShotDelay = MPTv2Fx.purpleLaserCharge.lifetime;
+                        parentizeEffects = true;
+
+                        bullet = new LaserBulletType(){{
+                            length = 800f;
+                            damage = 20000f;
+                            width = 100f;
+
+                            lifetime = 90f;
+
+                            lightningSpacing = 35f;
+                            lightningLength = 5;
+                            lightningDelay = 1.1f;
+                            lightningLengthRand = 15;
+                            lightningDamage = 500;
+                            lightningAngleRand = 40f;
+                            largeHit = true;
+                            lightColor = lightningColor = Pal.suppress;
+
+                            chargeEffect = MPTv2Fx.purpleLaserCharge;
+
+                            healPercent = 100f;
+                            collidesTeam = true;
+
+                            sideAngle = 15f;
+                            sideWidth = 0f;
+                            sideLength = 0f;
+                            colors = new Color[]{Pal.suppress.cpy().a(0.4f), Pal.suppress, Color.white};
+                        }};
+                    }}
+            );
+
+            abilities.add(
+                    new RepairFieldAbility(12000, 30f* 60f, 3200)
+            );
+        }};
     }
 
     public static void load() {
         loadPreviousWeapon();
-        loadCoreUnits();
         loadAirUnits();
         loadRoombas();
+        loadCoreUnits();
         metrenAssemblyDrone = new ErekirUnitType("metren-assembly-drone"){{
             constructor = EntityMapping.map(3);
             controller = u -> new AssemblerAI();
