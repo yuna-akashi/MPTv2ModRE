@@ -972,22 +972,22 @@ public class MPTv2UnitTypes {
             aiController = BuilderAI::new;
             isEnemy = false;
 
-            hitSize = 160.0F;
+            hitSize = 360.0F;
             armor = 7951;
             health = 900000000;
 
             flying = true;
             mineTier = 9;
+            buildSpeed = 50f;
             itemCapacity = 250000;
 
             range = 16000;
 
-            rotateMoveFirst = false;
+            rotateMoveFirst = true;
             speed = 0.12F;
             forceMultiTarget = true;
             faceTarget = false;
             rotateSpeed = 18F;
-            buildSpeed = 50f;
             engineOffset = 0F;
             engineSize = 25F;
 
@@ -995,7 +995,7 @@ public class MPTv2UnitTypes {
                     new Weapon(MPTv2RE.name("aoeUnit-shockwaveCannon")){{
                         rotate = mirror = false;
                         top = true;
-                        shootY = 100f;
+                        shootY = 115f;
                         recoil = 0;
                         inaccuracy = 0;
                         shootSound = Sounds.laserblast;
@@ -1008,6 +1008,7 @@ public class MPTv2UnitTypes {
                         cooldownTime = 500f;
 
                         shootStatusDuration = 60f * 2f;
+                        shootStatus = StatusEffects.unmoving;
                         shoot.firstShotDelay = Fx.greenLaserCharge.lifetime;
                         parentizeEffects = true;
 
@@ -1057,6 +1058,7 @@ public class MPTv2UnitTypes {
                         cooldownTime = 450f;
 
                         shootStatusDuration = 60f * 2f;
+                        shootStatus = StatusEffects.unmoving;
                         shoot.firstShotDelay = MPTv2Fx.purpleLaserCharge.lifetime;
                         parentizeEffects = true;
 
@@ -1105,6 +1107,7 @@ public class MPTv2UnitTypes {
                         cooldownTime = 450f;
 
                         shootStatusDuration = 60f * 2f;
+                        shootStatus = StatusEffects.unmoving;
                         shoot.firstShotDelay = MPTv2Fx.purpleLaserCharge.lifetime;
                         parentizeEffects = true;
 
@@ -1154,6 +1157,7 @@ public class MPTv2UnitTypes {
                         cooldownTime = 450f;
 
                         shootStatusDuration = 60f * 2f;
+                        shootStatus = StatusEffects.unmoving;
                         shoot.firstShotDelay = MPTv2Fx.purpleLaserCharge.lifetime;
                         parentizeEffects = true;
 
@@ -1203,6 +1207,7 @@ public class MPTv2UnitTypes {
                         cooldownTime = 450f;
 
                         shootStatusDuration = 60f * 2f;
+                        shootStatus = StatusEffects.unmoving;
                         shoot.firstShotDelay = MPTv2Fx.purpleLaserCharge.lifetime;
                         parentizeEffects = true;
 
@@ -1237,6 +1242,10 @@ public class MPTv2UnitTypes {
 
             abilities.add(
                     new RepairFieldAbility(12000, 30f* 60f, 3200)
+            );
+
+            setEnginesMirror(
+                    new UnitEngine(60f, -110f, 30f, 320f)
             );
         }};
     }
