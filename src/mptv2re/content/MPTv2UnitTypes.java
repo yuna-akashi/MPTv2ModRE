@@ -981,7 +981,7 @@ public class MPTv2UnitTypes {
             buildSpeed = 50f;
             itemCapacity = 250000;
 
-            range = 16000;
+            range = 8000;
 
             rotateMoveFirst = true;
             speed = 0.12F;
@@ -1052,7 +1052,7 @@ public class MPTv2UnitTypes {
                         chargeSound = Sounds.lasercharge;
                         soundPitchMin = 1f;
                         shake = 14f;
-                        x = y = 180;
+                        x = y = 177;
                         reload = 550f;
 
                         cooldownTime = 450f;
@@ -1101,7 +1101,7 @@ public class MPTv2UnitTypes {
                         chargeSound = Sounds.lasercharge;
                         soundPitchMin = 1f;
                         shake = 14f;
-                        x = y = -180;
+                        x = y = -177;
                         reload = 550f;
 
                         cooldownTime = 450f;
@@ -1150,8 +1150,8 @@ public class MPTv2UnitTypes {
                         chargeSound = Sounds.lasercharge;
                         soundPitchMin = 1f;
                         shake = 14f;
-                        x = -180;
-                        y = 180;
+                        x = -177;
+                        y = 177;
                         reload = 550f;
 
                         cooldownTime = 450f;
@@ -1200,8 +1200,8 @@ public class MPTv2UnitTypes {
                         chargeSound = Sounds.lasercharge;
                         soundPitchMin = 1f;
                         shake = 14f;
-                        x = 180;
-                        y = -180;
+                        x = 177;
+                        y = -177;
                         reload = 550f;
 
                         cooldownTime = 450f;
@@ -1245,7 +1245,7 @@ public class MPTv2UnitTypes {
             );
 
             setEnginesMirror(
-                    new UnitEngine(60f, -110f, 30f, 320f)
+                    new UnitEngine(60f, -90f, 30f, 0f)
             );
         }};
     }
