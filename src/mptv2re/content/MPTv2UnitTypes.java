@@ -984,7 +984,7 @@ public class MPTv2UnitTypes {
             range = 8000;
 
             rotateMoveFirst = true;
-            speed = 0.12F;
+            speed = 0.5F;
             forceMultiTarget = true;
             faceTarget = false;
             rotateSpeed = 18F;
