@@ -16,8 +16,7 @@ public class MPTv2Items {
         armorPlate, heavyArmorPlate, specialArmorPlate,
 
         //resources
-        cell, coolingCell, antimatterCell,
-        deuterium, solidOxygen,
+        cell, coolingCell, antimatterCell, oxygenCell, deuteriumCell, tritiumCell,
         unitCore, multiCore,
 
         //Research Items
@@ -65,12 +64,16 @@ public class MPTv2Items {
         cell = new Item("cell", MPTv2Color.metren);//done
         coolingCell = new Item("coolingCell", Color.valueOf("076C83"));//done
         antimatterCell = new Item("antimatterCell", Color.valueOf("470B70"));//done
-        deuterium = new Item("deuterium", Color.valueOf("0F0F0F")){{
-            radioactivity = 70f;
-            flammability = 1f;
-        }};//done
-        solidOxygen = new Item("solidOxygen", Color.valueOf("83F6AB")){{
+        oxygenCell = new Item("oxygenCell", Color.valueOf("83F6AB")){{
             flammability = 10f;
+        }};//done
+        deuteriumCell = new Item("deuteriumCell", Color.valueOf("0F0F0F")){{
+            radioactivity = 0.2f;
+            flammability = 1.52f;
+        }};//done
+        tritiumCell = new Item("tritiumCell", Color.valueOf("927fff")){{
+            radioactivity = 0.2f;
+            flammability = 1.75f;
         }};//done
         unitCore = new Item("unitCore", Color.valueOf("FF80F9"));//done
         multiCore = new Item("multiCore", Color.valueOf("FFA548"));//done

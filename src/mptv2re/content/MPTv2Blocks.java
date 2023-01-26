@@ -91,7 +91,7 @@ public class MPTv2Blocks {
         cellFactory, thoriumCompressor, deuteriumChamber, antimatterGenerator,
 
         //power
-        metrenReactor, deuteriumReactor, antimatterReactor, superPowerSource,
+        metrenReactor, nuclearFusionReactor, antimatterReactor, superPowerSource,
         metrenNode, metrenLargeNode, metrenTowerNode,
         metrenBattery, largeMetrenBattery, powerCondenser,
 
@@ -880,7 +880,7 @@ public class MPTv2Blocks {
 
             consumePower(4.5f);
             consumeLiquids(LiquidStack.with(Liquids.water, 0.5f));
-            outputItems = with(MPTv2Items.deuterium, 1, MPTv2Items.solidOxygen, 2);
+            outputItems = with(MPTv2Items.deuteriumCell, 1, MPTv2Items.oxygenCell, 2);
 
             requirements(Category.crafting, with(MPTv2Items.largeMetrenFrame, 16, MPTv2Items.heavyArmorPlate, 16, MPTv2Items.metren, 32,MPTv2Items.metrenGlass, 30, MPTv2Items.metrenSilicon, 20));
         }};
@@ -977,7 +977,7 @@ public class MPTv2Blocks {
             requirements(Category.power, with(MPTv2Items.metrenFrame, 16, MPTv2Items.armorPlate, 16, MPTv2Items.metren, 32));
         }};
 
-        deuteriumReactor = new ImpactReactor("deuteriumReactor"){{
+        nuclearFusionReactor = new ImpactReactor("nuclearFusionReactor"){{
             size = 7;
             health = 49000000;
             itemCapacity = 120;
@@ -985,7 +985,7 @@ public class MPTv2Blocks {
 
             powerProduction = 10000;
             consumePower(500);
-            consumeItem(MPTv2Items.deuterium, 1);
+            consumeItems(with(MPTv2Items.deuteriumCell, 1, MPTv2Items.tritiumCell, 1));
             consumeLiquid(Liquids.cryofluid, 0.15f / 90f);
 
             requirements(Category.power, with(MPTv2Items.largeMetrenFrame, 49, MPTv2Items.heavyArmorPlate, 49, MPTv2Items.metrenSilicon, 80, MPTv2Items.metren, 98));
@@ -996,7 +996,7 @@ public class MPTv2Blocks {
             health = 121000000;
             itemCapacity = 210;
             powerProduction = 999999999;
-            consumeItems(with(MPTv2Items.deuterium, 1, MPTv2Items.antimatterCell, 1));
+            consumeItems(with(MPTv2Items.deuteriumCell, 1, MPTv2Items.antimatterCell, 1));
             requirements(Category.power, with(MPTv2Items.specialMetrenFrame, 121, MPTv2Items.specialArmorPlate, 121, MPTv2Items.metrenSilicon, 180,MPTv2Items.metren, 242));
         }};//done
     }

@@ -113,7 +113,7 @@ public class MPTv2RETechTree {
                     });
 
                         node(MPTv2Blocks.metrenReactor, ItemStack.with(MPTv2Items.advancedResearchPack, 140), () -> {
-                            node(MPTv2Blocks.deuteriumReactor, ItemStack.with(MPTv2Items.superResearchPack, 240), () -> {
+                            node(MPTv2Blocks.nuclearFusionReactor, ItemStack.with(MPTv2Items.superResearchPack, 240), () -> {
                                 node(MPTv2Blocks.antimatterReactor, ItemStack.with(MPTv2Items.specialResearchPack, 470), () -> {});
                             });
                         });

@@ -6,10 +6,18 @@ import mindustry.type.*;
 
 public class MPTv2Liquids extends Liquids {
     public static Liquid
-        meter
+        deuterium, tritium, meter
     ;
 
     public static void load() {
+        deuterium = new Liquid("deuteriumCell", Color.valueOf("41b9cb")){{
+            gas = true;
+            flammability = 1.25f;
+        }};
+        tritium = new Liquid("tritium", Color.valueOf("927fff")){{
+            gas = true;
+            flammability = 1.75f;
+        }};
         meter = new Liquid("meter", Color.valueOf("076c83")){{
             heatCapacity = 99f;
             temperature = -270f;
