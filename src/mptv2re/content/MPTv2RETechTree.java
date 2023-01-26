@@ -97,6 +97,9 @@ public class MPTv2RETechTree {
 //                        node(MPTv2Blocks.);
                     });
                 });
+//                node(MPTv2Blocks.carbideAlloyArcSmelter, ItemStack.with(MPTv2Items.erekirResearchPack, 10), () -> {
+//                    node(MPTv2Blocks.metrenArcFurnace, ItemStack.with(MPTv2Blocks.erekirResearchCenter, 40), () -> {});
+//                });
 
                 //power
                 node(MPTv2Blocks.metrenNode, ItemStack.with(MPTv2Items.normalResearchPack, 10), () -> {
@@ -118,6 +121,7 @@ public class MPTv2RETechTree {
                             });
                         });
                 });
+                //node(MPTv2Blocks.);
             });
 
             //wall
@@ -209,8 +213,6 @@ public class MPTv2RETechTree {
                                         nodeProduce(MPTv2Items.specialArmorPlate, () -> {});
                                     });
                                 });
-
-                                nodeProduce(MPTv2Items.antimatterCell, () -> {});
                             });
                             nodeProduce(MPTv2Items.efficiencyTechnologyPack, () -> {});
 
@@ -234,9 +236,18 @@ public class MPTv2RETechTree {
                         });
 
                         nodeProduce(MPTv2Items.cell, () -> {
-                            nodeProduce(MPTv2Items.coolingCell, () -> {});
+                            nodeProduce(MPTv2Items.coolingCell, () -> {
+                                nodeProduce(MPTv2Items.oxygenCell, () -> {
+                                    nodeProduce(MPTv2Items.deuteriumCell,() -> {
+                                        nodeProduce(MPTv2Items.tritiumCell, () -> {
+                                            nodeProduce(MPTv2Items.antimatterCell, () -> {});
+                                        });
+                                    });
+                                });
+                            });
                         });
                     });
+                    //nodeProduce(MPTv2Items.erekirResearchPack, () -> {});
                     nodeProduce(MPTv2Items.turretResearchPack, () -> {});
                     nodeProduce(MPTv2Items.unitResearchPack, () -> {});
 
@@ -247,7 +258,13 @@ public class MPTv2RETechTree {
                             });
                         });
 
-                        nodeProduce(MPTv2Items.metrenAmmo, () -> {});
+                        nodeProduce(MPTv2Items.metrenAmmo, () -> {
+                            nodeProduce(MPTv2Items.metrenExplosiveAmmo, () -> {
+                            });
+                            nodeProduce(MPTv2Items.metrenMissile, () ->{
+                                nodeProduce(MPTv2Items.emperorsCristal, () -> {});
+                            });
+                        });
                     });
                 });
                 nodeProduce(MPTv2Items.titaniumAlloy, () -> {});
