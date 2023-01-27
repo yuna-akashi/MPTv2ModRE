@@ -1,10 +1,7 @@
 package mptv2re.content;
 
-import arc.struct.Seq;
-import mindustry.game.Objectives.*;
 import mindustry.type.ItemStack;
 
-import static mindustry.content.SectorPresets.planetaryTerminal;
 import static mindustry.content.TechTree.*;
 
 public class MPTv2RETechTree {
@@ -37,7 +34,6 @@ public class MPTv2RETechTree {
                 node(MPTv2Blocks.coreAdvance, ItemStack.with(MPTv2Items.advancedResearchPack, 1000), () -> {
                     node(MPTv2Blocks.coreExperimental, ItemStack.with(MPTv2Items.superResearchPack, 1000), () -> {
                         node(MPTv2Blocks.coreEmperorOfAntimatter, ItemStack.with(MPTv2Items.superResearchPack, 1740, MPTv2Items.specialResearchPack, 2260), () -> {
-                            node(MPTv2Blocks.coreSDU, ItemStack.with(MPTv2Items.specialResearchPack, 500000), Seq.with(new OnSector(planetaryTerminal)), () -> {});
                         });
                     });
                 });
@@ -67,8 +63,6 @@ public class MPTv2RETechTree {
                         });
                         node(MPTv2Blocks.metrenSiliconSmelter, ItemStack.with(MPTv2Items.normalResearchPack, 7), () -> {
                             node(MPTv2Blocks.deuteriumChamber, ItemStack.with(MPTv2Items.superResearchPack, 450), () -> {
-                                node(MPTv2Blocks.antimatterGenerator, ItemStack.with(MPTv2Items.superResearchPack, 750), () -> {
-                                });
                             });
                         });
                     });
@@ -97,9 +91,6 @@ public class MPTv2RETechTree {
 //                        node(MPTv2Blocks.);
                     });
                 });
-//                node(MPTv2Blocks.carbideAlloyArcSmelter, ItemStack.with(MPTv2Items.erekirResearchPack, 10), () -> {
-//                    node(MPTv2Blocks.metrenArcFurnace, ItemStack.with(MPTv2Blocks.erekirResearchCenter, 40), () -> {});
-//                });
 
                 //power
                 node(MPTv2Blocks.metrenNode, ItemStack.with(MPTv2Items.normalResearchPack, 10), () -> {
@@ -117,7 +108,6 @@ public class MPTv2RETechTree {
 
                         node(MPTv2Blocks.metrenReactor, ItemStack.with(MPTv2Items.advancedResearchPack, 140), () -> {
                             node(MPTv2Blocks.nuclearFusionReactor, ItemStack.with(MPTv2Items.superResearchPack, 240), () -> {
-                                node(MPTv2Blocks.antimatterReactor, ItemStack.with(MPTv2Items.specialResearchPack, 470), () -> {});
                             });
                         });
                 });
@@ -139,8 +129,6 @@ public class MPTv2RETechTree {
 
                 node(MPTv2Blocks.railgun, ItemStack.with(MPTv2Items.advancedResearchPack, 100, MPTv2Items.turretResearchPack, 150), () -> {
                     node(MPTv2Blocks.multiRailgun, ItemStack.with(MPTv2Items.superResearchPack, 150, MPTv2Items.turretResearchPack, 300, MPTv2Items.efficiencyTechnologyPack, 250), () -> {
-                        node(MPTv2Blocks.antimatterRailgun, ItemStack.with(MPTv2Items.specialResearchPack, 500, MPTv2Items.turretResearchPack, 1000), () -> {
-                        });
                     });
                 });
 
@@ -148,10 +136,6 @@ public class MPTv2RETechTree {
                 });
 
                 node(MPTv2Blocks.defendTurret, ItemStack.with(MPTv2Items.normalResearchPack, 75, MPTv2Items.turretResearchPack, 85), () -> {
-                    node(MPTv2Blocks.antimatterBlaster, ItemStack.with(MPTv2Items.specialResearchPack, 750, MPTv2Items.turretResearchPack, 1250), () -> {
-                        node(MPTv2Blocks.antimatterShockwaveCannon, ItemStack.with(MPTv2Items.specialResearchPack, 1000, MPTv2Items.turretResearchPack, 1500), () -> {
-                        });
-                    });
                 });
             });
 
@@ -175,27 +159,6 @@ public class MPTv2RETechTree {
                     });
                 });
 //                node(MPTv2Blocks.metrenedAirFactory, ItemStack.with(MPTv2Items.advancedResearchPack, 50), () -> {});
-                node(MPTv2Blocks.antimatteredUnitFactory, ItemStack.with(MPTv2Items.specialResearchPack, 200), () -> {
-                    node(MPTv2UnitTypes.beast, ItemStack.with(MPTv2Items.specialResearchPack, 250, MPTv2Items.unitResearchPack, 1000), () -> {
-                        node(MPTv2UnitTypes.matter, ItemStack.with(MPTv2Items.specialResearchPack, 300, MPTv2Items.unitResearchPack, 1250), Seq.with(new Research(MPTv2Blocks.antimatteredAdditiveReconstructor)), () -> {
-                            node(MPTv2UnitTypes.ecru, ItemStack.with(MPTv2Items.specialResearchPack, 350, MPTv2Items.unitResearchPack,  1500), Seq.with(new Research(MPTv2Blocks.antimatteredMultiplicativeReconstructor)), () -> {
-                                node(MPTv2UnitTypes.eter, ItemStack.with(MPTv2Items.specialResearchPack, 400, MPTv2Items.unitResearchPack, 1750), Seq.with(new Research(MPTv2Blocks.antimatteredAssembler)), () -> {
-                                    node(MPTv2UnitTypes.destAllier, ItemStack.with(MPTv2Items.specialResearchPack, 500, MPTv2Items.unitResearchPack, 2500), Seq.with(new Research(MPTv2Blocks.antimatteredAssembler), new Research(MPTv2Blocks.antimatteredAssemblerModule)), () -> {
-                                        node(MPTv2UnitTypes.aoe, ItemStack.with(MPTv2Items.specialResearchPack, 5000, MPTv2Items.unitResearchPack, 10000), Seq.with(new Research(MPTv2Blocks.coreEmperorOfAntimatter), new OnSector(planetaryTerminal)), () -> {});
-                                    });
-                                });
-                            });
-                        });
-                    });
-                    node(MPTv2Blocks.antimatteredAdditiveReconstructor, ItemStack.with(MPTv2Items.specialResearchPack, 300), () -> {
-                        node(MPTv2Blocks.antimatteredMultiplicativeReconstructor, ItemStack.with(MPTv2Items.specialResearchPack, 400), () -> {
-                            node(MPTv2Blocks.antimatteredAssembler, ItemStack.with(MPTv2Items.specialResearchPack, 475), () -> {
-                                node(MPTv2Blocks.antimatteredAssemblerModule, ItemStack.with(MPTv2Items.specialResearchPack, 500), () -> {
-                                });
-                            });
-                        });
-                    });
-                });
 //                node(MPTv2Blocks.metrenedAdditiveReconstructor, ItemStack.with(MPTv2Items.advancedResearchPack, 110), () -> {
 //                    node(MPTv2Blocks.metrenedExponentialReconstructor, ItemStack.with(MPTv2Items.advancedResearchPack, 165), () -> {
 //                        node(MPTv2Blocks.metrenedTetrativeReconstructor, ItemStack.with(MPTv2Items.superResearchPack, 50), () -> {});
@@ -240,14 +203,12 @@ public class MPTv2RETechTree {
                                 nodeProduce(MPTv2Items.oxygenCell, () -> {
                                     nodeProduce(MPTv2Items.deuteriumCell,() -> {
                                         nodeProduce(MPTv2Items.tritiumCell, () -> {
-                                            nodeProduce(MPTv2Items.antimatterCell, () -> {});
                                         });
                                     });
                                 });
                             });
                         });
                     });
-                    //nodeProduce(MPTv2Items.erekirResearchPack, () -> {});
                     nodeProduce(MPTv2Items.turretResearchPack, () -> {});
                     nodeProduce(MPTv2Items.unitResearchPack, () -> {});
 

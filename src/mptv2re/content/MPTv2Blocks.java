@@ -1,22 +1,11 @@
 package mptv2re.content;
 
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Lines;
-import arc.math.Angles;
-import arc.math.Interp;
-import arc.math.Mathf;
 import arc.struct.Seq;
 import mindustry.content.*;
-import mindustry.entities.Effect;
-import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.BasicBulletType;
-import mindustry.entities.bullet.ContinuousLaserBulletType;
 import mindustry.entities.bullet.MissileBulletType;
-import mindustry.entities.part.RegionPart;
-import mindustry.entities.pattern.ShootPattern;
 import mindustry.gen.Sounds;
-import mindustry.graphics.Pal;
 import mindustry.type.*;
 
 import static mindustry.type.ItemStack.with;
@@ -24,9 +13,7 @@ import static mindustry.type.ItemStack.with;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
-import mindustry.world.blocks.defense.turrets.LaserTurret;
 import mindustry.world.blocks.defense.turrets.PointDefenseTurret;
-import mindustry.world.blocks.defense.turrets.PowerTurret;
 import mindustry.world.blocks.distribution.Conveyor;
 import mindustry.world.blocks.distribution.ItemBridge;
 import mindustry.world.blocks.distribution.Junction;
@@ -47,25 +34,21 @@ import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.blocks.storage.Unloader;
 import mindustry.world.blocks.units.Reconstructor;
-import mindustry.world.blocks.units.UnitAssembler;
-import mindustry.world.blocks.units.UnitAssemblerModule;
 import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.draw.*;
 import mindustry.world.meta.BuildVisibility;
-import mindustry.world.meta.Env;
 import mptv2re.expand.block.turrets.RailgunTurret;
 
 public class MPTv2Blocks {
     public static Block
         //Research centers
         basicResearchCenter, normalResearchCenter, advancedResearchCenter, superResearchCenter, specialResearchCenter,
-        erekirResearchCenter,
         turretResearchCenter, unitResearchCenter, efficiencyTechnologyResearchCenter,
         //wall
         titaniumAlloyWall, titaniumAlloyWallLarge, metrenWall, metrenWallLarge,
 
         //turrets
-        assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian, antimatterRailgun, antimatterBlaster, antimatterShockwaveCannon,
+        assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian,
 
         //drill
         titaniumAlloyDrill, metrenDrill,
@@ -76,7 +59,7 @@ public class MPTv2Blocks {
         superLiquidSource, metrenConduit, metrenBridgeConduit, metrenLiquidRouter, metrenLiquidJunction, metrenLiquidTank,
 
         //base factory
-        titaniumAlloySmelter, metrenSmelter, //carbideAlloyArcSmelter, metrenArcFurnace,
+        titaniumAlloySmelter, metrenSmelter,
         metrenFrameCrafter, largeMetrenFrameCrafter, specialMetrenFrameCrafter,
         turretFrameCrafter, largeTurretFrameCrafter, specialTurretFrameCrafter,
         armorPlateCrafter, heavyArmorPlateCrafter, specialArmorPlateCrafter,
@@ -84,20 +67,16 @@ public class MPTv2Blocks {
         //metren's factory
         metrenGlassSmelter, metrenDiamondCompressor, metrenSiliconSmelter, metrenAmmoCrafter, metrenExplosiveAmmoCrafter/*,
         multiMetrenSmelter, multiFrameCrafter*/,
-        cellFactory, thoriumCompressor, deuteriumChamber, tritiumChamber,antimatterGenerator,
+        cellFactory, thoriumCompressor, deuteriumChamber, tritiumChamber,
 
         //power
-        metrenReactor, nuclearFusionReactor, antimatterReactor, superPowerSource,
-        metrenNode, metrenLargeNode, metrenTowerNode/*,
-        metrenSRBeamNode, metrenHRBeamNode, metrenBeamTower*/,
+        metrenReactor, nuclearFusionReactor, superPowerSource,
+        metrenNode, metrenLargeNode, metrenTowerNode,
         metrenBattery, largeMetrenBattery, powerCondenser,
 
         //units
         roombaFactory/*, metrenedAirFactory*/,
         metrenedAdditiveReconstructor/*, metrenedMultiplicativeReconstructor, metrenedExponentialReconstructor, metrenedTetrativeReconstructor*/,
-
-        antimatteredUnitFactory,
-        antimatteredAdditiveReconstructor, antimatteredMultiplicativeReconstructor, antimatteredAssembler, antimatteredAssemblerModule,
 
         metrenConstructor, metrenLargeConstructor, smallMetrenDeconstructor, metrenDeconstructor,
 
@@ -106,7 +85,7 @@ public class MPTv2Blocks {
         //storage
         metrenContainer,
         ///core
-        coreMetren, coreAdvance, coreExperimental, coreEmperorOfAntimatter, coreSDU
+        coreMetren, coreAdvance, coreExperimental, coreEmperorOfAntimatter
     ;
 
     private static void loadResearchCenter(){
@@ -174,24 +153,11 @@ public class MPTv2Blocks {
             craftTime = 15f * 60f;
 
             consumePower(12.5f);
-            consumeItems(with(Items.metaglass, 15, MPTv2Items.superResearchPack, 2, MPTv2Items.largeMetrenFrame, 5, MPTv2Items.largeTurretFrame, 5, MPTv2Items.heavyArmorPlate, 5, MPTv2Items.antimatterCell, 5, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10));
+            consumeItems(with(Items.metaglass, 15, MPTv2Items.superResearchPack, 2, MPTv2Items.largeMetrenFrame, 5, MPTv2Items.largeTurretFrame, 5, MPTv2Items.heavyArmorPlate, 5, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10));
             outputItems = with(MPTv2Items.specialResearchPack, 1);
 
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 320, MPTv2Items.metren, 288));
         }};
-//        erekirResearchCenter = new GenericCrafter("erekirResearchCenter"){{
-//            size = 3;
-//            health = 340;
-//            hasItems = hasPower = true;
-//            itemCapacity = 45;
-//            craftTime = 3f * 60f;
-//
-//            consumePower(5f);
-//            consumeItems(with(Items.beryllium, 4, Items.tungsten, 4));
-//            outputItems = with(MPTv2Items.erekirResearchPack, 1);
-//
-//            requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 50, MPTv2Items.metren, 72));
-//        }};
         turretResearchCenter = new GenericCrafter("turretResearchCenter"){{
             size = 3;
             health = 340;
@@ -352,180 +318,6 @@ public class MPTv2Blocks {
 
             requirements(Category.turret,with( MPTv2Items.specialTurretFrame, 25, MPTv2Items.specialArmorPlate, 25));
         }};
-
-        antimatterRailgun = new ItemTurret("antimatterRailgun"){{
-            size = 16;
-            health = 256000000;
-            range = 160000;
-            hasPower = true;
-            reload = 240;
-            recoil = 0;
-            shootY = -11f;
-            rotateSpeed = 0.25f;
-            coolant = consumeCoolant(0.05F);
-            canOverdrive = false;
-//            maxShootCharge = 10;
-//            chargeTimePer1Shot = 30f * 60f;
-            ammo(
-                    MPTv2Items.metrenAmmo, new BasicBulletType(99, 999999999){{
-                        width = 32;
-                        height = 32;
-                        hitColor = backColor = lightColor = trailColor = MPTv2Items.metrenAmmo.color.cpy().lerp(Color.white, 0.2f);
-                        frontColor = backColor.cpy().lerp(Color.white, 0.55f);
-                        ammoMultiplier = 20;
-                        pierceArmor = true;
-                    }},
-                    MPTv2Items.antimatterCell, new BasicBulletType(99, 999999999){{
-                        width = 32;
-                        height = 32;
-                        hitColor = backColor = lightColor = trailColor = MPTv2Items.antimatterCell.color.cpy().lerp(Color.white, 0.2f);
-                        frontColor = backColor.cpy().lerp(Color.white, 0.55f);
-                        ammoMultiplier = 4;
-                        pierceArmor = true;
-                    }}
-            );
-
-            drawer = new DrawTurret(){{
-                parts.add(new RegionPart("-side"){{
-                              under = turretShading = mirror = true;
-                              moveX = -3.125f;
-                              moveY = 2f;
-                              progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
-                          }},
-                        new RegionPart("-barrel-side"){{
-                            under = true;
-                            progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
-                        }},
-                        new RegionPart("-barrel-center"){{
-                            under = mirror = true;
-                            layerOffset = -0.0025f;
-                            moveX = -3.15f;
-                            moveY = 25f;
-                            y = 2;
-                            x = 3f;
-                            progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
-                        }});
-//                parts.add(new MPTv2AntiRailCharge){{
-//                    progress = aa;
-//                 }}
-            }};
-
-            consumePower(500000000);
-//            consumePowerCond(500000000, RailgunTurretBuild::isCharge);
-
-            requirements(Category.turret, with( MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
-        }};
-
-        antimatterBlaster = new PowerTurret("antimatterBlaster"){{
-            size = 16;
-            health = 256000000;
-            range = 160000;
-            reload = 250f;
-            recoil = 20;
-            rotateSpeed = 0.25f;
-            coolant = consumeCoolant(0.5F);
-            canOverdrive = false;
-            shootY = -15;
-
-            shootType = new BasicBulletType(6.5f, 99999999){{
-                hitEffect = new Effect(12.0F, (e) -> {
-                    Draw.color(Pal.lancerLaser, Color.white, e.fout() * 0.75f);
-                    Lines.stroke(e.fout() * 1.5F);
-                    Angles.randLenVectors(e.id, 3, e.finpow() * 17.0F, e.rotation, 360.0F, (x, y) -> {
-                        float ang = Mathf.angle(x, y);
-                        Lines.lineAngle(e.x + x, e.y + y, ang, e.fout() * 4.0F + 1.0F);
-                    });
-                });
-                trailWidth = 8.55f;
-                trailLength = 60;
-
-                knockback = 0.5f;
-                trailColor = backColor = hitColor = Pal.lancerLaser;
-                frontColor = Color.white;
-                lifetime = 500f;
-                homingDelay = 1f;
-                homingPower = 0.2f;
-                homingRange = 120f;
-                status = StatusEffects.shocked;
-                statusDuration = 30f;
-                width = 85f;
-                drawSize = 100f;
-                height = 85f;
-            }};
-            consumePower(500000);
-
-            shoot = new ShootPattern(){{
-                shots = 1;
-            }};
-
-            drawer = new DrawTurret(){{
-                parts.add(new RegionPart("-side"){{
-                    under = turretShading = mirror = true;
-                    moveX = -4;
-                    moveY = 2.5f;
-                    y = -2;
-                    x = 4;
-                    progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
-                }});
-            }};
-
-            shootSound = Sounds.laserblast;
-
-            requirements(Category.turret, with( MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
-        }};
-
-        antimatterShockwaveCannon = new LaserTurret("antimatterShockwaveCannon"){{
-            size = 16;
-            health = 256000000;
-            range = 160000;
-            reload = 250f;
-            recoil = 20f;
-            shake = 7.5f;
-            rotateSpeed = 0.25f;
-            shootY = 20f;
-            shootDuration = 230f;
-            shootCone = 40f;
-
-            unitSort = UnitSorts.strongest;
-
-            coolant = consumeCoolant(0.5F);
-            canOverdrive = false;
-
-            consumePower(5000000);
-
-            shootType = new ContinuousLaserBulletType(999){{
-                length = 20000f;
-                width = 20f;
-                hitSize = 10f;
-                hitEffect = Fx.hitMeltdown;
-                hitColor = MPTv2Items.antimatterCell.color;
-                status = StatusEffects.melting;
-                drawSize = 840f;
-
-                incendChance = 0.4f;
-                incendSpread = 5f;
-                incendAmount = 1;
-                ammoMultiplier = 1f;
-            }};
-
-            drawer = new DrawTurret(){{
-                parts.add(new RegionPart("-side"){{
-                    under = turretShading = mirror = true;
-                    moveX = -4;
-                    moveY = 2.5f;
-                    y = -2;
-                    x = 4;
-                    progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
-                }});
-            }};
-
-            shootEffect = Fx.shootBigSmoke2;
-            shootSound = Sounds.laserbig;
-            loopSound = Sounds.beam;
-            loopSoundVolume = 20f;
-
-            requirements(Category.turret, with( MPTv2Items.specialTurretFrame, 256,MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 512));
-        }};
     }
 
     private static void loadDrill() {
@@ -647,29 +439,6 @@ public class MPTv2Blocks {
             requirements(Category.crafting, with(Items.copper, 156, Items.lead, 200, Items.titanium, 250));
         }};
 
-//        carbideAlloyArcSmelter = new GenericCrafter("carbideAlloyArcSmelter"){{
-//            size = 3;
-//            hasPower = hasLiquids = true;
-//
-//            craftTime = 50f;
-//            itemCapacity = 30;
-//
-//            consumePower(8f);
-//            consumeLiquid(Liquids.slag, 0.3f);
-//            consumeItems(with(Items.beryllium, 1, Items.graphite, 1, Items.carbide, 2));
-//            outputItem = new ItemStack(MPTv2Items.carbideAlloy, 2);
-//
-//            craftEffect = Fx.none;
-//            envEnabled |= Env.space | Env.underwater;
-//            envDisabled = Env.none;
-//            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawArcSmelt(), new DrawDefault());
-//            ambientSound = Sounds.smelter;
-//            ambientSoundVolume = 0.12f;
-//            fogRadius = 3;
-//
-//            requirements(Category.crafting, with(Items.beryllium, 480, Items.tungsten, 360));
-//        }};
-
         metrenSmelter = new GenericCrafter("metrenSmelter"){{
             size = 3;
             health = 320;
@@ -687,29 +456,6 @@ public class MPTv2Blocks {
 
             requirements(Category.crafting, with(Items.copper, 156, Items.lead, 200, MPTv2Items.titaniumAlloy, 120));
         }};//done
-
-//        metrenArcFurnace = new GenericCrafter("metrenArcFurnace"){{
-//            size = 3;
-//            hasPower = hasLiquids = true;
-//
-//            craftTime = 2f *60f;
-//            itemCapacity = 30;
-//
-//            consumePower(12f);
-//            consumeLiquid(Liquids.slag, 0.3f);
-//            consumeItems(with(Items.graphite, 1, Items.surgeAlloy, 1, MPTv2Items.carbideAlloy, 2));
-//            outputItem = new ItemStack(MPTv2Items.metren, 2);
-//
-//            craftEffect = Fx.none;
-//            envEnabled |= Env.space | Env.underwater;
-//            envDisabled = Env.none;
-//            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawArcSmelt(), new DrawDefault());
-//            ambientSound = Sounds.smelter;
-//            ambientSoundVolume = 0.12f;
-//            fogRadius = 3;
-//
-//            requirements(Category.crafting, with(Items.beryllium, 480, Items.tungsten, 360));
-//        }};
 
         metrenGlassSmelter = new GenericCrafter("metrenGlassSmelter"){{
             size = 2;
@@ -954,20 +700,6 @@ public class MPTv2Blocks {
 
             requirements(Category.crafting, with(MPTv2Items.largeMetrenFrame, 16, MPTv2Items.heavyArmorPlate, 16, MPTv2Items.metren, 32,MPTv2Items.metrenGlass, 30, MPTv2Items.metrenSilicon, 20));
         }};
-
-        antimatterGenerator = new GenericCrafter("antimatterGenerator"){{
-            size = 9;
-            health = 81000000;
-            hasItems = hasPower = true;
-            itemCapacity = 80;
-            craftTime = 20f * 60f;
-
-            consumePower(25000000);
-            consumeItems(with(MPTv2Items.cell, 1));
-            outputItems = with(MPTv2Items.antimatterCell, 1);
-
-            requirements(Category.crafting, with(MPTv2Items.specialArmorPlate, 81, MPTv2Items.specialArmorPlate, 81, MPTv2Items.metrenSilicon, 2000, MPTv2Items.metren, 648));
-        }};
     }
 
     private static void loadPower() {
@@ -999,39 +731,6 @@ public class MPTv2Blocks {
             autolink = false;
             requirements(Category.power, with(MPTv2Items.specialMetrenFrame, 4, MPTv2Items.specialArmorPlate, 4, MPTv2Items.metrenSilicon, 3, MPTv2Items.metren, 8));
         }};//done
-
-//        metrenSRBeamNode = new BeamNode("metrenSRBeamNode"){{
-//            size = 1;
-//            health = 1000000;
-//            consumesPower = outputsPower = true;
-//            range = 8;
-//            fogRadius = 1;
-//            consumePowerBuffered(1000f);
-//
-//            requirements(Category.power, with(MPTv2Items.metren, 4));
-//        }};
-
-//        metrenHRBeamNode = new BeamNode("metrenHRBeamNode"){{
-//            size = 1;
-//            health = 1000000;
-//            consumesPower = outputsPower = true;
-//            range = 24;
-//            fogRadius = 1;
-//            consumePowerBuffered(1000f);
-//
-//            requirements(Category.power, with(MPTv2Items.metren, 4, MPTv2Items.metrenSilicon, 2));
-//        }};
-
-//        metrenBeamTower = new BeamNode("metrenBeamTower"){{
-//            size = 3;
-//            health = 9000000;
-//            consumesPower = outputsPower = true;
-//            range = 40;
-//            fogRadius = 1;
-//            consumePowerBuffered(40000f);
-//
-//            requirements(Category.power, with(MPTv2Items.metren, 4));
-//        }};
 
         //battery
         metrenBattery = new Battery("metrenBattery"){{
@@ -1094,15 +793,6 @@ public class MPTv2Blocks {
 
             requirements(Category.power, with(MPTv2Items.largeMetrenFrame, 49, MPTv2Items.heavyArmorPlate, 49, MPTv2Items.metrenSilicon, 80, MPTv2Items.metren, 98));
         }};
-
-        antimatterReactor = new ConsumeGenerator("antimatterReactor"){{
-            size = 11;
-            health = 121000000;
-            itemCapacity = 210;
-            powerProduction = 999999999;
-            consumeItems(with(MPTv2Items.deuteriumCell, 1, MPTv2Items.antimatterCell, 1));
-            requirements(Category.power, with(MPTv2Items.specialMetrenFrame, 121, MPTv2Items.specialArmorPlate, 121, MPTv2Items.metrenSilicon, 180,MPTv2Items.metren, 242));
-        }};//done
     }
 
     private static void loadUnits() {
@@ -1123,79 +813,6 @@ public class MPTv2Blocks {
             size = 3;
 
             consumePower(5);
-        }};
-
-        antimatteredUnitFactory = new UnitFactory("antimatteredUnitFactory"){{
-            size = 3;
-            health = 9000000;
-
-            configurable = false;
-            plans.add(new UnitPlan(MPTv2UnitTypes.beast, 27f * 60f, with(MPTv2Items.metren, 20, MPTv2Items.metrenSilicon, 10,MPTv2Items.metrenDiamond, 8)));
-            consumePower(4f);
-
-            requirements(Category.units, with(MPTv2Items.specialMetrenFrame, 9, MPTv2Items.specialArmorPlate, 9, MPTv2Items.metrenSilicon, 220));
-        }};
-
-        antimatteredAdditiveReconstructor = new Reconstructor("antimatteredAdditiveReconstructor"){{
-            size = 3;
-            health = 9000000;
-
-            consumePower(4.5f);
-            consumeItems(with(MPTv2Items.armorPlate, 10, MPTv2Items.metrenSilicon, 20));
-
-            constructTime = 35f * 60f;
-
-            upgrades.addAll(
-                    new UnitType[]{MPTv2UnitTypes.beast, MPTv2UnitTypes.matter}
-            );
-
-            requirements(Category.units, with(MPTv2Items.specialMetrenFrame, 9, MPTv2Items.specialArmorPlate, 9, MPTv2Items.metrenSilicon, 260));
-        }};
-
-        antimatteredMultiplicativeReconstructor = new Reconstructor("antimatteredMultiplicativeReconstructor"){{
-            size = 5;
-            health = 25000000;
-
-            consumePower(5f);
-            consumeItems(with(MPTv2Items.heavyArmorPlate, 10, MPTv2Items.metrenSilicon, 20));
-
-            constructTime = 45f * 60f;
-
-            upgrades.addAll(
-                    new UnitType[]{MPTv2UnitTypes.matter, MPTv2UnitTypes.ecru}
-            );
-
-            requirements(Category.units, with(MPTv2Items.specialMetrenFrame, 25, MPTv2Items.specialArmorPlate, 25, MPTv2Items.metrenSilicon, 320));
-        }};
-
-        antimatteredAssembler = new UnitAssembler("antimatteredAssembler"){{
-            size = 7;
-            health = 49000000;
-
-            areaSize = 50;
-            droneType = MPTv2UnitTypes.metrenAssemblyDrone;
-
-            plans.add(
-                    new AssemblerUnitPlan(MPTv2UnitTypes.ecru, 60f * 60f, PayloadStack.list(MPTv2UnitTypes.beast, 8, MPTv2Blocks.metrenWall, 8)),
-                    new AssemblerUnitPlan(MPTv2UnitTypes.eter, 360f * 60f, PayloadStack.list(MPTv2UnitTypes.matter, 8, MPTv2Blocks.metrenWall, 24)),
-                    new AssemblerUnitPlan(MPTv2UnitTypes.destAllier, 600f * 60f, PayloadStack.list(MPTv2UnitTypes.ecru, 10, MPTv2Blocks.metrenWallLarge, 48))
-            );
-
-            consumePower(8);
-            consumeLiquid(Liquids.cryofluid,  12f / 60f);
-
-            requirements(Category.units, with(MPTv2Items.specialMetrenFrame, 49, MPTv2Items.specialArmorPlate, 49, MPTv2Items.metrenSilicon, 380));
-        }};
-
-        antimatteredAssemblerModule = new UnitAssemblerModule("antimatteredAssemblerModule"){{
-            size = 5;
-            health = 25000000;
-
-            tier = 2;
-
-            consumePower(6.5f);
-
-            requirements(Category.units, with(MPTv2Items.specialMetrenFrame, 25, MPTv2Items.specialArmorPlate, 25, MPTv2Items.metrenSilicon, 420));
         }};
 
         metrenConstructor = new Constructor("metrenConstructor"){{
@@ -1359,16 +976,6 @@ public class MPTv2Blocks {
             incinerateNonBuildable = true;
             unitCapModifier = 60;
             requirements(Category.effect, with(MPTv2Items.specialMetrenFrame, 81, MPTv2Items.specialArmorPlate, 81, MPTv2Items.metren, 648));
-        }};
-
-        coreSDU = new CoreBlock("coreSDU"){{
-            size = 16;
-            health = 512000000;
-            itemCapacity = 2000000000;
-            unitType = MPTv2UnitTypes.aoe;
-            incinerateNonBuildable = true;
-            unitCapModifier = 120;
-            requirements(Category.effect, with(MPTv2Items.specialMetrenFrame, 256, MPTv2Items.specialArmorPlate, 256, MPTv2Items.metren, 8900));
         }};
     }
 
