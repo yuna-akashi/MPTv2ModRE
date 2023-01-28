@@ -6,7 +6,7 @@ import mindustry.type.Item;
 public class MPTv2Items {
     public static Item
         //materials
-        titaniumAlloy,
+        titaniumAlloy, carbideAlloy,
         metren, metrenGlass, metrenDiamond, metrenSilicon,
         compressedThorium,
 
@@ -20,7 +20,6 @@ public class MPTv2Items {
         unitCore, multiCore,
 
         //Research Items
-        basicResearchPack, normalResearchPack, advancedResearchPack, superResearchPack, specialResearchPack,
         turretResearchPack, unitResearchPack, efficiencyTechnologyPack,
 
         //ammo
@@ -28,18 +27,13 @@ public class MPTv2Items {
     ;
 
     public static void load() {
-        //Research Pack
-        basicResearchPack = new Item("basicResearchPack", Color.valueOf("F9423A"));//done
-        normalResearchPack = new Item("normalResearchPack", Color.valueOf("F6A04D"));//done
-        advancedResearchPack = new Item("advancedResearchPack", Color.valueOf("F3D321"));//done
-        superResearchPack = new Item("superResearchPack", Color.valueOf("00BC7B"));//done
-        specialResearchPack = new Item("specialResearchPack", Color.valueOf("486AFF"));//done
         turretResearchPack = new Item("turretResearchPack", Color.valueOf("2e2f34"));//done
         unitResearchPack = new Item("unitResearchPack", Color.valueOf("ffa3f8"));//done
         efficiencyTechnologyPack = new Item("efficiencyTechnologyPack", Color.valueOf("4D49BE"));//done
 
         //material
         titaniumAlloy = new Item("titaniumAlloy", Color.valueOf("9C81CE"));//done
+        carbideAlloy = new Item("carbideAlloy", Color.valueOf("89769a"));//done
         metren = new Item("metren", MPTv2Color.metren);//done
         metrenGlass = new Item("metrenGlass", Color.valueOf("BBBBBB"));//done
         metrenDiamond = new Item("metrenDiamond", Color.valueOf("5EFFFA"));//done

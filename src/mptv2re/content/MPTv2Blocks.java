@@ -37,6 +37,7 @@ import mindustry.world.blocks.units.Reconstructor;
 import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.draw.*;
 import mindustry.world.meta.BuildVisibility;
+import mindustry.world.meta.Env;
 import mptv2re.expand.block.turrets.RailgunTurret;
 
 public class MPTv2Blocks {
@@ -59,7 +60,7 @@ public class MPTv2Blocks {
         superLiquidSource, metrenConduit, metrenBridgeConduit, metrenLiquidRouter, metrenLiquidJunction, metrenLiquidTank,
 
         //base factory
-        titaniumAlloySmelter, metrenSmelter,
+        titaniumAlloySmelter, carbideAlloyArcSmelter, metrenSmelter, metrenArcFurnace,
         metrenFrameCrafter, turretFrameCrafter, armorPlateCrafter,
 
         //metren's factory
@@ -70,7 +71,8 @@ public class MPTv2Blocks {
         //power
         metrenReactor, nuclearFusionReactor, superPowerSource,
         metrenNode, metrenLargeNode, metrenTowerNode,
-        metrenBattery, largeMetrenBattery, powerCondenser,
+        metrenSRBeamNode, metrenHRBeamNode, metrenBeamTower,
+        metrenBattery, largeMetrenBattery, powerCondenser, metrenBeamCondenser,
 
         //units
         roombaFactory/*, metrenedAirFactory*/,
@@ -122,7 +124,7 @@ public class MPTv2Blocks {
 
             consumePower(12.5f);
             consumeItems(with(Items.metaglass, 15, Items.phaseFabric, 5, MPTv2Items.coolingCell, 3, Items.silicon, 15, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10));
-            outputItems = with(MPTv2Items.specialResearchPack, 1);
+            outputItems = with(MPTv2Items.efficiencyTechnologyPack, 1);
 
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 50, MPTv2Items.metren, 72));
         }};
@@ -368,6 +370,29 @@ public class MPTv2Blocks {
             requirements(Category.crafting, with(Items.copper, 156, Items.lead, 200, Items.titanium, 250));
         }};
 
+        carbideAlloyArcSmelter = new GenericCrafter("carbideAlloyArcSmelter"){{
+            size = 3;
+            hasPower = hasLiquids = true;
+
+            craftTime = 50f;
+            itemCapacity = 30;
+
+            consumePower(8f);
+            consumeLiquid(Liquids.slag, 0.3f);
+            consumeItems(with(Items.beryllium, 1, Items.graphite, 1, Items.carbide, 2));
+            outputItem = new ItemStack(MPTv2Items.carbideAlloy, 2);
+
+            craftEffect = Fx.none;
+            envEnabled |= Env.space | Env.underwater;
+            envDisabled = Env.none;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawArcSmelt(), new DrawDefault());
+            ambientSound = Sounds.smelter;
+            ambientSoundVolume = 0.12f;
+            fogRadius = 3;
+
+            requirements(Category.crafting, with(Items.beryllium, 480, Items.tungsten, 360));
+        }};
+
         metrenSmelter = new GenericCrafter("metrenSmelter"){{
             size = 3;
             health = 320;
@@ -403,6 +428,29 @@ public class MPTv2Blocks {
 
             requirements(Category.crafting, with(MPTv2Items.metren, 32));
         }};//done
+
+        metrenArcFurnace = new GenericCrafter("metrenArcFurnace"){{
+            size = 3;
+            hasPower = hasLiquids = true;
+
+            craftTime = 2f *60f;
+            itemCapacity = 30;
+
+            consumePower(12f);
+            consumeLiquid(Liquids.slag, 0.3f);
+            consumeItems(with(Items.graphite, 1, Items.surgeAlloy, 1, MPTv2Items.carbideAlloy, 2));
+            outputItem = new ItemStack(MPTv2Items.metren, 2);
+
+            craftEffect = Fx.none;
+            envEnabled |= Env.space | Env.underwater;
+            envDisabled = Env.none;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawArcSmelt(), new DrawDefault());
+            ambientSound = Sounds.smelter;
+            ambientSoundVolume = 0.12f;
+            fogRadius = 3;
+
+            requirements(Category.crafting, with(Items.beryllium, 480, Items.tungsten, 360));
+        }};
 
         metrenDiamondCompressor = new GenericCrafter("metrenDiamondCompressor"){{
             size = 2;
@@ -568,6 +616,38 @@ public class MPTv2Blocks {
             autolink = false;
             requirements(Category.power, with(MPTv2Items.metrenFrame, 40, MPTv2Items.armorPlate, 40, MPTv2Items.metrenSilicon, 3, MPTv2Items.metren, 8));
         }};//done
+        metrenSRBeamNode = new BeamNode("metrenSRBeamNode"){{
+            size = 1;
+            health = 500000;
+            consumesPower = outputsPower = true;
+            range = 8;
+            fogRadius = 1;
+            consumePowerBuffered(1000f);
+
+            requirements(Category.power, with(MPTv2Items.metren, 4));
+        }};
+
+        metrenHRBeamNode = new BeamNode("metrenHRBeamNode"){{
+            size = 1;
+            health = 500000;
+            consumesPower = outputsPower = true;
+            range = 24;
+            fogRadius = 1;
+            consumePowerBuffered(1000f);
+
+            requirements(Category.power, with(MPTv2Items.metren, 4, MPTv2Items.metrenSilicon, 2));
+        }};
+
+        metrenBeamTower = new BeamNode("metrenBeamTower"){{
+            size = 3;
+            health = 4500000;
+            consumesPower = outputsPower = true;
+            range = 40;
+            fogRadius = 1;
+            consumePowerBuffered(40000f);
+
+            requirements(Category.power, with(MPTv2Items.metren, 4));
+        }};
 
         //battery
         metrenBattery = new Battery("metrenBattery"){{
@@ -592,6 +672,17 @@ public class MPTv2Blocks {
             hasPower = true;
             consumePowerBuffered(2147483647);
             requirements(Category.power, with(MPTv2Items.metrenFrame, 2500, MPTv2Items.armorPlate, 2500, MPTv2Items.metrenSilicon, 40, MPTv2Items.metren, 50, Items.lead, 60));
+        }};
+
+        metrenBeamCondenser = new BeamNode("metrenBeamCondenser"){{
+            size = 5;
+            health = 12500000;
+            consumesPower = outputsPower = true;
+            range = 6;
+            fogRadius = 1;
+            consumePowerBuffered(400000000f);
+
+            requirements(Category.power, with(MPTv2Items.metren, 100, MPTv2Items.metrenSilicon, 80));
         }};
 
         metrenReactor = new NuclearReactor("metrenReactor"){{
