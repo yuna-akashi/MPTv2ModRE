@@ -329,7 +329,7 @@ public class MPTv2Blocks {
             consumePower(500000000);
 //            consumePowerCond(500000000, RailgunTurretBuild::isCharge);
 
-            requirements(Category.turret, with( MPTv2AItems.antimatterTurretFrame, 256, MPTv2AItems.antimatterArmorPlate, 256, MPTv2Items.metren, 512));
+            requirements(Category.turret, with( MPTv2Items.antimatterTurretFrame, 256, MPTv2Items.antimatterArmorPlate, 256, MPTv2Items.metren, 512));
         }};
 
         antimatterBlaster = new PowerTurret("antimatterBlaster"){{
@@ -387,7 +387,7 @@ public class MPTv2Blocks {
 
             shootSound = Sounds.laserblast;
 
-            requirements(Category.turret, with( MPTv2AItems.antimatterTurretFrame, 256, MPTv2AItems.antimatterArmorPlate, 256, MPTv2Items.metren, 512));
+            requirements(Category.turret, with( MPTv2Items.antimatterTurretFrame, 256, MPTv2Items.antimatterArmorPlate, 256, MPTv2Items.metren, 512));
         }};
 
         antimatterShockwaveCannon = new LaserTurret("antimatterShockwaveCannon"){{
