@@ -11,12 +11,11 @@ public class MPTv2Items {
         compressedThorium,
 
         //building materials
-        metrenFrame,
-        turretFrame,
-        armorPlate,
+        metrenFrame, turretFrame, armorPlate,
+        antimatterFrame, antimatterTurretFrame, antimatterArmorPlate,
 
         //resources
-        cell, coolingCell, oxygenCell, deuteriumCell, tritiumCell,
+        cell, coolingCell, oxygenCell, deuteriumCell, tritiumCell, antimatterCell,
         unitCore, multiCore,
 
         //Research Items
@@ -47,6 +46,9 @@ public class MPTv2Items {
         metrenFrame = new Item("metrenFrame", MPTv2Color.metrenLight);//done
         turretFrame = new Item("turretFrame", MPTv2Color.metrenLight);//done
         armorPlate = new Item("armorPlate", MPTv2Color.metrenLight);//done
+        antimatterFrame = new Item("antimatterFrame", Color.valueOf("470B70"));//done
+        antimatterTurretFrame = new Item("antimatterTurretFrame", Color.valueOf("470B70"));//done
+        antimatterArmorPlate = new Item("antimatterArmorPlate", Color.valueOf("470B70"));//done
 
         //resource
         cell = new Item("cell", MPTv2Color.metren);//done
@@ -62,6 +64,8 @@ public class MPTv2Items {
             radioactivity = 0.2f;
             flammability = 1.75f;
         }};//done
+        antimatterCell = new Item("antimatterCell", Color.valueOf("470B70"));//done
+
         unitCore = new Item("unitCore", Color.valueOf("FF80F9"));//done
         multiCore = new Item("multiCore", Color.valueOf("FFA548"));//done
 

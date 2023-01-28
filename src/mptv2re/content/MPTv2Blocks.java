@@ -1,11 +1,22 @@
 package mptv2re.content;
 
 import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Lines;
+import arc.math.Angles;
+import arc.math.Interp;
+import arc.math.Mathf;
 import arc.struct.Seq;
 import mindustry.content.*;
+import mindustry.entities.Effect;
+import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.BasicBulletType;
+import mindustry.entities.bullet.ContinuousLaserBulletType;
 import mindustry.entities.bullet.MissileBulletType;
+import mindustry.entities.part.RegionPart;
+import mindustry.entities.pattern.ShootPattern;
 import mindustry.gen.Sounds;
+import mindustry.graphics.Pal;
 import mindustry.type.*;
 
 import static mindustry.type.ItemStack.with;
@@ -13,7 +24,9 @@ import static mindustry.type.ItemStack.with;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
+import mindustry.world.blocks.defense.turrets.LaserTurret;
 import mindustry.world.blocks.defense.turrets.PointDefenseTurret;
+import mindustry.world.blocks.defense.turrets.PowerTurret;
 import mindustry.world.blocks.distribution.Conveyor;
 import mindustry.world.blocks.distribution.ItemBridge;
 import mindustry.world.blocks.distribution.Junction;
@@ -34,6 +47,8 @@ import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.blocks.storage.Unloader;
 import mindustry.world.blocks.units.Reconstructor;
+import mindustry.world.blocks.units.UnitAssembler;
+import mindustry.world.blocks.units.UnitAssemblerModule;
 import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.draw.*;
 import mindustry.world.meta.BuildVisibility;
@@ -42,50 +57,54 @@ import mptv2re.expand.block.turrets.RailgunTurret;
 
 public class MPTv2Blocks {
     public static Block
-        //Research centers
-        antimatterResearchCenter,
-        turretResearchCenter, unitResearchCenter, efficiencyTechnologyResearchCenter,
-        //wall
-        titaniumAlloyWall, titaniumAlloyWallLarge, metrenWall, metrenWallLarge,
+            //Research centers
+            antimatterResearchCenter,
+            turretResearchCenter, unitResearchCenter, efficiencyTechnologyResearchCenter,
+            //wall
+            titaniumAlloyWall, titaniumAlloyWallLarge, metrenWall, metrenWallLarge,
 
-        //turrets
-        assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian,
+            //turrets
+            assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian,
+            antimatterRailgun, antimatterBlaster, antimatterShockwaveCannon,
 
-        //drill
-        titaniumAlloyDrill, metrenDrill,
-        //distribution
-        superItemSource, metrenConveyor, metrenBridgeConveyor, metrenRouter, metrenJunction,
+            //drill
+            titaniumAlloyDrill, metrenDrill,
+            //distribution
+            superItemSource, metrenConveyor, metrenBridgeConveyor, metrenRouter, metrenJunction,
 
-        //liquids
-        superLiquidSource, metrenConduit, metrenBridgeConduit, metrenLiquidRouter, metrenLiquidJunction, metrenLiquidTank,
+            //liquids
+            superLiquidSource, metrenConduit, metrenBridgeConduit, metrenLiquidRouter, metrenLiquidJunction, metrenLiquidTank,
 
-        //base factory
-        titaniumAlloySmelter, carbideAlloyArcSmelter, metrenSmelter, metrenArcFurnace,
-        metrenFrameCrafter, turretFrameCrafter, armorPlateCrafter,
+            //base factory
+            titaniumAlloySmelter, carbideAlloyArcSmelter, metrenSmelter, metrenArcFurnace,
+            metrenFrameCrafter, turretFrameCrafter, armorPlateCrafter,
 
-        //metren's factory
-        metrenGlassSmelter, metrenDiamondCompressor, metrenSiliconSmelter, metrenAmmoCrafter, metrenExplosiveAmmoCrafter/*,
-        multiMetrenSmelter, multiFrameCrafter*/,
-        cellFactory, thoriumCompressor, hydrogenIsotopeChamber,
+            //metren's factory
+            metrenGlassSmelter, metrenDiamondCompressor, metrenSiliconSmelter, metrenAmmoCrafter, metrenExplosiveAmmoCrafter/*,
+            multiMetrenSmelter, multiFrameCrafter*/,
+            cellFactory, thoriumCompressor, hydrogenIsotopeChamber, antimatterGenerator,
 
-        //power
-        metrenReactor, nuclearFusionReactor, superPowerSource,
-        metrenNode, metrenLargeNode, metrenTowerNode,
-        metrenSRBeamNode, metrenHRBeamNode, metrenBeamTower,
-        metrenBattery, largeMetrenBattery, powerCondenser, metrenBeamCondenser,
+            //power
+            metrenReactor, nuclearFusionReactor, antimatterReactor, superPowerSource,
+            metrenNode, metrenLargeNode, metrenTowerNode,
+            metrenSRBeamNode, metrenHRBeamNode, metrenBeamTower,
+            metrenBattery, largeMetrenBattery, powerCondenser, metrenBeamCondenser,
 
-        //units
-        roombaFactory/*, metrenedAirFactory*/,
-        metrenedAdditiveReconstructor/*, metrenedMultiplicativeReconstructor, metrenedExponentialReconstructor, metrenedTetrativeReconstructor*/,
+            //units
+            roombaFactory/*, metrenedAirFactory*/,
+            metrenedAdditiveReconstructor/*, metrenedMultiplicativeReconstructor, metrenedExponentialReconstructor, metrenedTetrativeReconstructor*/,
 
-        metrenConstructor, metrenLargeConstructor, smallMetrenDeconstructor, metrenDeconstructor,
+            antimatteredUnitFactory,
+            antimatteredAdditiveReconstructor, antimatteredMultiplicativeReconstructor, antimatteredAssembler, antimatteredAssemblerModule,
 
-        //effect
-        metrender, boostDriveProjector, metrenShieldDome, buildBlock, metrenUnloader,
-        //storage
-        metrenContainer,
-        ///core
-        coreMetren, coreAdvance, coreExperimental, coreEmperorOfAntimatter, coreSDU
+            metrenConstructor, metrenLargeConstructor, smallMetrenDeconstructor, metrenDeconstructor,
+
+            //effect
+            metrender, boostDriveProjector, metrenShieldDome, buildBlock, metrenUnloader,
+            //storage
+            metrenContainer,
+            ///core
+            coreMetren, coreAdvance, coreExperimental, coreEmperorOfAntimatter, coreSDU
     ;
 
     private static void loadResearchCenter(){
@@ -248,6 +267,180 @@ public class MPTv2Blocks {
             );
 
             requirements(Category.turret,with( MPTv2Items.turretFrame, 2500, MPTv2Items.armorPlate, 2500));
+        }};
+
+        antimatterRailgun = new ItemTurret("antimatterRailgun"){{
+            size = 16;
+            health = 256000000;
+            range = 160000;
+            hasPower = true;
+            reload = 240;
+            recoil = 0;
+            shootY = -11f;
+            rotateSpeed = 0.25f;
+            coolant = consumeCoolant(0.05F);
+            canOverdrive = false;
+//            maxShootCharge = 10;
+//            chargeTimePer1Shot = 30f * 60f;
+            ammo(
+                    MPTv2Items.metrenAmmo, new BasicBulletType(99, 999999999){{
+                        width = 32;
+                        height = 32;
+                        hitColor = backColor = lightColor = trailColor = MPTv2Items.metrenAmmo.color.cpy().lerp(Color.white, 0.2f);
+                        frontColor = backColor.cpy().lerp(Color.white, 0.55f);
+                        ammoMultiplier = 20;
+                        pierceArmor = true;
+                    }},
+                    MPTv2Items.antimatterCell, new BasicBulletType(99, 999999999){{
+                        width = 32;
+                        height = 32;
+                        hitColor = backColor = lightColor = trailColor = MPTv2Items.antimatterCell.color.cpy().lerp(Color.white, 0.2f);
+                        frontColor = backColor.cpy().lerp(Color.white, 0.55f);
+                        ammoMultiplier = 4;
+                        pierceArmor = true;
+                    }}
+            );
+
+            drawer = new DrawTurret(){{
+                parts.add(new RegionPart("-side"){{
+                              under = turretShading = mirror = true;
+                              moveX = -3.125f;
+                              moveY = 2f;
+                              progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
+                          }},
+                        new RegionPart("-barrel-side"){{
+                            under = true;
+                            progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
+                        }},
+                        new RegionPart("-barrel-center"){{
+                            under = mirror = true;
+                            layerOffset = -0.0025f;
+                            moveX = -3.15f;
+                            moveY = 25f;
+                            y = 2;
+                            x = 3f;
+                            progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
+                        }});
+//                parts.add(new MPTv2AntiRailCharge){{
+//                    progress = aa;
+//                 }}
+            }};
+
+            consumePower(500000000);
+//            consumePowerCond(500000000, RailgunTurretBuild::isCharge);
+
+            requirements(Category.turret, with( MPTv2AItems.antimatterTurretFrame, 256, MPTv2AItems.antimatterArmorPlate, 256, MPTv2Items.metren, 512));
+        }};
+
+        antimatterBlaster = new PowerTurret("antimatterBlaster"){{
+            size = 16;
+            health = 256000000;
+            range = 160000;
+            reload = 250f;
+            recoil = 20;
+            rotateSpeed = 0.25f;
+            coolant = consumeCoolant(0.5F);
+            canOverdrive = false;
+            shootY = -15;
+
+            shootType = new BasicBulletType(6.5f, 99999999){{
+                hitEffect = new Effect(12.0F, (e) -> {
+                    Draw.color(Pal.lancerLaser, Color.white, e.fout() * 0.75f);
+                    Lines.stroke(e.fout() * 1.5F);
+                    Angles.randLenVectors(e.id, 3, e.finpow() * 17.0F, e.rotation, 360.0F, (x, y) -> {
+                        float ang = Mathf.angle(x, y);
+                        Lines.lineAngle(e.x + x, e.y + y, ang, e.fout() * 4.0F + 1.0F);
+                    });
+                });
+                trailWidth = 8.55f;
+                trailLength = 60;
+
+                knockback = 0.5f;
+                trailColor = backColor = hitColor = Pal.lancerLaser;
+                frontColor = Color.white;
+                lifetime = 500f;
+                homingDelay = 1f;
+                homingPower = 0.2f;
+                homingRange = 120f;
+                status = StatusEffects.shocked;
+                statusDuration = 30f;
+                width = 85f;
+                drawSize = 100f;
+                height = 85f;
+            }};
+            consumePower(500000);
+
+            shoot = new ShootPattern(){{
+                shots = 1;
+            }};
+
+            drawer = new DrawTurret(){{
+                parts.add(new RegionPart("-side"){{
+                    under = turretShading = mirror = true;
+                    moveX = -4;
+                    moveY = 2.5f;
+                    y = -2;
+                    x = 4;
+                    progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
+                }});
+            }};
+
+            shootSound = Sounds.laserblast;
+
+            requirements(Category.turret, with( MPTv2AItems.antimatterTurretFrame, 256, MPTv2AItems.antimatterArmorPlate, 256, MPTv2Items.metren, 512));
+        }};
+
+        antimatterShockwaveCannon = new LaserTurret("antimatterShockwaveCannon"){{
+            size = 16;
+            health = 256000000;
+            range = 160000;
+            reload = 250f;
+            recoil = 20f;
+            shake = 7.5f;
+            rotateSpeed = 0.25f;
+            shootY = 20f;
+            shootDuration = 230f;
+            shootCone = 40f;
+
+            unitSort = UnitSorts.strongest;
+
+            coolant = consumeCoolant(0.5F);
+            canOverdrive = false;
+
+            consumePower(5000000);
+
+            shootType = new ContinuousLaserBulletType(999){{
+                length = 20000f;
+                width = 20f;
+                hitSize = 10f;
+                hitEffect = Fx.hitMeltdown;
+                hitColor = MPTv2Items.antimatterCell.color;
+                status = StatusEffects.melting;
+                drawSize = 840f;
+
+                incendChance = 0.4f;
+                incendSpread = 5f;
+                incendAmount = 1;
+                ammoMultiplier = 1f;
+            }};
+
+            drawer = new DrawTurret(){{
+                parts.add(new RegionPart("-side"){{
+                    under = turretShading = mirror = true;
+                    moveX = -4;
+                    moveY = 2.5f;
+                    y = -2;
+                    x = 4;
+                    progress = PartProgress.smoothReload.inv().curve(Interp.pow3Out);
+                }});
+            }};
+
+            shootEffect = Fx.shootBigSmoke2;
+            shootSound = Sounds.laserbig;
+            loopSound = Sounds.beam;
+            loopSoundVolume = 20f;
+
+            requirements(Category.turret, with(MPTv2Items.antimatterTurretFrame, 256, MPTv2Items.antimatterTurretFrame, 256, MPTv2Items.metren, 512));
         }};
     }
 
@@ -585,6 +778,20 @@ public class MPTv2Blocks {
 
             requirements(Category.crafting, with(MPTv2Items.metrenFrame, 160, MPTv2Items.armorPlate, 160, MPTv2Items.metren, 32,MPTv2Items.metrenGlass, 30, MPTv2Items.metrenSilicon, 20));
         }};
+
+        antimatterGenerator = new GenericCrafter("antimatterGenerator"){{
+            size = 9;
+            health = 81000000;
+            hasItems = hasPower = true;
+            itemCapacity = 80;
+            craftTime = 20f * 60f;
+
+            consumePower(25000000);
+            consumeItems(with(MPTv2Items.cell, 1));
+            outputItems = with(MPTv2Items.antimatterCell, 1);
+
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 8100, MPTv2Items.armorPlate, 8100, MPTv2Items.metrenSilicon, 2000, MPTv2Items.metren, 648));
+        }};
     }
 
     private static void loadPower() {
@@ -721,6 +928,15 @@ public class MPTv2Blocks {
 
             requirements(Category.power, with(MPTv2Items.metrenFrame, 490, MPTv2Items.armorPlate, 490, MPTv2Items.metrenSilicon, 80, MPTv2Items.metren, 98));
         }};
+
+        antimatterReactor = new ConsumeGenerator("antimatterReactor"){{
+            size = 11;
+            health = 121000000;
+            itemCapacity = 210;
+            powerProduction = 999999999;
+            consumeItems(with(MPTv2Items.deuteriumCell, 1, MPTv2Items.antimatterCell, 1));
+            requirements(Category.power, with(MPTv2Items.antimatterFrame, 121, MPTv2Items.antimatterArmorPlate, 121, MPTv2Items.metrenSilicon, 180,MPTv2Items.metren, 242));
+        }};//done
     }
 
     private static void loadUnits() {
@@ -790,6 +1006,79 @@ public class MPTv2Blocks {
             deconstructSpeed = 3f;
 
             requirements(Category.units, with(MPTv2Items.metrenFrame, 490, MPTv2Items.armorPlate, 490, MPTv2Items.metrenSilicon, 80));
+        }};
+
+        antimatteredUnitFactory = new UnitFactory("antimatteredUnitFactory"){{
+            size = 3;
+            health = 9000000;
+
+            configurable = false;
+            plans.add(new UnitPlan(MPTv2UnitTypes.beast, 27f * 60f, with(MPTv2Items.metren, 20, MPTv2Items.metrenSilicon, 10,MPTv2Items.metrenDiamond, 8)));
+            consumePower(4f);
+
+            requirements(Category.units, with(MPTv2Items.antimatterFrame, 9, MPTv2Items.antimatterArmorPlate, 9, MPTv2Items.metrenSilicon, 220));
+        }};
+
+        antimatteredAdditiveReconstructor = new Reconstructor("antimatteredAdditiveReconstructor"){{
+            size = 3;
+            health = 9000000;
+
+            consumePower(4.5f);
+            consumeItems(with(MPTv2Items.antimatterArmorPlate, 10, MPTv2Items.metrenSilicon, 20));
+
+            constructTime = 35f * 60f;
+
+            upgrades.addAll(
+                    new UnitType[]{MPTv2UnitTypes.beast, MPTv2UnitTypes.matter}
+            );
+
+            requirements(Category.units, with(MPTv2Items.antimatterFrame, 9, MPTv2Items.antimatterArmorPlate, 9, MPTv2Items.metrenSilicon, 260));
+        }};
+
+        antimatteredMultiplicativeReconstructor = new Reconstructor("antimatteredMultiplicativeReconstructor"){{
+            size = 5;
+            health = 25000000;
+
+            consumePower(5f);
+            consumeItems(with(MPTv2Items.antimatterArmorPlate, 40, MPTv2Items.metrenSilicon, 20));
+
+            constructTime = 45f * 60f;
+
+            upgrades.addAll(
+                    new UnitType[]{MPTv2UnitTypes.matter, MPTv2UnitTypes.ecru}
+            );
+
+            requirements(Category.units, with(MPTv2Items.antimatterFrame, 25, MPTv2Items.antimatterArmorPlate, 25, MPTv2Items.metrenSilicon, 320));
+        }};
+
+        antimatteredAssembler = new UnitAssembler("antimatteredAssembler"){{
+            size = 7;
+            health = 49000000;
+
+            areaSize = 50;
+            droneType = MPTv2UnitTypes.metrenAssemblyDrone;
+
+            plans.add(
+                    new AssemblerUnitPlan(MPTv2UnitTypes.ecru, 60f * 60f, PayloadStack.list(MPTv2UnitTypes.beast, 8, MPTv2Blocks.metrenWall, 8)),
+                    new AssemblerUnitPlan(MPTv2UnitTypes.eter, 360f * 60f, PayloadStack.list(MPTv2UnitTypes.matter, 8, MPTv2Blocks.metrenWall, 24)),
+                    new AssemblerUnitPlan(MPTv2UnitTypes.destAllier, 600f * 60f, PayloadStack.list(MPTv2UnitTypes.ecru, 10, MPTv2Blocks.metrenWallLarge, 48))
+            );
+
+            consumePower(8);
+            consumeLiquid(Liquids.cryofluid,  12f / 60f);
+
+            requirements(Category.units, with(MPTv2Items.antimatterFrame, 49, MPTv2Items.antimatterArmorPlate, 49, MPTv2Items.metrenSilicon, 380));
+        }};
+
+        antimatteredAssemblerModule = new UnitAssemblerModule("antimatteredAssemblerModule"){{
+            size = 5;
+            health = 25000000;
+
+            tier = 2;
+
+            consumePower(6.5f);
+
+            requirements(Category.units, with(MPTv2Items.antimatterFrame, 25, MPTv2Items.antimatterArmorPlate, 25, MPTv2Items.metrenSilicon, 420));
         }};
     }
 
