@@ -11,9 +11,9 @@ public class MPTv2Items {
         compressedThorium,
 
         //building materials
-        metrenFrame, largeMetrenFrame, specialMetrenFrame,
-        turretFrame, largeTurretFrame, specialTurretFrame,
-        armorPlate, heavyArmorPlate, specialArmorPlate,
+        metrenFrame,
+        turretFrame,
+        armorPlate,
 
         //resources
         cell, coolingCell, oxygenCell, deuteriumCell, tritiumCell,
@@ -51,14 +51,8 @@ public class MPTv2Items {
 
         //building material
         metrenFrame = new Item("metrenFrame", MPTv2Color.metrenLight);//done
-        largeMetrenFrame = new Item("largeMetrenFrame", MPTv2Color.metren);//done
-        specialMetrenFrame = new Item("specialMetrenFrame", MPTv2Color.metrenDark);//done
         turretFrame = new Item("turretFrame", MPTv2Color.metrenLight);//done
-        largeTurretFrame = new Item("largeTurretFrame", MPTv2Color.metren);//done
-        specialTurretFrame = new Item("specialTurretFrame", MPTv2Color.metrenDark);//done
         armorPlate = new Item("armorPlate", MPTv2Color.metrenLight);//done
-        heavyArmorPlate = new Item("heavyArmorPlate", MPTv2Color.metren);//done
-        specialArmorPlate = new Item("specialArmorPlate", MPTv2Color.metrenDark);//done
 
         //resource
         cell = new Item("cell", MPTv2Color.metren);//done
