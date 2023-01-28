@@ -83,35 +83,35 @@ jar{
     }
 }
 
-task deleteLast{
-    def fi = new File("$gameData/mods/MPTv2ModREDesktop.jar")
-    if(fi.exists()){
-        Class<?> fileSys = ClassLoader.getSystemClassLoader().loadClass("java.io.DefaultFileSystem");
-        FileSystem system = (FileSystem)fileSys.getMethod("getFileSystem()").invoke(null, new Object[]{});
+//task deleteLast{
+//    def fi = new File("$gameData/mods/MPTv2ModREDesktop.jar")
+//    if(fi.exists()){
+//        Class<?> fileSys = ClassLoader.getSystemClassLoader().loadClass("java.io.DefaultFileSystem");
+//        FileSystem system = (FileSystem)fileSys.getMethod("getFileSystem()").invoke(null, new Object[]{});
+//
+//        System.out.println("Delete Old:" + fi.delete())
+//    }
+//}
 
-        System.out.println("Delete Old:" + fi.delete())
-    }
-}
-
-task debugMod{
-    def fi = new File("$rootDir/build/libs/MPTv2ModREDesktop.jar")
-
-    dependsOn jar
-    dependsOn deleteLast
-
-    doLast {
-        System.gc()
-
-        try{
-            if(!fi.exists())throw new RuntimeException("Missing Mod File")
-            if(!fi.renameTo("$gameData/mods/MPTv2ModREDesktop.jar")){
-                throw new RuntimeException("Failed to replace the old version mod")
-            }
-        }catch(IOException io){
-            System.out.print(io)
-        }
-    }
-}
+//task debugMod{
+//    def fi = new File("$rootDir/build/libs/MPTv2ModREDesktop.jar")
+//
+//    dependsOn jar
+//    dependsOn deleteLast
+//
+//    doLast {
+//        System.gc()
+//
+//        try{
+//            if(!fi.exists())throw new RuntimeException("Missing Mod File")
+//            if(!fi.renameTo("$gameData/mods/MPTv2ModREDesktop.jar")){
+//                throw new RuntimeException("Failed to replace the old version mod")
+//            }
+//        }catch(IOException io){
+//            System.out.print(io)
+//        }
+//    }
+//}
 
 //task deploy(type: Jar){
 //    dependsOn jarAndroid
@@ -152,15 +152,15 @@ task deploy(type : Jar){
     }
 }
 
-task deployNet(type : Jar){
-    dependsOn jarAndroidNet
-    dependsOn jar
-    archiveFileName = "${project.archivesBaseName}.jar"
-
-    from{ [zipTree("$buildDir/libs/${project.archivesBaseName}Desktop.jar"), zipTree("$buildDir/libs/${project.archivesBaseName}Android.jar")] }
-
-    doLast{
-        delete{ delete "$buildDir/libs/${project.archivesBaseName}Desktop.jar" }
-        delete{ delete "$buildDir/libs/${project.archivesBaseName}Android.jar" }
-    }
-}
+//task deployNet(type : Jar){
+//    dependsOn jarAndroidNet
+//    dependsOn jar
+//    archiveFileName = "${project.archivesBaseName}.jar"
+//
+//    from{ [zipTree("$buildDir/libs/${project.archivesBaseName}Desktop.jar"), zipTree("$buildDir/libs/${project.archivesBaseName}Android.jar")] }
+//
+//    doLast{
+//        delete{ delete "$buildDir/libs/${project.archivesBaseName}Desktop.jar" }
+//        delete{ delete "$buildDir/libs/${project.archivesBaseName}Android.jar" }
+//    }
+//}
