@@ -4,6 +4,6 @@ author: "ゆなてゃ"
 main: "mptv2re.MPTv2RE"
 description: "Java mod for Mindustry<V7>. It is beta."
 version: 0.0.5
-minGameVersion: 139
 java: true
 repo: Yunatexya/MPTv2ModRE
+minGameVersion: 140.1
