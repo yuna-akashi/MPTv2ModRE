@@ -8,18 +8,10 @@ public class MPTv2RETechTree {
     //public static ObjectMap<UnitType, ItemStack[]> unitBuildCost = new ObjectMap<>();
 
     public static void load() {
-        nodeRoot("mptv2-re", MPTv2Blocks.basicResearchCenter, () -> {
-            //research center
-            node(MPTv2Blocks.normalResearchCenter, ItemStack.with(MPTv2Items.basicResearchPack, 50), ()-> {
-                node(MPTv2Blocks.advancedResearchCenter, ItemStack.with(MPTv2Items.normalResearchPack, 100), () -> {
-                    node(MPTv2Blocks.superResearchCenter, ItemStack.with(MPTv2Items.advancedResearchPack, 100), () -> {
-                        node(MPTv2Blocks.specialResearchCenter, ItemStack.with(MPTv2Items.superResearchPack, 125), () ->{});
-                    });
+        nodeRoot("mptv2-re", MPTv2Blocks.titaniumAlloySmelter, () -> {
                     node(MPTv2Blocks.efficiencyTechnologyResearchCenter, ItemStack.with(MPTv2Items.advancedResearchPack, 100), () -> {});
-                });
                 node(MPTv2Blocks.unitResearchCenter, ItemStack.with(MPTv2Items.normalResearchPack, 150), () -> {});
                 node(MPTv2Blocks.turretResearchCenter, ItemStack.with(MPTv2Items.normalResearchPack, 150), () -> {});
-            });
 
             //distribution
             node(MPTv2Blocks.metrenConveyor, ItemStack.with(MPTv2Items.normalResearchPack, 10), () -> {
@@ -39,7 +31,6 @@ public class MPTv2RETechTree {
                 });
             });
 
-            node(MPTv2Blocks.titaniumAlloySmelter, ItemStack.with(MPTv2Items.basicResearchPack, 2), () -> {
                 //effect
                 node(MPTv2Blocks.boostDriveProjector, ItemStack.with(MPTv2Items.advancedResearchPack, 12), () -> {
                     node(MPTv2Blocks.metrender, ItemStack.with(MPTv2Items.advancedResearchPack, 18), () -> {
@@ -62,27 +53,15 @@ public class MPTv2RETechTree {
                         node(MPTv2Blocks.metrenDiamondCompressor, ItemStack.with(MPTv2Items.normalResearchPack, 7), () -> {
                         });
                         node(MPTv2Blocks.metrenSiliconSmelter, ItemStack.with(MPTv2Items.normalResearchPack, 7), () -> {
-                            node(MPTv2Blocks.deuteriumChamber, ItemStack.with(MPTv2Items.superResearchPack, 450), () -> {
+                            node(MPTv2Blocks.hydrogenIsotopeChamber, ItemStack.with(MPTv2Items.superResearchPack, 450), () -> {
                             });
                         });
                     });
 
                     node(MPTv2Blocks.metrenFrameCrafter, ItemStack.with(MPTv2Items.normalResearchPack, 4), () -> {
-                        node(MPTv2Blocks.largeMetrenFrameCrafter, ItemStack.with(MPTv2Items.advancedResearchPack, 5), () -> {
-                            node(MPTv2Blocks.specialMetrenFrameCrafter, ItemStack.with(MPTv2Items.specialResearchPack, 6), () -> {
-                            });
-                        });
                         node(MPTv2Blocks.turretFrameCrafter, ItemStack.with(MPTv2Items.normalResearchPack, 4), () -> {
-                            node(MPTv2Blocks.largeTurretFrameCrafter, ItemStack.with(MPTv2Items.advancedResearchPack, 6), () -> {
-                                node(MPTv2Blocks.specialTurretFrameCrafter, ItemStack.with(MPTv2Items.specialResearchPack, 8), () -> {
-                                });
-                            });
                         });
                         node(MPTv2Blocks.armorPlateCrafter, ItemStack.with(MPTv2Items.normalResearchPack, 6), () -> {
-                            node(MPTv2Blocks.heavyArmorPlateCrafter, ItemStack.with(MPTv2Items.advancedResearchPack, 8), () -> {
-                                node(MPTv2Blocks.specialArmorPlateCrafter, ItemStack.with(MPTv2Items.specialResearchPack, 10), () -> {
-                                });
-                            });
                         });
                     });
 
@@ -112,7 +91,6 @@ public class MPTv2RETechTree {
                         });
                 });
                 //node(MPTv2Blocks.);
-            });
 
             //wall
             node(MPTv2Blocks.titaniumAlloyWall, ItemStack.with(MPTv2Items.basicResearchPack, 10), () -> {
@@ -171,19 +149,8 @@ public class MPTv2RETechTree {
                     nodeProduce(MPTv2Items.advancedResearchPack, () -> {
                         nodeProduce(MPTv2Items.superResearchPack, () -> {
                             nodeProduce(MPTv2Items.specialResearchPack, () -> {
-                                nodeProduce(MPTv2Items.specialMetrenFrame, () -> {
-                                    nodeProduce(MPTv2Items.specialTurretFrame, () -> {
-                                        nodeProduce(MPTv2Items.specialArmorPlate, () -> {});
-                                    });
-                                });
                             });
                             nodeProduce(MPTv2Items.efficiencyTechnologyPack, () -> {});
-
-                            nodeProduce(MPTv2Items.largeMetrenFrame, () -> {
-                                nodeProduce(MPTv2Items.largeTurretFrame, () -> {
-                                    nodeProduce(MPTv2Items.heavyArmorPlate, () -> {});
-                                });
-                            });
 
                             nodeProduce(MPTv2Items.emperorsCristal, () -> {});
                         });
