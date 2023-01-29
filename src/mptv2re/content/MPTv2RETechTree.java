@@ -176,10 +176,13 @@ public class MPTv2RETechTree {
                     });
                     nodeProduce(MPTv2Items.compressedThorium, () -> {});
 
-                    nodeProduce(MPTv2Items.efficiencyTechnologyPack, () -> {});
-                    nodeProduce(MPTv2Items.turretResearchPack, () -> {});
-                    nodeProduce(MPTv2Items.unitResearchPack, () -> {});
-                    nodeProduce(MPTv2Liquids.meter, () -> {});
+                    nodeProduce(MPTv2Items.efficiencyTechnologyPack, () -> {
+                        nodeProduce(MPTv2Items.turretResearchPack, () -> {
+                            nodeProduce(MPTv2Items.unitResearchPack, () -> {
+                                nodeProduce(MPTv2Liquids.meter, () -> {});
+                            });
+                        });
+                    });
 
                     nodeProduce(MPTv2Items.metrenFrame, () -> {
                         nodeProduce(MPTv2Items.turretFrame, () -> {
@@ -196,6 +199,7 @@ public class MPTv2RETechTree {
                             nodeProduce(MPTv2Items.oxygenCell, () -> {
                                 nodeProduce(MPTv2Items.deuteriumCell,() -> {
                                     nodeProduce(MPTv2Items.tritiumCell, () -> {
+                                        nodeProduce(MPTv2Items.antimatterCell, () -> {});
                                     });
                                 });
                             });
