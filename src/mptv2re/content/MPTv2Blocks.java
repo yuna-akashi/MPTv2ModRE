@@ -125,7 +125,7 @@ public class MPTv2Blocks {
             size = 3;
             health = 340;
             hasItems = hasPower = true;
-            itemCapacity = 45;
+            itemCapacity = 100;
             craftTime = 8f * 60f;
 
             consumePower(12.5f);
@@ -146,6 +146,19 @@ public class MPTv2Blocks {
             outputItems = with(MPTv2Items.efficiencyTechnologyPack, 1);
 
             requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 50, MPTv2Items.metren, 72));
+        }};
+        antimatterResearchCenter = new GenericCrafter("antimatterResearchCenter"){{
+            size = 3;
+            health = 3000000;
+            hasItems = hasPower = true;
+            itemCapacity = 60;
+            craftTime = 8f * 60f;
+
+            consumePower(14f);
+            consumeItems(with(Items.metaGlass, 15, MPTv2Items.deuteriumCell, 5, MPTv2Items.tritiumCell, 5, MPTv2Items.metrenSilicon, 20 MPTv2Items.metren, 10));
+            optputItems = with(MPTv2Items.antimatterResearchPck, 1);
+
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 90, MPTv2Otems.armorPlate, 90, MPTv2Items.metrenSilicon, 80));
         }};
     }
 
