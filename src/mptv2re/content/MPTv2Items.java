@@ -19,7 +19,7 @@ public class MPTv2Items {
         unitCore, multiCore,
 
         //Research Items
-        turretResearchPack, unitResearchPack, efficiencyTechnologyPack,
+        turretResearchPack, unitResearchPack, efficiencyTechnologyPack, antimatterResearchPack,
 
         //ammo
         metrenAmmo, metrenExplosiveAmmo, metrenMissile, emperorsCristal
@@ -29,6 +29,7 @@ public class MPTv2Items {
         turretResearchPack = new Item("turretResearchPack", Color.valueOf("2e2f34"));//done
         unitResearchPack = new Item("unitResearchPack", Color.valueOf("ffa3f8"));//done
         efficiencyTechnologyPack = new Item("efficiencyTechnologyPack", Color.valueOf("4D49BE"));//done
+        antimatterResearchPack = new Item("antimatterResearchPack", Color.valueOf("4D49BE"));//done
 
         //material
         titaniumAlloy = new Item("titaniumAlloy", Color.valueOf("9C81CE"));//done

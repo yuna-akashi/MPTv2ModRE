@@ -155,10 +155,10 @@ public class MPTv2Blocks {
             craftTime = 8f * 60f;
 
             consumePower(14f);
-            consumeItems(with(Items.metaGlass, 15, MPTv2Items.deuteriumCell, 5, MPTv2Items.tritiumCell, 5, MPTv2Items.metrenSilicon, 20 MPTv2Items.metren, 10));
-            optputItems = with(MPTv2Items.antimatterResearchPck, 1);
+            consumeItems(with(Items.metaglass, 15, MPTv2Items.deuteriumCell, 5, MPTv2Items.tritiumCell, 5, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10));
+            outputItems = with(MPTv2Items.antimatterResearchPack, 1);
 
-            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 90, MPTv2Otems.armorPlate, 90, MPTv2Items.metrenSilicon, 80));
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 90, MPTv2Items.armorPlate, 90, MPTv2Items.metrenSilicon, 80));
         }};
     }
 
@@ -617,24 +617,6 @@ public class MPTv2Blocks {
             requirements(Category.crafting, with(Items.copper, 156, Items.lead, 200, MPTv2Items.titaniumAlloy, 120));
         }};//done
 
-        metrenGlassSmelter = new GenericCrafter("metrenGlassSmelter"){{
-            size = 2;
-            health = 4000000;
-            hasItems = hasPower = true;
-            itemCapacity = 40;
-            craftTime = 1.5f * 60f;
-
-            consumePower(2);
-            consumeItems(with(MPTv2Items.metren, 1, Items.sand, 2));
-            outputItems = with(MPTv2Items.metrenGlass, 1);
-
-            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
-            ambientSound = Sounds.smelter;
-            craftEffect = Fx.smeltsmoke;
-
-            requirements(Category.crafting, with(MPTv2Items.metren, 32));
-        }};//done
-
         metrenArcFurnace = new GenericCrafter("metrenArcFurnace"){{
             size = 3;
             hasPower = hasLiquids = true;
@@ -657,6 +639,24 @@ public class MPTv2Blocks {
 
             requirements(Category.crafting, with(Items.beryllium, 480, Items.tungsten, 360));
         }};
+
+        metrenGlassSmelter = new GenericCrafter("metrenGlassSmelter"){{
+            size = 2;
+            health = 4000000;
+            hasItems = hasPower = true;
+            itemCapacity = 40;
+            craftTime = 1.5f * 60f;
+
+            consumePower(2);
+            consumeItems(with(MPTv2Items.metren, 1, Items.sand, 2));
+            outputItems = with(MPTv2Items.metrenGlass, 1);
+
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
+            ambientSound = Sounds.smelter;
+            craftEffect = Fx.smeltsmoke;
+
+            requirements(Category.crafting, with(MPTv2Items.metren, 32));
+        }};//done
 
         metrenDiamondCompressor = new GenericCrafter("metrenDiamondCompressor"){{
             size = 2;
