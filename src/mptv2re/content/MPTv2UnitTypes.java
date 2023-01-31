@@ -346,17 +346,19 @@ public class MPTv2UnitTypes {
 
             health = 12000;
             armor = 120;
+            hitSize = 20f;
 
             speed = 2F;
             rotateSpeed = 4F;
             engineSize = 0F;
 
+            deathExplosionEffect = reactorExplosion;
+
             weapons.add(
                     new Weapon("none"){{
                         x = 0;
                         y = 0;
-                        shootOnDeath = true;
-                        reload = 20;
+                        reload = 60;
                         shootCone = 180;
                         
                         crushDamage = 10000;
@@ -372,7 +374,6 @@ public class MPTv2UnitTypes {
                         shootStatus = StatusEffects.unmoving;
                         shootStatusDuration = 60f * 2f;
                         shoot.firstShotDelay = MPTv2Fx.jibakuNukeCharge.lifetime;
-                        deathExplosionEffect = dynamicExplosion;
                         bullet = new BombBulletType(){{
                             hitEffect = pulverize;
                             lifetime = 10;
