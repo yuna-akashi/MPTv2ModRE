@@ -1,5 +1,6 @@
 package mptv2re.content;
 
+import arc.graphics.Color;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
 import arc.math.Rand;
@@ -33,6 +34,25 @@ public class MPTv2Fx extends Fx {
                 color();
 
                 Fill.circle(e.x, e.y, e.fin() * 10);
-                Drawf.light(e.x, e.y, e.fin() * 20f, Pal.heal, 0.7f);
-            }).followParent(true).rotWithParent(true);
+                Drawf.light(e.x, e.y, e.fin() * 20f, Pal.suppress, 0.7f);
+            }).followParent(true).rotWithParent(true),
+
+            jibakuNukeCharge = new Effect(80f, 100f, e -> {
+                color(Color.valueOf("ff0000"));
+                stroke(e.fin() * 2f);
+                Lines.circle(e.x, e.y, 4f + e.fout() * 100f);
+
+                Fill.circle(e.x, e.y, e.fin() * 20);
+
+                randLenVectors(e.id, 20, 40f * e.fout(), (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, e.fin() * 5f);
+                    Drawf.light(e.x + x, e.y + y, e.fin() * 15f, Color.valueOf("ff0000"), 0.7f);
+                });
+
+                color();
+
+                Fill.circle(e.x, e.y, e.fin() * 10);
+                Drawf.light(e.x, e.y, e.fin() * 20f, Color.valueOf("ff0000"), 0.7f);
+            }).followParent(true).rotWithParent(true)
+            ;
 }

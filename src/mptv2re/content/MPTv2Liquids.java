@@ -10,7 +10,7 @@ public class MPTv2Liquids extends Liquids {
     ;
 
     public static void load() {
-        deuterium = new Liquid("deuteriumCell", Color.valueOf("41b9cb")){{
+        deuterium = new Liquid("deuterium", Color.valueOf("41b9cb")){{
             gas = true;
             flammability = 1.25f;
         }};

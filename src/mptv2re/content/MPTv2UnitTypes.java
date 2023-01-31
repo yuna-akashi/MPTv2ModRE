@@ -296,87 +296,103 @@ public class MPTv2UnitTypes {
 
                 abilities.add(new ForceFieldAbility(140f, 5f, 10000f, 60f * 12));
             }};
+        }};
+    }
 
-            //attacker
-            jibakuRoomba = new MPTv2UnitType("jibakuRoomba"){{
-                constructor = EntityMapping.map(3);
-                aiController = SuicideAI::new;
+    public static void loadAttackRoomba() {
+        //attacker
+        jibakuRoomba = new MPTv2UnitType("jibakuRoomba"){{
+            constructor = EntityMapping.map(3);
+            aiController = SuicideAI::new;
 
-                flying= false;
+            flying= false;
 
-                health = 1200;
-                armor = 120;
+            health = 1200;
+            armor = 120;
 
-                speed = 5F;
-                rotateSpeed = 18F;
-                engineSize = 0F;
+            speed = 5F;
+            rotateSpeed = 18F;
+            engineSize = 0F;
 
-                weapons.add(
-                        new Weapon("none"){{
-                            x = 0;
-                            y = 0;
-                            shootOnDeath = true;
-                            reload = 24;
-                            shootCone = 180;
-                            ejectEffect = none;
-                            shootSound = explosion;
-                            shootY = 0;
-                            mirror = false;
-                            bullet = new BombBulletType(){{
-                                hitEffect = pulverize;
-                                lifetime = 10;
-                                speed = 1;
-                                instantDisappear = killShooter = collidesAir = true;
-                                hittable = false;
-                                splashDamage = 250;
-                                splashDamageRadius = 100;
-                            }};
-                        }}
-                );
-            }};
+            weapons.add(
+                    new Weapon("none"){{
+                        x = 0;
+                        y = 0;
+                        shootOnDeath = true;
+                        reload = 24;
+                        shootCone = 180;
+                        ejectEffect = none;
+                        shootSound = explosion;
+                        shootY = 0;
+                        mirror = false;
+                        bullet = new BombBulletType(){{
+                            hitEffect = pulverize;
+                            lifetime = 10;
+                            speed = 1;
+                            instantDisappear = killShooter = collidesAir = true;
+                            hittable = false;
+                            splashDamage = 250;
+                            splashDamageRadius = 100;
+                        }};
+                    }}
+            );
+        }};
 
-            jibakuNukeRoomba = new MPTv2UnitType("jibakuNukeRoomba"){{
-                constructor = EntityMapping.map(3);
-                aiController = SuicideAI::new;
+        jibakuNukeRoomba = new MPTv2UnitType("jibakuNukeRoomba"){{
+            constructor = EntityMapping.map(3);
+            aiController = SuicideAI::new;
 
-                flying= false;
+            flying= false;
 
-                health = 1200;
-                armor = 120;
+            health = 12000;
+            armor = 120;
 
-                speed = 2F;
-                rotateSpeed = 18F;
-                engineSize = 0F;
+            speed = 2F;
+            rotateSpeed = 4F;
+            engineSize = 0F;
 
-                weapons.add(
-                        new Weapon("none"){{
-                            x = 0;
-                            y = 0;
-                            shootOnDeath = true;
-                            reload = 24;
-                            shootCone = 180;
-                            ejectEffect = none;
-                            shootSound = explosion;
-                            shootY = 0;
-                            mirror = false;
-                            bullet = new BombBulletType(){{
-                                hitEffect = pulverize;
-                                lifetime = 10;
-                                speed = 1;
-                                instantDisappear = killShooter = collidesAir = true;
-                                hittable = false;
-                                splashDamage = 1000;
-                                splashDamageRadius = 250;
-                            }};
-                        }}
-                );
-            }};
+            weapons.add(
+                    new Weapon("none"){{
+                        x = 0;
+                        y = 0;
+                        shootOnDeath = true;
+                        reload = 20;
+                        shootCone = 180;
+                        
+                        crushDamage = 10000;
+                        shootOnDeath = true;
+                        
+                        ejectEffect = none;
+                        shootSound = explosion;
+                        chargeSound = Sounds.lasercharge;
+                        range = 32f;
+                        shootY = 0;
+                        mirror = false;
+                        shootWarmupSpeed = 0.125f;
+                        shootStatus = StatusEffects.unmoving;
+                        shootStatusDuration = 60f * 2f;
+                        shoot.firstShotDelay = MPTv2Fx.jibakuNukeCharge.lifetime;
+                        deathExplosionEffect = dynamicExplosion;
+                        bullet = new BombBulletType(){{
+                            hitEffect = pulverize;
+                            lifetime = 10;
+                            speed = 1;
+                            instantDisappear = killShooter = collidesAir = true;
+                            hittable = false;
+                            splashDamage = 54827;
+                            splashDamageRadius = 1600f;
 
-            attackRoomba = new MPTv2UnitType("attackRoomba"){{
-                constructor = EntityMapping.map(3);
+                            lightColor = lightningColor = Pal.suppress;
+                            chargeEffect = MPTv2Fx.jibakuNukeCharge;
+                        }};
+                    }}
+            );
+        }};
 
-                flying = false;
-            }};
+        attackRoomba = new MPTv2UnitType("attackRoomba"){{
+            constructor = EntityMapping.map(3);
+
+            flying = false;
         }};
     }
 
@@ -1249,6 +1265,7 @@ public class MPTv2UnitTypes {
 
     public static void load() {
         loadPreviousWeapon();
+        loadAttackRoomba();
         loadRoombas();
         loadAntimatter();
         loadCoreUnits();

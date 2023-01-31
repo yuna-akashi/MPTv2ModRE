@@ -28,6 +28,7 @@ public class MPTv2RETechTree {
                 node(MPTv2Blocks.coreAdvance, () -> {
                     node(MPTv2Blocks.coreExperimental, () -> {
                         node(MPTv2Blocks.coreEmperorOfAntimatter, () -> {
+                            node(MPTv2Blocks.coreSDU);
                         });
                     });
                 });
