@@ -46,6 +46,9 @@ public class MPTv2UnitTypes {
             roomba, miningRoomba, builderRoomba, rebuildRoomba, repairRoomba, shieldRoomba, attackRoomba, jibakuRoomba, jibakuNukeRoomba,/*,
             jibakuCarrierRoomba, jibakuNukeCarrierRoomba, heavyCarrierRoomba, supportCarrierRoomba,*/
 
+            //spider
+            ayu, mino, ami, meru, nimu,
+
             ///*AirUnits*/
             //AirShips
             /*stingray, bommer, destroyer, cruiser, battleship, carrier*/
@@ -66,6 +69,7 @@ public class MPTv2UnitTypes {
         EntityMapping.nameMap.put(MPTv2RE.name("rebuildRoomba"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(MPTv2RE.name("healerRoomba"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(MPTv2RE.name("shieldRoomba"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(MPTv2RE.name("ayu"), EntityMapping.idMap[3]);
     }
 
     public static class MPTv2UnitType extends UnitType{
@@ -346,7 +350,7 @@ public class MPTv2UnitTypes {
 
             health = 12000;
             armor = 120;
-            hitSize = 20f;
+            hitSize = 15f;
 
             speed = 2F;
             rotateSpeed = 4F;
@@ -355,7 +359,7 @@ public class MPTv2UnitTypes {
             deathExplosionEffect = reactorExplosion;
 
             weapons.add(
-                    new Weapon("none"){{
+                    new Weapon("jibakuNukeRoomba"){{
                         x = 0;
                         y = 0;
                         reload = 60;
@@ -367,7 +371,7 @@ public class MPTv2UnitTypes {
                         ejectEffect = none;
                         shootSound = explosion;
                         chargeSound = Sounds.lasercharge;
-                        range = 32f;
+                        range = 48f;
                         shootY = 0;
                         mirror = false;
                         shootWarmupSpeed = 0.125f;
@@ -394,6 +398,90 @@ public class MPTv2UnitTypes {
             constructor = EntityMapping.map(3);
 
             flying = false;
+        }};
+    }
+
+    public static void loadSpider() {
+        ayu = new ErekirUnitType("ayu"){{
+            constructor = EntityMapping.map(5);
+
+            speed = 0.72f;
+            drag = 0.11f;
+            hitSize = 9f;
+            rotateSpeed = 3f;
+            health = 1360;
+            armor = 8f;
+            legStraightness = 0.3f;
+            stepShake = 0f;
+
+            legCount = 6;
+            legLength = 8f;
+            lockLegBase = true;
+            legContinuousMove = true;
+            legExtension = -2f;
+            legBaseOffset = 3f;
+            legMaxLength = 1.1f;
+            legMinLength = 0.2f;
+            legLengthScl = 0.96f;
+            legForwardScl = 1.1f;
+            legGroupSize = 3;
+            rippleScale = 0.2f;
+
+            legMoveSpace = 1f;
+            allowLegStep = true;
+            hovering = true;
+            legPhysicsLayer = false;
+
+            shadowElevation = 0.1f;
+            groundLayer = Layer.legUnit - 1f;
+            targetAir = false;
+
+            weapons.add(
+                    new Weapon(MPTv2RE.name("mainWeapon")){{
+                        shootSound = Sounds.missileLaunch;
+                        mirror = false;
+                        x = 0f;
+                        y = 1f;
+                        shootY = 4f;
+                        reload = 90f;
+                        range = 80f;
+                        cooldownTime = 60f;
+                        heatColor = Pal.turretHeat;
+
+                        bullet = new MissileBulletType(){{
+                            damage = 40;
+                            homingPower = 20;
+                        }};
+                    }},
+                    new Weapon(MPTv2RE.name("ayu-laser")){{
+                        mirror = true;
+                        x = 5;
+                        y = 1f;
+                        shootY = 1f;
+                        reload = 40;
+                        cooldownTime = 22;
+                        bullet = new LaserBulletType(14){{
+                            width = 2f;
+                            length = 80f;
+                        }};
+                    }}
+            );
+        }};
+
+        mino = new ErekirUnitType("mino"){{
+            constructor = EntityMapping.map(5);
+        }};
+
+        ami = new ErekirUnitType("ami"){{
+            constructor = EntityMapping.map(5);
+        }};
+
+        meru = new ErekirUnitType("meru"){{
+            constructor = EntityMapping.map(5);
+        }};
+
+        nimu = new ErekirUnitType("nimu"){{
+            constructor = EntityMapping.map(5);
         }};
     }
 
@@ -1268,6 +1356,7 @@ public class MPTv2UnitTypes {
         loadPreviousWeapon();
         loadAttackRoomba();
         loadRoombas();
+        loadSpider();
         loadAntimatter();
         loadCoreUnits();
         metrenAssemblyDrone = new ErekirUnitType("metren-assembly-drone"){{

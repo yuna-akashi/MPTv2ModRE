@@ -9,6 +9,7 @@ import static mindustry.content.TechTree.*;
 public class MPTv2RETechTree {
     //public static ObjectMap<UnitType, ItemStack[]> unitBuildCost = new ObjectMap<>();
 
+
     public static void load() {
         nodeRoot("mptv2-re", MPTv2Blocks.titaniumAlloySmelter, () -> {
                     node(MPTv2Blocks.efficiencyTechnologyResearchCenter, () -> {});

@@ -13,6 +13,7 @@ import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.ContinuousLaserBulletType;
 import mindustry.entities.bullet.MissileBulletType;
+import mindustry.entities.bullet.ShrapnelBulletType;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootPattern;
 import mindustry.gen.Sounds;
@@ -55,15 +56,13 @@ import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 import mptv2re.expand.block.turrets.RailgunTurret;
 
-import java.lang.annotation.AnnotationFormatError;
-
 public class MPTv2Blocks {
     public static Block
             //Research centers
             antimatterResearchCenter,
             turretResearchCenter, unitResearchCenter, efficiencyTechnologyResearchCenter,
             //wall
-            titaniumAlloyWall, titaniumAlloyWallLarge, metrenWall, metrenWallLarge,
+            titaniumAlloyWall, titaniumAlloyWallLarge, metrenWall, metrenWallLarge, wallTurret,
 
             //turrets
             assaultCannon, missileSilo, defendTurret, railgun, multiRailgun, guardian,
@@ -296,8 +295,8 @@ public class MPTv2Blocks {
             rotateSpeed = 0.25f;
             coolant = consumeCoolant(0.05F);
             canOverdrive = false;
-//            maxShootCharge = 10;
-//            chargeTimePer1Shot = 30f * 60f;
+/*          maxShootCharge = 10;
+            chargeTimePer1Shot = 30f * 60f;*/
             ammo(
                     MPTv2Items.metrenAmmo, new BasicBulletType(99, 999999999){{
                         width = 32;
@@ -1291,6 +1290,47 @@ public class MPTv2Blocks {
             health = 8000000;
             armor = 200f;
             requirements(Category.defense, with(MPTv2Items.metren, 32));
+        }};
+
+        wallTurret = new ItemTurret("wallTurret"){{
+            size = 1;
+            health = 2000000;
+            reload = 30f;
+            cooldownTime = 12f;
+            range = 40;
+
+            ammo(
+                    Items.copper, new ShrapnelBulletType(){{
+                        length = 40f;
+                        damage = 200000000;
+                        shootEffect = smokeEffect = Fx.thoriumShoot;
+                    }},
+                    MPTv2Items.antimatterCell, new ShrapnelBulletType(){{
+                        length = 40f;
+                        damage = 2000000000;
+                        toColor = MPTv2Items.antimatterCell.color;
+                        shootEffect = smokeEffect = Fx.thoriumShoot;
+                    }}
+            );
+
+            drawer = new DrawTurret(){{
+                parts.add(
+                        new RegionPart("-cap-r"){{
+                              under = turretShading = mirror = false;
+                              moveX = 4f;
+                              moveY = 0;
+                              progress = PartProgress.warmup;
+                        }},
+                        new RegionPart("-cap-l"){{
+                            under = turretShading = mirror = false;
+                            moveX = -4;
+                            moveY = 0;
+                            progress = PartProgress.warmup;
+                        }}
+                );
+            }};
+
+            requirements(Category.defense, with(MPTv2Items.metren, 8));
         }};
 
         loadResearchCenter();
