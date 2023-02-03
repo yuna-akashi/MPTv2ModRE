@@ -1,9 +1,9 @@
 displayName: "MPTv2 RE"
 name: "mptv2-re"
-author: "‚ä‚È‚Ä‚á"
+author: "Yunatexya"
 main: "mptv2re.MPTv2RE"
 description: "Java mod for Mindustry<V7>. It is beta."
-version: 0.0.5
+version: 0.1.2
 java: true
 repo: Yunatexya/MPTv2ModRE
 minGameVersion: 140.1
