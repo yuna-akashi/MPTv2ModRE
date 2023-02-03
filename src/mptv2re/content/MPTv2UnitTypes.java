@@ -13,6 +13,8 @@ import mindustry.entities.abilities.SuppressionFieldAbility;
 import mindustry.entities.abilities.UnitSpawnAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
+import mindustry.entities.part.DrawPart;
+import mindustry.entities.part.HaloPart;
 import mindustry.entities.part.ShapePart;
 import mindustry.entities.pattern.ShootPattern;
 import mindustry.entities.pattern.ShootSpread;
@@ -48,6 +50,8 @@ public class MPTv2UnitTypes {
 
             //spider
             ayu, mino, ami, meru, nimu,
+            //Air
+            pemu,
 
             ///*AirUnits*/
             //AirShips
@@ -445,6 +449,7 @@ public class MPTv2UnitTypes {
                         shootY = 4f;
                         reload = 90f;
                         range = 80f;
+                        lifetime = 20f;
                         cooldownTime = 60f;
                         heatColor = Pal.turretHeat;
 
@@ -457,7 +462,7 @@ public class MPTv2UnitTypes {
                         mirror = true;
                         x = 5;
                         y = 1f;
-                        shootY = 1f;
+                        shootY = 2f;
                         reload = 40;
                         cooldownTime = 22;
                         bullet = new LaserBulletType(14){{
@@ -482,6 +487,58 @@ public class MPTv2UnitTypes {
 
         nimu = new ErekirUnitType("nimu"){{
             constructor = EntityMapping.map(5);
+        }};
+    }
+
+    public static void loadAir(){
+        pemu = new ErekirUnitType("pemu"){{
+            constructor = EntityMapping.map(20);
+            defaultCommand = UnitCommand.assistCommand;
+
+            buildSpeed = 3.5f;
+            mineTier = 9;
+            mineSpeed = 23f;
+
+            isEnemy = false;
+
+            health = 20000;
+            armor = 120;
+            targetable = false;
+
+            speed = 10f;
+            rotateSpeed = 15f;
+            accel = 0.08f;
+            drag = 0.04f;
+            flying = true;
+            engineSize = 0f;
+            hitSize = 25f;
+            itemCapacity = 65;
+
+            var haloProgress = DrawPart.PartProgress.warmup.delay(0.5f);
+            float haloY = -15f, haloRotSpeed = 1f;
+
+            abilities.add(
+                    new RepairFieldAbility(1200f, 30f * 60f, 320f)
+            );
+
+            parts.add(
+                    new HaloPart(){{
+                        progress = haloProgress;
+                        color = Pal.accent;
+                        layer = Layer.effect;
+                        y = haloY;
+                        haloRotateSpeed = -haloRotSpeed;
+
+                        shapes = 4;
+                        shapeRotation = 180f;
+                        triLength = 0f;
+                        triLengthTo = 2f;
+                        haloRotation = 45f;
+                        haloRadius = 16f;
+                        tri = true;
+                        radius = 8f;
+                    }}
+            );
         }};
     }
 
@@ -946,7 +1003,7 @@ public class MPTv2UnitTypes {
             );
 
             abilities.add(
-                    new RepairFieldAbility(1000, 10f * 60f, 1600),
+                    new RepairFieldAbility(2000, 60f * 60f, 1600),
                     new SuppressionFieldAbility() {{
                         y = 20f;
                         orbRadius = orbRad;
@@ -1357,6 +1414,7 @@ public class MPTv2UnitTypes {
         loadAttackRoomba();
         loadRoombas();
         loadSpider();
+        loadAir();
         loadAntimatter();
         loadCoreUnits();
         metrenAssemblyDrone = new ErekirUnitType("metren-assembly-drone"){{
