@@ -93,7 +93,7 @@ public class MPTv2Blocks {
             metrenBattery, largeMetrenBattery, powerCondenser, metrenBeamCondenser,
 
             //units
-            roombaFactory, metrenUnitFactory,
+            roombaFactory, metrenUnitFactory, ayuAssembler,
             metrenAdditiveReconstructor, metrenMultiplicativeReconstructor,
 
             antimatteredUnitFactory, antimatteredAssembler, metrenAssemblerModule, antimatteredAssemblerModule,
@@ -1034,36 +1034,69 @@ public class MPTv2Blocks {
             requirements(Category.units, with(MPTv2Items.antimatterFrame, 9, MPTv2Items.antimatterArmorPlate, 9, MPTv2Items.metrenSilicon, 220));
         }};
 
-        metrenAdditiveReconstructor = new Reconstructor("antimatteredAdditiveReconstructor"){{
+        metrenAdditiveReconstructor = new Reconstructor("metrenAdditiveReconstructor"){{
             size = 3;
             health = 9000000;
 
             consumePower(4.5f);
-            consumeItems(with(MPTv2Items.antimatterArmorPlate, 10, MPTv2Items.metrenSilicon, 20));
+            consumeItems(with(MPTv2Items.armorPlate, 10, MPTv2Items.metrenSilicon, 20));
 
             constructTime = 35f * 60f;
 
             upgrades.addAll(
+                    //attack roomba
+                    new UnitType[]{MPTv2UnitTypes.roomba, MPTv2UnitTypes.attackRoomba},
+
+                    new UnitType[]{MPTv2UnitTypes.jibakuRoomba, MPTv2UnitTypes.jibakuNukeRoomba},
+                    //special roomba
+                    new UnitType[]{MPTv2UnitTypes.miningRoomba, MPTv2UnitTypes.repairRoomba},
+                    new UnitType[]{MPTv2UnitTypes.rebuildRoomba, MPTv2UnitTypes.builderRoomba},
+                    //ayu
+                    new UnitType[]{MPTv2UnitTypes.ayu, MPTv2UnitTypes.mino},
+                    //antimatter
                     new UnitType[]{MPTv2UnitTypes.beast, MPTv2UnitTypes.matter}
             );
 
             requirements(Category.units, with(MPTv2Items.antimatterFrame, 9, MPTv2Items.antimatterArmorPlate, 9, MPTv2Items.metrenSilicon, 260));
         }};
 
-        metrenMultiplicativeReconstructor = new Reconstructor("antimatteredMultiplicativeReconstructor"){{
+        metrenMultiplicativeReconstructor = new Reconstructor("metrenMultiplicativeReconstructor"){{
             size = 5;
             health = 25000000;
 
             consumePower(5f);
-            consumeItems(with(MPTv2Items.antimatterArmorPlate, 40, MPTv2Items.metrenSilicon, 20));
+            consumeItems(with(MPTv2Items.armorPlate, 40, MPTv2Items.metrenSilicon, 20));
 
             constructTime = 45f * 60f;
 
             upgrades.addAll(
+                    //roomba
+                    new UnitType[]{MPTv2UnitTypes.attackRoomba, MPTv2UnitTypes.jibakuRoomba},
+
+                    new UnitType[]{MPTv2UnitTypes.repairRoomba, MPTv2UnitTypes.rebuildRoomba},
+                    new UnitType[]{MPTv2UnitTypes.builderRoomba, MPTv2UnitTypes.shieldRoomba},
+                    //ayu
+                    new UnitType[]{MPTv2UnitTypes.mino, MPTv2UnitTypes.ami},
+                    //antimatter
                     new UnitType[]{MPTv2UnitTypes.matter, MPTv2UnitTypes.ecru}
             );
 
             requirements(Category.units, with(MPTv2Items.antimatterFrame, 25, MPTv2Items.antimatterArmorPlate, 25, MPTv2Items.metrenSilicon, 320));
+        }};
+
+        ayuAssembler = new UnitAssembler("ayuAssembler"){{
+            size = 5;
+            health = 12500000;
+
+            plans.add(
+                    new AssemblerUnitPlan(MPTv2UnitTypes.meru, 60f *60f, PayloadStack.list(MPTv2UnitTypes.mino, 8, MPTv2Blocks.metrenWall, 10)),
+                    new AssemblerUnitPlan(MPTv2UnitTypes.nimu, 90f * 60f, PayloadStack.list(MPTv2UnitTypes.ami, 10, MPTv2Blocks.metrenWallLarge, 20))
+            );
+
+            consumePower(5.5f);
+            consumeLiquid(Liquids.cryofluid, 2f);
+
+            requirements(Category.units, with(MPTv2Items.metrenFrame, 250, MPTv2Items.armorPlate, 250, MPTv2Items.metrenSilicon, 120));
         }};
 
         antimatteredAssembler = new UnitAssembler("antimatteredAssembler"){{
@@ -1074,9 +1107,9 @@ public class MPTv2Blocks {
             droneType = MPTv2UnitTypes.metrenAssemblyDrone;
 
             plans.add(
-                    new AssemblerUnitPlan(MPTv2UnitTypes.ecru, 60f * 60f, PayloadStack.list(MPTv2UnitTypes.beast, 8, MPTv2Blocks.metrenWall, 8)),
-                    new AssemblerUnitPlan(MPTv2UnitTypes.eter, 360f * 60f, PayloadStack.list(MPTv2UnitTypes.matter, 8, MPTv2Blocks.metrenWall, 24)),
-                    new AssemblerUnitPlan(MPTv2UnitTypes.destAllier, 600f * 60f, PayloadStack.list(MPTv2UnitTypes.ecru, 10, MPTv2Blocks.metrenWallLarge, 48))
+                    new AssemblerUnitPlan(MPTv2UnitTypes.ecru, 60f * 60f, PayloadStack.list(MPTv2UnitTypes.beast, 8, MPTv2Blocks.metrenWall, 80)),
+                    new AssemblerUnitPlan(MPTv2UnitTypes.eter, 360f * 60f, PayloadStack.list(MPTv2UnitTypes.matter, 8, MPTv2Blocks.metrenWall, 240)),
+                    new AssemblerUnitPlan(MPTv2UnitTypes.destAllier, 600f * 60f, PayloadStack.list(MPTv2UnitTypes.ecru, 10, MPTv2Blocks.metrenWallLarge, 480))
             );
 
             consumePower(8);
@@ -1085,22 +1118,22 @@ public class MPTv2Blocks {
             requirements(Category.units, with(MPTv2Items.antimatterFrame, 49, MPTv2Items.antimatterArmorPlate, 49, MPTv2Items.metrenSilicon, 380));
         }};
 
-        antimatteredAssemblerModule = new UnitAssemblerModule("antimatteredAssemblerModule"){{
+        metrenAssemblerModule = new UnitAssemblerModule("metrenAssemblerModule"){{
             size = 5;
             health = 25000000;
 
-            tier = 2;
+            tier = 1;
 
             consumePower(6.5f);
 
             requirements(Category.units, with(MPTv2Items.antimatterFrame, 25, MPTv2Items.antimatterArmorPlate, 25, MPTv2Items.metrenSilicon, 420));
         }};
 
-        metrenAssemblerModule = new UnitAssemblerModule("metrenAssemblerModule"){{
+        antimatteredAssemblerModule = new UnitAssemblerModule("antimatteredAssemblerModule"){{
             size = 5;
             health = 25000000;
 
-            tier = 1;
+            tier = 2;
 
             consumePower(6.5f);
 

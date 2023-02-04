@@ -45,7 +45,8 @@ public class MPTv2UnitTypes {
             metre/*, advance, experimental*/, aoe,
 
             ///*Rommbas*/
-            roomba, miningRoomba, builderRoomba, rebuildRoomba, repairRoomba, shieldRoomba, attackRoomba, jibakuRoomba, jibakuNukeRoomba,/*,
+            roomba,  attackRoomba, jibakuRoomba, jibakuNukeRoomba,
+            miningRoomba, repairRoomba, rebuildRoomba, builderRoomba, shieldRoomba,/*,
             jibakuCarrierRoomba, jibakuNukeCarrierRoomba, heavyCarrierRoomba, supportCarrierRoomba,*/
 
             //spider
@@ -407,7 +408,7 @@ public class MPTv2UnitTypes {
 
     public static void loadSpider() {
         ayu = new ErekirUnitType("ayu"){{
-            constructor = EntityMapping.map(5);
+            constructor = EntityMapping.map(3);
 
             speed = 0.72f;
             drag = 0.11f;
@@ -474,19 +475,19 @@ public class MPTv2UnitTypes {
         }};
 
         mino = new ErekirUnitType("mino"){{
-            constructor = EntityMapping.map(5);
+            constructor = EntityMapping.map(3);
         }};
 
         ami = new ErekirUnitType("ami"){{
-            constructor = EntityMapping.map(5);
+            constructor = EntityMapping.map(3);
         }};
 
         meru = new ErekirUnitType("meru"){{
-            constructor = EntityMapping.map(5);
+            constructor = EntityMapping.map(3);
         }};
 
         nimu = new ErekirUnitType("nimu"){{
-            constructor = EntityMapping.map(5);
+            constructor = EntityMapping.map(3);
         }};
     }
 
@@ -507,8 +508,8 @@ public class MPTv2UnitTypes {
 
             speed = 10f;
             rotateSpeed = 15f;
-            accel = 0.08f;
-            drag = 0.04f;
+            accel = 0.01f;
+            drag = 0.35f;
             flying = true;
             engineSize = 0f;
             hitSize = 25f;
