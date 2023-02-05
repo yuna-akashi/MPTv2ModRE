@@ -7,10 +7,7 @@ import mindustry.ai.types.*;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.content.UnitTypes;
-import mindustry.entities.abilities.ForceFieldAbility;
-import mindustry.entities.abilities.RepairFieldAbility;
-import mindustry.entities.abilities.SuppressionFieldAbility;
-import mindustry.entities.abilities.UnitSpawnAbility;
+import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.part.DrawPart;
@@ -107,33 +104,6 @@ public class MPTv2UnitTypes {
     }
 
     public static void loadRoombas() {
-        roomba = new MPTv2UnitType("roomba"){{
-            localizedName = "Roomba";
-            description = "Clean.";
-            constructor = EntityMapping.map(3);
-            aiController = SuicideAI::new;
-
-            flying = false;
-
-            itemCapacity = 10;
-            health = 50000;
-            armor = 500;
-
-            speed = 5F;
-            range = 250;
-            rotateSpeed = 20F;
-            faceTarget = false;
-
-            legCount = 100;
-            legLength = 1;
-            legMoveSpace = 1.4f;
-            legSplashDamage = 500000000;
-            legSplashRange = 10.75f;
-            hovering = true;
-
-            targetFlags = new BlockFlag[]{BlockFlag.repair, BlockFlag.turret, BlockFlag.reactor, BlockFlag.generator, BlockFlag.core, null};
-        }};
-
         //Special
         miningRoomba = new MPTv2UnitType("miningRoomba"){{
             constructor = EntityMapping.map(3);
@@ -310,8 +280,34 @@ public class MPTv2UnitTypes {
 
     public static void loadAttackRoomba() {
         //attacker
+        roomba = new MPTv2UnitType("roomba"){{
+            localizedName = "Roomba";
+            description = "Clean.";
+            constructor = EntityMapping.map(24);
+            aiController = SuicideAI::new;
+
+            flying = false;
+
+            itemCapacity = 10;
+            health = 50000;
+            armor = 500;
+
+            speed = 5F;
+            range = 250;
+            rotateSpeed = 20F;
+            faceTarget = false;
+
+            legCount = 100;
+            legLength = 1;
+            legMoveSpace = 1.4f;
+            legSplashDamage = 500000000;
+            legSplashRange = 10.75f;
+            hovering = true;
+
+            targetFlags = new BlockFlag[]{BlockFlag.repair, BlockFlag.turret, BlockFlag.reactor, BlockFlag.generator, BlockFlag.core, null};
+        }};
         jibakuRoomba = new MPTv2UnitType("jibakuRoomba"){{
-            constructor = EntityMapping.map(3);
+            constructor = EntityMapping.map(4);
             aiController = SuicideAI::new;
 
             flying= false;
@@ -348,7 +344,7 @@ public class MPTv2UnitTypes {
         }};
 
         jibakuNukeRoomba = new MPTv2UnitType("jibakuNukeRoomba"){{
-            constructor = EntityMapping.map(3);
+            constructor = EntityMapping.map(4);
             aiController = SuicideAI::new;
 
             flying= false;
@@ -408,7 +404,7 @@ public class MPTv2UnitTypes {
 
     public static void loadSpider() {
         ayu = new ErekirUnitType("ayu"){{
-            constructor = EntityMapping.map(3);
+            constructor = EntityMapping.map(24);
 
             speed = 0.72f;
             drag = 0.11f;
@@ -475,25 +471,195 @@ public class MPTv2UnitTypes {
         }};
 
         mino = new ErekirUnitType("mino"){{
-            constructor = EntityMapping.map(3);
+            constructor = EntityMapping.map(24);
+
+            speed = 0.7f;
+            drag = 0.1f;
+            hitSize = 14f;
+            rotateSpeed = 3f;
+            health = 1100;
+            armor = 5f;
+            stepShake = 0f;
+
+            legCount = 4;
+            legLength = 14f;
+            lockLegBase = true;
+            legContinuousMove = true;
+            legExtension = -3f;
+            legBaseOffset = 5f;
+            legMaxLength = 1.1f;
+            legMinLength = 0.2f;
+            legLengthScl = 0.95f;
+            legForwardScl = 0.7f;
+
+            legMoveSpace = 1f;
+            hovering = true;
+
+            shadowElevation = 0.2f;
+            groundLayer = Layer.legUnit - 1f;
         }};
 
         ami = new ErekirUnitType("ami"){{
-            constructor = EntityMapping.map(3);
+            constructor = EntityMapping.map(24);
+
+            speed = 0.65f;
+            drag = 0.1f;
+            hitSize = 21f;
+            rotateSpeed = 3f;
+            health = 2900;
+            armor = 7f;
+            fogRadius = 40f;
+            stepShake = 0f;
+
+            legCount = 6;
+            legLength = 18f;
+            legGroupSize = 3;
+            lockLegBase = true;
+            legContinuousMove = true;
+            legExtension = -3f;
+            legBaseOffset = 7f;
+            legMaxLength = 1.1f;
+            legMinLength = 0.2f;
+            legLengthScl = 0.95f;
+            legForwardScl = 0.9f;
+
+            legMoveSpace = 1f;
+            hovering = true;
+
+            shadowElevation = 0.2f;
+            groundLayer = Layer.legUnit - 1f;
         }};
 
         meru = new ErekirUnitType("meru"){{
-            constructor = EntityMapping.map(3);
+            constructor = EntityMapping.map(24);
+
+            drag = 0.1f;
+            speed = 0.6f;
+            hitSize = 23f;
+            health = 6700;
+            armor = 5f;
+
+            lockLegBase = true;
+            legContinuousMove = true;
+            legGroupSize = 3;
+            legStraightness = 0.4f;
+            baseLegStraightness = 0.5f;
+            legMaxLength = 1.3f;
+            researchCostMultiplier = 0f;
+
+            abilities.add(new ShieldArcAbility(){{
+                region = "tecta-shield";
+                radius = 34f;
+                angle = 82f;
+                regen = 0.6f;
+                cooldown = 60f * 8f;
+                max = 1500f;
+                y = -20f;
+                width = 6f;
+            }});
+
+            rotateSpeed = 2.1f;
+
+            legCount = 6;
+            legLength = 15f;
+            legForwardScl = 0.45f;
+            legMoveSpace = 1.4f;
+            rippleScale = 2f;
+            stepShake = 0.5f;
+            legExtension = -5f;
+            legBaseOffset = 5f;
+
+            ammoType = new PowerAmmoType(2000);
+
+            legSplashDamage = 32;
+            legSplashRange = 30;
+            drownTimeMultiplier = 2f;
+
+            hovering = true;
+            shadowElevation = 0.4f;
+            groundLayer = Layer.legUnit;
         }};
 
         nimu = new ErekirUnitType("nimu"){{
-            constructor = EntityMapping.map(3);
+            constructor = EntityMapping.map(24);
+
+
+            drag = 0.1f;
+            speed = 1.1f;
+            hitSize = 60f;
+            health = 500000;
+            armor = 200;
+            rotateSpeed = 1.6f;
+            lockLegBase = true;
+            legContinuousMove = true;
+            legStraightness = 0.6f;
+            baseLegStraightness = 0.5f;
+
+            legCount = 8;
+            legLength = 30f;
+            legForwardScl = 2.1f;
+            legMoveSpace = 1.05f;
+            rippleScale = 1.2f;
+            stepShake = 0.5f;
+            legGroupSize = 2;
+            legExtension = -6f;
+            legBaseOffset = 21f;
+            legStraightLength = 0.9f;
+            legMaxLength = 1.2f;
+
+            ammoType = new PowerAmmoType(2000);
+
+            legSplashDamage = 48;
+            legSplashRange = 48;
+            drownTimeMultiplier = 2f;
+
+            hovering = true;
+            shadowElevation = 0.4f;
+            groundLayer = Layer.legUnit;
+
+            targetAir = false;
+            alwaysShootWhenMoving = true;
+
+            weapons.addAll(
+                    new Weapon(){{
+                        x = y = 0;
+                        mirror = rotate = false;
+
+                        shootY = 6f;
+                        reload = 240f;
+                        cooldownTime = 110;
+                        range = 400f;
+
+                        bullet = new ArtilleryBulletType(75, 520){{
+                            lifetime = 40f;
+                            shootSound = Sounds.artillery;
+                        }};
+                    }},
+                    new Weapon(){{
+                        x = 30f;
+                        y = 10f;
+                        shootY = 5f;
+
+                        reload = 200f;
+                        shootWarmupSpeed = 90f;
+                        cooldownTime = 60f;
+
+                        bullet = new EmpBulletType(){{
+                            damage = 420;
+                            width = 15f;
+                            height = 40f;
+                            speed = 25f;
+                            lifetime = 60f;
+                            shootSound = Sounds.pulseBlast;
+                        }};
+                    }}
+            );
         }};
     }
 
     public static void loadAir(){
         pemu = new ErekirUnitType("pemu"){{
-            constructor = EntityMapping.map(20);
+            constructor = EntityMapping.map(3);
             defaultCommand = UnitCommand.assistCommand;
 
             buildSpeed = 3.5f;
@@ -506,39 +672,17 @@ public class MPTv2UnitTypes {
             armor = 120;
             targetable = false;
 
-            speed = 10f;
-            rotateSpeed = 15f;
-            accel = 0.01f;
-            drag = 0.35f;
+            speed = 15f;
+            rotateSpeed = 8f;
+            accel = 0.05f;
+            drag = 0.08f;
             flying = true;
             engineSize = 0f;
             hitSize = 25f;
             itemCapacity = 65;
 
-            var haloProgress = DrawPart.PartProgress.warmup.delay(0.5f);
-            float haloY = -15f, haloRotSpeed = 1f;
-
             abilities.add(
                     new RepairFieldAbility(1200f, 30f * 60f, 320f)
-            );
-
-            parts.add(
-                    new HaloPart(){{
-                        progress = haloProgress;
-                        color = Pal.accent;
-                        layer = Layer.effect;
-                        y = haloY;
-                        haloRotateSpeed = -haloRotSpeed;
-
-                        shapes = 4;
-                        shapeRotation = 180f;
-                        triLength = 0f;
-                        triLengthTo = 2f;
-                        haloRotation = 45f;
-                        haloRadius = 16f;
-                        tri = true;
-                        radius = 8f;
-                    }}
             );
         }};
     }
@@ -958,7 +1102,7 @@ public class MPTv2UnitTypes {
         }};
 
         destAllier = new MPTv2UnitType("destAllier"){{
-            constructor = EntityMapping.map(3);
+            constructor = EntityMapping.map(26);
             aiController = DefenderAI::new;
             isEnemy = true;
 
@@ -1419,7 +1563,7 @@ public class MPTv2UnitTypes {
         loadAntimatter();
         loadCoreUnits();
         metrenAssemblyDrone = new ErekirUnitType("metren-assembly-drone"){{
-            constructor = EntityMapping.map(3);
+            constructor = EntityMapping.map(36);
             controller = u -> new AssemblerAI();
 
             flying = true;
