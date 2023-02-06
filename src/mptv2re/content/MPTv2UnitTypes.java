@@ -2,6 +2,7 @@ package mptv2re.content;
 
 import arc.graphics.Color;
 import arc.math.Interp;
+import arc.math.Mathf;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.*;
 import mindustry.content.Fx;
@@ -10,8 +11,11 @@ import mindustry.content.UnitTypes;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
+import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.WaveEffect;
 import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.HaloPart;
+import mindustry.entities.part.RegionPart;
 import mindustry.entities.part.ShapePart;
 import mindustry.entities.pattern.ShootPattern;
 import mindustry.entities.pattern.ShootSpread;
@@ -583,7 +587,6 @@ public class MPTv2UnitTypes {
         nimu = new ErekirUnitType("nimu"){{
             constructor = EntityMapping.map(24);
 
-
             drag = 0.1f;
             speed = 1.1f;
             hitSize = 60f;
@@ -600,10 +603,10 @@ public class MPTv2UnitTypes {
             legForwardScl = 2.1f;
             legMoveSpace = 1.05f;
             rippleScale = 1.2f;
-            stepShake = 0.5f;
+            stepShake = 0.8f;
             legGroupSize = 2;
             legExtension = -6f;
-            legBaseOffset = 21f;
+            legBaseOffset = 30f;
             legStraightLength = 0.9f;
             legMaxLength = 1.2f;
 
@@ -619,21 +622,224 @@ public class MPTv2UnitTypes {
 
             targetAir = false;
             alwaysShootWhenMoving = true;
+            Color nimuColor = Color.valueOf("6e7080"), heatCol = Color.purple;
+
+            var circleProgress = DrawPart.PartProgress.warmup.delay(0.9f);
+            var circleColor = nimuColor;
+            float circleY = -10f, circleRad = 11f, circleRotSpeed = 3.5f, circleStroke = 1.6f;
+
 
             weapons.addAll(
                     new Weapon(){{
                         x = y = 0;
                         mirror = rotate = false;
 
-                        shootY = 6f;
+                        shootY = 20f;
                         reload = 240f;
                         cooldownTime = 110;
                         range = 400f;
 
-                        bullet = new ArtilleryBulletType(75, 520){{
-                            lifetime = 40f;
-                            shootSound = Sounds.artillery;
+                        bullet = new BulletType(){{
+                            shootEffect = Fx.sparkShoot;
+                            smokeEffect = Fx.shootSmokeTitan;
+                            hitColor = Pal.suppress;
+                            shake = 1f;
+                            speed = 0f;
+                            keepVelocity = false;
+
+                            spawnUnit = new MissileUnitType("nimu-missile"){{
+                                speed = 8f;
+                                maxRange = 6f;
+                                lifetime = 60f * 7f;
+                                outlineColor = Pal.darkOutline;
+                                engineColor = trailColor = Pal.redLight;
+                                engineLayer = Layer.effect;
+                                engineSize = 3.1f;
+                                engineOffset = 11f;
+                                rotateSpeed = 0.25f;
+                                trailLength = 18;
+                                missileAccelTime = 50f;
+                                lowAltitude = true;
+                                loopSound = Sounds.missileTrail;
+                                loopSoundVolume = 0.6f;
+                                deathSound = Sounds.largeExplosion;
+                                targetAir = false;
+
+                                fogRadius = 6f;
+
+                                health = 210;
+
+                                parts.add(
+                                        //circle
+                                        new ShapePart(){{
+                                            layer = Layer.effect;
+                                            circle = true;
+                                            y = -0.25f;
+                                            radius = 1.5f;
+                                            color = nimuColor;
+                                            colorTo = Color.white;
+                                            progress = PartProgress.life.curve(Interp.pow5In);
+                                        }}
+
+                                        //shape
+                                );
+
+                                weapons.add(new Weapon(){{
+                                    shootCone = 360f;
+                                    mirror = false;
+                                    reload = 1f;
+                                    deathExplosionEffect = Fx.massiveExplosion;
+                                    shootOnDeath = true;
+                                    shake = 10f;
+                                    bullet = new ExplosionBulletType(640f, 65f){{
+                                        hitColor = Pal.redLight;
+                                        shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosion, Fx.scatheLight, new WaveEffect(){{
+                                            lifetime = 10f;
+                                            strokeFrom = 4f;
+                                            sizeTo = 130f;
+                                        }});
+
+                                        collidesAir = false;
+                                        buildingDamageMultiplier = 0.3f;
+
+                                        ammoMultiplier = 1f;
+                                        fragLifeMin = 0.1f;
+                                        fragBullets = 7;
+                                        fragBullet = new ArtilleryBulletType(3.4f, 32){{
+                                            buildingDamageMultiplier = 0.3f;
+                                            drag = 0.02f;
+                                            hitEffect = Fx.massiveExplosion;
+                                            despawnEffect = Fx.scatheSlash;
+                                            knockback = 0.8f;
+                                            lifetime = 23f;
+                                            width = height = 18f;
+                                            collidesTiles = false;
+                                            splashDamageRadius = 40f;
+                                            splashDamage = 80f;
+                                            backColor = trailColor = hitColor = Pal.redLight;
+                                            frontColor = Color.white;
+                                            smokeEffect = Fx.shootBigSmoke2;
+                                            despawnShake = 7f;
+                                            lightRadius = 30f;
+                                            lightColor = Pal.redLight;
+                                            lightOpacity = 0.5f;
+
+                                            trailLength = 20;
+                                            trailWidth = 3.5f;
+                                            trailEffect = Fx.none;
+                                        }};
+                                    }};
+                                }});
+                                abilities.add(new MoveEffectAbility(){{
+                                    effect = Fx.missileTrailSmoke;
+                                    rotation = 180f;
+                                    y = -9f;
+                                    color = Color.grays(0.6f).lerp(Pal.redLight, 0.5f).a(0.4f);
+                                    interval = 7f;
+                                }});
+                            }};
                         }};
+
+                        parts.addAll(
+                                new RegionPart("nimu-missile-set"){{
+                                    progress = PartProgress.warmup;
+                                    x = 8;
+                                    drawCell = true;
+                                }},
+
+                                //summoning circle
+                                new ShapePart(){{
+                                    progress = circleProgress;
+                                    color = circleColor;
+                                    circle = true;
+                                    hollow = true;
+                                    stroke = 0f;
+                                    strokeTo = circleStroke;
+                                    radius = circleRad;
+                                    layer = Layer.effect;
+                                    y = circleY;
+                                }},
+
+                                new ShapePart(){{
+                                    progress = circleProgress;
+                                    rotateSpeed = -circleRotSpeed;
+                                    color = circleColor;
+                                    sides = 4;
+                                    hollow = true;
+                                    stroke = 0f;
+                                    strokeTo = circleStroke;
+                                    radius = circleRad - 1f;
+                                    layer = Layer.effect;
+                                    y = circleY;
+                                }},
+
+                                //outer squares
+
+                                new ShapePart(){{
+                                    progress = circleProgress;
+                                    rotateSpeed = -circleRotSpeed;
+                                    color = circleColor;
+                                    sides = 4;
+                                    hollow = true;
+                                    stroke = 0f;
+                                    strokeTo = circleStroke;
+                                    radius = circleRad - 1f;
+                                    layer = Layer.effect;
+                                    y = circleY;
+                                }},
+
+                                //inner square
+                                new ShapePart(){{
+                                    progress = circleProgress;
+                                    rotateSpeed = -circleRotSpeed/2f;
+                                    color = circleColor;
+                                    sides = 4;
+                                    hollow = true;
+                                    stroke = 0f;
+                                    strokeTo = 2f;
+                                    radius = 3f;
+                                    layer = Layer.effect;
+                                    y = circleY;
+                                }},
+
+                                //spikes on circle
+                                new HaloPart(){{
+                                    progress = circleProgress;
+                                    color = circleColor;
+                                    tri = true;
+                                    shapes = 3;
+                                    triLength = 0f;
+                                    triLengthTo = 5f;
+                                    radius = 6f;
+                                    haloRadius = circleRad;
+                                    haloRotateSpeed = 10 / 2f;
+                                    shapeRotation = 180f;
+                                    haloRotation = 180f;
+                                    layer = Layer.effect;
+                                    y = circleY;
+                                }}
+                                //shape
+                        );
+                        Color heatCol2 = heatCol.cpy().add(0.1f, 0.1f, 0.1f).mul(1.2f);
+                        for(int i = 1; i < 4; i++){
+                            int fi = i;
+                            parts.add(new RegionPart("-spine"){{
+                                outline = false;
+                                progress = PartProgress.warmup.delay(fi / 5f);
+                                heatProgress = PartProgress.warmup.add(p -> (Mathf.absin(3f, 0.2f) - 0.2f) * p.warmup);
+                                mirror = true;
+                                under = true;
+                                layerOffset = -0.3f;
+                                turretHeatLayer = Layer.turret - 0.2f;
+                                moveY = 9f;
+                                moveX = 1f + fi * 4f;
+                                moveRot = fi * 60f - 130f;
+
+                                color = Color.valueOf("bb68c3");
+                                heatColor = heatCol2;
+                                moves.add(new PartMove(PartProgress.recoil.delay(fi / 5f), 1f, 0f, 3f));
+                            }});
+                        }
                     }},
                     new Weapon(){{
                         x = 30f;
