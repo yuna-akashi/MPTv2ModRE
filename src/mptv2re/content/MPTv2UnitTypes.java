@@ -6,6 +6,7 @@ import arc.math.Mathf;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.*;
 import mindustry.content.Fx;
+import mindustry.content.Items;
 import mindustry.content.StatusEffects;
 import mindustry.content.UnitTypes;
 import mindustry.entities.abilities.*;
@@ -23,6 +24,7 @@ import mindustry.gen.*;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
+import mindustry.type.ammo.ItemAmmoType;
 import mindustry.type.ammo.PowerAmmoType;
 import mindustry.type.unit.ErekirUnitType;
 import mindustry.type.unit.MissileUnitType;
@@ -42,24 +44,23 @@ public class MPTv2UnitTypes {
         roombaWeapon;
 
     public static UnitType
-            ///*CoreUnits*/
-            metre/*, advance, experimental*/, aoe,
-
-            ///*Rommbas*/
+            ///*Rommbas*///
             roomba,  attackRoomba, jibakuRoomba, jibakuNukeRoomba,
             miningRoomba, repairRoomba, rebuildRoomba, builderRoomba, shieldRoomba,/*,
             jibakuCarrierRoomba, jibakuNukeCarrierRoomba, heavyCarrierRoomba, supportCarrierRoomba,*/
 
+            ///*Grounds*///
             //spider
             ayu, mino, ami, meru, nimu,
-            //Air
-            pemu,
 
-            ///*AirUnits*/
-            //AirShips
-            /*stingray, bommer, destroyer, cruiser, battleship, carrier*/
-            ///*antimatter*/
+            ///*AirUnits*///
+            //Pemu
+            pemu, pemuRecon, pemuBomber, pemuLauncher, pemuCannon, pemuCarrier,
+            //antimatter
             beast, matter, ecru, eter, destAllier,
+
+            ///*CoreUnits*///
+            metre, aoe,
 
             ///*special*/
             metrenAssemblyDrone
@@ -626,7 +627,7 @@ public class MPTv2UnitTypes {
 
             var circleProgress = DrawPart.PartProgress.warmup.delay(0.9f);
             var circleColor = nimuColor;
-            float circleY = -10f, circleRad = 11f, circleRotSpeed = 3.5f, circleStroke = 1.6f;
+            float circleY = -7f, circleRad = 11f, circleRotSpeed = 3.5f, circleStroke = 1.6f;
 
 
             weapons.addAll(
@@ -634,7 +635,7 @@ public class MPTv2UnitTypes {
                         x = y = 0;
                         mirror = rotate = false;
 
-                        shootY = 20f;
+                        shootY = 25f;
                         reload = 240f;
                         cooldownTime = 110;
                         range = 400f;
@@ -656,9 +657,9 @@ public class MPTv2UnitTypes {
                                 engineLayer = Layer.effect;
                                 engineSize = 3.1f;
                                 engineOffset = 11f;
-                                rotateSpeed = 0.25f;
+                                rotateSpeed = 2.5f;
                                 trailLength = 18;
-                                missileAccelTime = 50f;
+                                missileAccelTime = 45f;
                                 lowAltitude = true;
                                 loopSound = Sounds.missileTrail;
                                 loopSoundVolume = 0.6f;
@@ -741,9 +742,9 @@ public class MPTv2UnitTypes {
                         }};
 
                         parts.addAll(
-                                new RegionPart("nimu-missile-set"){{
+                                new RegionPart(MPTv2RE.name("nimu-missile-set")){{
                                     progress = PartProgress.warmup;
-                                    x = 8;
+                                    x = y = 8;
                                     drawCell = true;
                                 }},
 
@@ -860,6 +861,8 @@ public class MPTv2UnitTypes {
                         }};
                     }}
             );
+
+            //parts.addAll();
         }};
     }
 
@@ -876,7 +879,6 @@ public class MPTv2UnitTypes {
 
             health = 20000;
             armor = 120;
-            targetable = false;
 
             speed = 15f;
             rotateSpeed = 8f;
@@ -886,10 +888,364 @@ public class MPTv2UnitTypes {
             engineSize = 0f;
             hitSize = 25f;
             itemCapacity = 65;
+        }};
 
-            abilities.add(
-                    new RepairFieldAbility(1200f, 30f * 60f, 320f)
+        pemuBomber = new ErekirUnitType("pemu-bomber"){{
+            constructor = EntityMapping.map(3);
+
+            isEnemy = false;
+
+            health = 20000;
+            armor = 120;
+
+            speed = 15f;
+            rotateSpeed = 8f;
+            accel = 0.05f;
+            drag = 0.08f;
+            flying = true;
+            engineSize = 0f;
+            hitSize = 25f;
+
+            itemCapacity = 65;
+
+            targetFlags = new BlockFlag[]{BlockFlag.factory, BlockFlag.reactor,null};
+            circleTarget = true;
+            ammoType = new ItemAmmoType(Items.graphite);
+            weapons.add(new Weapon(){{
+                mirror = false;
+                minShootVelocity = 0.75f;
+                x = 0f;
+                shootY = 0f;
+                reload = 12f;
+                shootCone = 180f;
+                ejectEffect = Fx.none;
+                inaccuracy = 15f;
+                ignoreRotation = true;
+                shootSound = Sounds.missileLaunch;
+                bullet = new BombBulletType(1200f, 25f){{
+                    width = 20f;
+                    height = 20f;
+                    hitEffect = Fx.flakExplosion;
+                    shootEffect = Fx.none;
+                    smokeEffect = Fx.none;
+
+                    status = StatusEffects.blasted;
+                    statusDuration = 60f;
+                }};
+            }});
+        }};
+
+        pemuLauncher = new ErekirUnitType("pemu-launcher"){{
+            constructor = EntityMapping.map(3);
+
+            isEnemy = false;
+
+            health = 20000;
+            armor = 120;
+
+            speed = 15f;
+            rotateSpeed = 8f;
+            accel = 0.05f;
+            drag = 0.08f;
+            flying = true;
+            engineSize = 0f;
+            hitSize = 25f;
+            itemCapacity = 65;
+            faceTarget = false;
+
+            targetFlags = new BlockFlag[]{BlockFlag.launchPad, BlockFlag.storage, BlockFlag.battery, BlockFlag.generator, BlockFlag.core, null};
+
+            Color pemuColor = Color.valueOf("feb380");
+
+            weapons.add(
+                    new Weapon(){{
+                        x = y = 0;
+                        rotate = false;
+                        mirror = true;
+
+                        shootY = 0f;
+                        shootX = 18f;
+                        reload = 180f;
+                        cooldownTime = 50;
+                        range = 100f;
+
+                        bullet = new BulletType(){{
+                            shootEffect = Fx.sparkShoot;
+                            smokeEffect = Fx.shootSmokeTitan;
+                            hitColor = Pal.suppress;
+                            shake = 1f;
+                            speed = 0f;
+                            keepVelocity = false;
+
+                            spawnUnit = new MissileUnitType("pemu-missile"){{
+                                speed = 8f;
+                                maxRange = 6f;
+                                lifetime = 60f * 7f;
+                                outlineColor = Pal.darkOutline;
+                                engineColor = trailColor = Pal.redLight;
+                                engineLayer = Layer.effect;
+                                engineSize = 3.1f;
+                                engineOffset = 11f;
+                                rotateSpeed = 2.5f;
+                                trailLength = 18;
+                                missileAccelTime = 45f;
+                                lowAltitude = true;
+                                loopSound = Sounds.missileTrail;
+                                loopSoundVolume = 0.6f;
+                                deathSound = Sounds.largeExplosion;
+                                targetAir = false;
+
+                                fogRadius = 6f;
+
+                                health = 210;
+
+                                parts.add(
+                                        //circle
+                                        new ShapePart(){{
+                                            layer = Layer.effect;
+                                            circle = true;
+                                            y = -0.25f;
+                                            radius = 1.5f;
+                                            color = pemuColor;
+                                            colorTo = Color.white;
+                                            progress = PartProgress.life.curve(Interp.pow5In);
+                                        }}
+
+                                        //shape
+                                );
+
+                                weapons.add(new Weapon(){{
+                                    shootCone = 360f;
+                                    mirror = false;
+                                    reload = 1f;
+                                    deathExplosionEffect = Fx.massiveExplosion;
+                                    shootOnDeath = true;
+                                    shake = 10f;
+                                    bullet = new ExplosionBulletType(640f, 65f){{
+                                        hitColor = Pal.redLight;
+                                        shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosion, Fx.scatheLight, new WaveEffect(){{
+                                            lifetime = 10f;
+                                            strokeFrom = 4f;
+                                            sizeTo = 130f;
+                                        }});
+
+                                        collidesAir = false;
+                                        buildingDamageMultiplier = 0.3f;
+
+                                        ammoMultiplier = 1f;
+                                        fragLifeMin = 0.1f;
+                                        fragBullets = 7;
+                                        fragBullet = new ArtilleryBulletType(3.4f, 32){{
+                                            buildingDamageMultiplier = 0.3f;
+                                            drag = 0.02f;
+                                            hitEffect = Fx.massiveExplosion;
+                                            despawnEffect = Fx.scatheSlash;
+                                            knockback = 0.8f;
+                                            lifetime = 23f;
+                                            width = height = 18f;
+                                            collidesTiles = true;
+                                            splashDamageRadius = 40f;
+                                            splashDamage = 80f;
+                                            backColor = trailColor = hitColor = Pal.redLight;
+                                            frontColor = Color.white;
+                                            smokeEffect = Fx.shootBigSmoke2;
+                                            despawnShake = 7f;
+                                            lightRadius = 30f;
+                                            lightColor = Pal.redLight;
+                                            lightOpacity = 0.5f;
+
+                                            trailLength = 20;
+                                            trailWidth = 3.5f;
+                                            trailEffect = Fx.none;
+                                        }};
+                                    }};
+                                }});
+                                abilities.add(new MoveEffectAbility(){{
+                                    effect = Fx.missileTrailSmoke;
+                                    rotation = 180f;
+                                    y = -9f;
+                                    color = Color.grays(0.6f).lerp(Pal.redLight, 0.5f).a(0.4f);
+                                    interval = 7f;
+                                }});
+                            }};
+                        }};
+
+                        parts.add(
+                                new RegionPart(MPTv2RE.name("pemu-launcher-set")){{
+                                    layerOffset = -1f;
+                                    top = false;
+                                    mirror = true;
+                                    drawCell = true;
+                                    progress = PartProgress.smoothReload;
+                                    x = 0f;
+                                    y = 0;
+                                    moveX = -20;
+                                }}
+                        );
+                    }}
             );
+
+            pemuCannon = new ErekirUnitType("pemu-cannon"){{
+                constructor = EntityMapping.map(3);
+
+                isEnemy = false;
+
+                health = 20000;
+                armor = 120;
+
+                speed = 15f;
+                rotateSpeed = 8f;
+                accel = 0.05f;
+                drag = 0.08f;
+                flying = true;
+                engineSize = 0f;
+                hitSize = 25f;
+                itemCapacity = 65;
+
+                circleTarget = true;
+
+                weapons.add(
+                        new Weapon(MPTv2RE.name("pemu-weapon-cannon")){{
+                            mirror = true;
+                            x = 0;
+                            y = 2;
+                            shootX = 18f;
+                            shootY = 10f;
+                            reload = 80f;
+                            cooldownTime = 25f;
+                            shootSound = Sounds.cannon;
+
+                            bullet = new EmpBulletType(){{
+                                damage = 500;
+                                lifetime = 40f;
+                                pierceArmor = true;
+                            }};
+                        }}
+                );
+            }};
+
+            pemuRecon = new ErekirUnitType("pemu-recon"){{
+                constructor = EntityMapping.map(3);
+                defaultCommand = UnitCommand.assistCommand;
+
+                buildSpeed = 3.5f;
+                mineTier = 9;
+                mineSpeed = 23f;
+
+                isEnemy = false;
+
+                health = 20000;
+                armor = 120;
+                targetable = false;
+
+                speed = 15f;
+                rotateSpeed = 8f;
+                accel = 0.05f;
+                drag = 0.08f;
+                flying = true;
+                engineSize = 0f;
+                hitSize = 25f;
+                itemCapacity = 65;
+
+                abilities.add(
+                        new RepairFieldAbility(1200f, 30f * 60f, 320f)
+                );
+            }};
+
+            pemuCarrier = new ErekirUnitType("pemu-carrier"){{
+                constructor = EntityMapping.map(3);
+
+                buildSpeed = 4f;
+                mineTier = 9;
+                mineSpeed = 23f;
+
+                isEnemy = false;
+
+                health = 200000;
+                armor = 200;
+
+                speed = 13f;
+                rotateSpeed = 8f;
+                accel = 0.05f;
+                drag = 0.08f;
+                flying = true;
+                engineSize = 20f;
+                engineOffset = -60f;
+                hitSize = 200f;
+                itemCapacity = 650;
+                range = 400;
+
+                circleTarget = true;
+
+                weapons.addAll(
+                        new Weapon(){{
+                            mirror = true;
+                            x = 90;
+                            y = 80;
+                            shootY = 60f;
+                            recoil = 0;
+                            inaccuracy = 3f;
+                            shootSound = Sounds.laserblast;
+                            chargeSound = Sounds.lasercharge;
+                            soundPitchMin = 1f;
+                            shake = 10f;
+                            reload = 350f;
+
+                            cooldownTime = 350f;
+
+                            shootStatusDuration = 60f * 2f;
+                            shootStatus = StatusEffects.unmoving;
+                            shoot.firstShotDelay = MPTv2Fx.purpleLaserCharge.lifetime;
+                            parentizeEffects = true;
+
+                            bullet = new LaserBulletType(){{
+                                length = 460f;
+                                damage = 2500f;
+                                width = 45f;
+
+                                lifetime = 70f;
+
+                                lightningSpacing = 35f;
+                                lightningLength = 7;
+                                lightningDelay = 1.1f;
+                                lightningLengthRand = 15;
+                                lightningDamage = 80;
+                                lightningAngleRand = 40f;
+                                largeHit = true;
+                                lightColor = lightningColor = Pal.suppress;
+
+                                chargeEffect = MPTv2Fx.purpleLaserCharge;
+
+                                sideAngle = 15f;
+                                sideWidth = 0f;
+                                sideLength = 0f;
+                                colors = new Color[]{Pal.suppress.cpy().a(0.4f), Pal.suppress, Color.white};
+                            }};
+                        }},
+
+                        new Weapon(){{
+                            mirror = true;
+                            x=70;
+                            y=50;
+                            shootY = 10f;
+                            recoil = 0;
+                            reload = 150f;
+                            cooldownTime = 20f;
+                            bullet = new EmpBulletType(){{
+                                damage = 750;
+                                lifetime = 50f;
+                            }};
+                        }}
+                );
+
+//                abilities.addAll(
+//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuBomber, 120f * 60f, 40, -20),
+//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuCannon, 120f * 60f, -40, -20),
+//
+//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuLauncher, 120f * 60f, 80, -60),
+//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuRecon, 120f * 60f, 80, -60)
+//                );
+            }};
         }};
     }
 
@@ -1307,7 +1663,7 @@ public class MPTv2UnitTypes {
             );
         }};
 
-        destAllier = new MPTv2UnitType("destAllier"){{
+        destAllier = new ErekirUnitType("destAllier"){{
             constructor = EntityMapping.map(26);
             aiController = DefenderAI::new;
             isEnemy = true;
@@ -1330,27 +1686,22 @@ public class MPTv2UnitTypes {
             float orbRad = 9f, partRad = 4f;
             int parts = 10;
 
-            abilities.add(
-                    new UnitSpawnAbility(UnitTypes.toxopid , 62f * 60f, 95f, -12f),
-                    new UnitSpawnAbility(UnitTypes.toxopid , 62f * 60f, -95f, -12f),
-                    new UnitSpawnAbility(UnitTypes.collaris , 65f * 60f, 55f, 40f),
-                    new UnitSpawnAbility(UnitTypes.collaris , 65f * 60f, -55f, 40f)
-            );
+            abilities.addAll(
+                    new UnitSpawnAbility(MPTv2UnitTypes.ayu, 30f * 60f, 65f, 115f),
+                    new UnitSpawnAbility(MPTv2UnitTypes.ayu, 30f * 60f, -65f, 115f),
+                    //new UnitSpawnAbility(UnitTypes.horizon , 30f * 60f, 70f, 80f),
+                    //new UnitSpawnAbility(UnitTypes.horizon , 30f * 60f, -70f, 80f),
 
-            abilities.add(
-                    new UnitSpawnAbility(UnitTypes.corvus, 65f * 60f, 88f, -63f),
-                    new UnitSpawnAbility(UnitTypes.corvus, 65f * 60f, -88f, -63f)
-            );
+                    new UnitSpawnAbility(MPTv2UnitTypes.nimu, 90f * 60f, 95f, -100f),
+                    new UnitSpawnAbility(MPTv2UnitTypes.nimu, 90f * 60f, -95f, -100f),
 
-            abilities.add(
-                    new UnitSpawnAbility(UnitTypes.eclipse, 65f * 60f, 0f, -95f)
-            );
+                    new UnitSpawnAbility(UnitTypes.collaris, 65f * 60f, 55f, 40f),
+                    new UnitSpawnAbility(UnitTypes.collaris, 65f * 60f, -55f, 40f),
 
-            abilities.add(
-                    new UnitSpawnAbility(UnitTypes.flare , 25f * 60f, 65f, 115f),
-                    new UnitSpawnAbility(UnitTypes.flare , 25f * 60f, -65f, 115f),
-                    new UnitSpawnAbility(UnitTypes.horizon , 30f * 60f, 70f, 80f),
-                    new UnitSpawnAbility(UnitTypes.horizon , 30f * 60f, -70f, 80f)
+                    new UnitSpawnAbility(UnitTypes.disrupt, 65f * 60f, 88f, -63f),
+                    new UnitSpawnAbility(UnitTypes.disrupt, 65f * 60f, -88f, -63f),
+
+                    new UnitSpawnAbility(UnitTypes.conquer, 65f * 60f, 0f, -95f)
             );
 
             abilities.add(
@@ -1769,6 +2120,7 @@ public class MPTv2UnitTypes {
         loadAntimatter();
         loadCoreUnits();
         metrenAssemblyDrone = new ErekirUnitType("metren-assembly-drone"){{
+            localizedName = "Metren Assembly Drone";
             constructor = EntityMapping.map(36);
             controller = u -> new AssemblerAI();
 
