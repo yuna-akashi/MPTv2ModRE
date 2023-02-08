@@ -93,7 +93,7 @@ public class MPTv2Blocks {
             metrenBattery, largeMetrenBattery, powerCondenser, metrenBeamCondenser,
 
             //units
-            roombaFactory, metrenUnitFactory, ayuAssembler,
+            roombaFactory, metrenUnitFactory, ayuAssembler, pemuAssembler,
             metrenAdditiveReconstructor, metrenMultiplicativeReconstructor,
 
             antimatteredUnitFactory, antimatteredAssembler, metrenAssemblerModule, antimatteredAssemblerModule,
@@ -1017,7 +1017,7 @@ public class MPTv2Blocks {
 
             plans = Seq.with(
                     new UnitPlan(MPTv2UnitTypes.ayu, 30f * 60f, with(MPTv2Items.metrenSilicon, 60)),
-                    new UnitPlan(MPTv2UnitTypes.pemuRecon, 50f * 60f, with(MPTv2Items.metren, 300, MPTv2Items.metrenSilicon, 200))
+                    new UnitPlan(MPTv2UnitTypes.pemu, 90f * 60f, with(MPTv2Items.metren, 300, MPTv2Items.metrenSilicon, 200))
             );
 
             requirements(Category.units, with(MPTv2Items.metrenFrame, 9,MPTv2Items.metrenSilicon, 80));
@@ -1099,6 +1099,23 @@ public class MPTv2Blocks {
             consumeLiquid(Liquids.cryofluid, 2f);
 
             requirements(Category.units, with(MPTv2Items.metrenFrame, 250, MPTv2Items.armorPlate, 250, MPTv2Items.metrenSilicon, 120));
+        }};
+
+        pemuAssembler = new UnitAssembler("pemuAssembler"){{
+            size = 5;
+            health = 12500000;
+
+            areaSize = 65;
+            droneType = MPTv2UnitTypes.metrenAssemblyDrone;
+
+            plans.add(
+                    new AssemblerUnitPlan(MPTv2UnitTypes.pemuCarrier, 360f * 60f, PayloadStack.list(MPTv2UnitTypes.pemu, 20, MPTv2Blocks.metrenWallLarge, 200))
+            );
+
+            consumePower(7f);
+            consumeLiquid(Liquids.cryofluid, 4f);
+
+            requirements(Category.units, with(MPTv2Items.metrenFrame, 250, MPTv2Items.armorPlate, 250, MPTv2Items.metrenSilicon, 480));
         }};
 
         antimatteredAssembler = new UnitAssembler("antimatteredAssembler"){{

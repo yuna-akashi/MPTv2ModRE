@@ -46,8 +46,7 @@ public class MPTv2UnitTypes {
     public static UnitType
             ///*Rommbas*///
             roomba,  attackRoomba, jibakuRoomba, jibakuNukeRoomba,
-            miningRoomba, repairRoomba, rebuildRoomba, builderRoomba, shieldRoomba,/*,
-            jibakuCarrierRoomba, jibakuNukeCarrierRoomba, heavyCarrierRoomba, supportCarrierRoomba,*/
+            miningRoomba, repairRoomba, rebuildRoomba, builderRoomba, shieldRoomba,
 
             ///*Grounds*///
             //spider
@@ -76,7 +75,22 @@ public class MPTv2UnitTypes {
         EntityMapping.nameMap.put(MPTv2RE.name("rebuildRoomba"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(MPTv2RE.name("healerRoomba"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(MPTv2RE.name("shieldRoomba"), EntityMapping.idMap[3]);
-        EntityMapping.nameMap.put(MPTv2RE.name("ayu"), EntityMapping.idMap[3]);
+
+        EntityMapping.nameMap.put(MPTv2RE.name("ayu"), EntityMapping.idMap[24]);
+        EntityMapping.nameMap.put(MPTv2RE.name("mino"), EntityMapping.idMap[24]);
+        EntityMapping.nameMap.put(MPTv2RE.name("ami"), EntityMapping.idMap[24]);
+        EntityMapping.nameMap.put(MPTv2RE.name("meru"), EntityMapping.idMap[24]);
+        EntityMapping.nameMap.put(MPTv2RE.name("nimu"), EntityMapping.idMap[24]);
+
+        EntityMapping.nameMap.put(MPTv2RE.name("pemu"), EntityMapping.idMap[16]);
+        EntityMapping.nameMap.put(MPTv2RE.name("pemu-bomber"), EntityMapping.idMap[23]);
+        EntityMapping.nameMap.put(MPTv2RE.name("pemu-launcher"), EntityMapping.idMap[23]);
+        EntityMapping.nameMap.put(MPTv2RE.name("pemu-cannon"), EntityMapping.idMap[23]);
+        EntityMapping.nameMap.put(MPTv2RE.name("pemu-recon"), EntityMapping.idMap[23]);
+        EntityMapping.nameMap.put(MPTv2RE.name("pemu-carrier"), EntityMapping.idMap[5]);
+
+        EntityMapping.nameMap.put(MPTv2RE.name("destAllier"), EntityMapping.idMap[5]);
+
     }
 
     public static class MPTv2UnitType extends UnitType{
@@ -868,7 +882,7 @@ public class MPTv2UnitTypes {
 
     public static void loadAir(){
         pemu = new ErekirUnitType("pemu"){{
-            constructor = EntityMapping.map(3);
+            constructor = EntityMapping.map(16);
             defaultCommand = UnitCommand.assistCommand;
 
             buildSpeed = 3.5f;
@@ -891,7 +905,7 @@ public class MPTv2UnitTypes {
         }};
 
         pemuBomber = new ErekirUnitType("pemu-bomber"){{
-            constructor = EntityMapping.map(3);
+            constructor = EntityMapping.map(23);
 
             isEnemy = false;
 
@@ -936,7 +950,7 @@ public class MPTv2UnitTypes {
         }};
 
         pemuLauncher = new ErekirUnitType("pemu-launcher"){{
-            constructor = EntityMapping.map(3);
+            constructor = EntityMapping.map(23);
 
             isEnemy = false;
 
@@ -951,7 +965,7 @@ public class MPTv2UnitTypes {
             engineSize = 0f;
             hitSize = 25f;
             itemCapacity = 65;
-            faceTarget = false;
+            circleTarget = true;
 
             targetFlags = new BlockFlag[]{BlockFlag.launchPad, BlockFlag.storage, BlockFlag.battery, BlockFlag.generator, BlockFlag.core, null};
 
@@ -1086,7 +1100,7 @@ public class MPTv2UnitTypes {
             );
 
             pemuCannon = new ErekirUnitType("pemu-cannon"){{
-                constructor = EntityMapping.map(3);
+                constructor = EntityMapping.map(23);
 
                 isEnemy = false;
 
@@ -1125,7 +1139,7 @@ public class MPTv2UnitTypes {
             }};
 
             pemuRecon = new ErekirUnitType("pemu-recon"){{
-                constructor = EntityMapping.map(3);
+                constructor = EntityMapping.map(16);
                 defaultCommand = UnitCommand.assistCommand;
 
                 buildSpeed = 3.5f;
@@ -1153,7 +1167,7 @@ public class MPTv2UnitTypes {
             }};
 
             pemuCarrier = new ErekirUnitType("pemu-carrier"){{
-                constructor = EntityMapping.map(3);
+                constructor = EntityMapping.map(26);
 
                 buildSpeed = 4f;
                 mineTier = 9;
@@ -1164,18 +1178,25 @@ public class MPTv2UnitTypes {
                 health = 200000;
                 armor = 200;
 
-                speed = 13f;
-                rotateSpeed = 8f;
+                speed = 10f;
+                rotateSpeed = 6f;
                 accel = 0.05f;
                 drag = 0.08f;
                 flying = true;
                 engineSize = 20f;
-                engineOffset = -60f;
+                engineOffset = 20f;
                 hitSize = 200f;
                 itemCapacity = 650;
                 range = 400;
 
-                circleTarget = true;
+                abilities.addAll(
+                        new RepairFieldAbility(4000, 90f * 60f, 800)//,
+//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuBomber, 100f * 60f, 60, -40),
+//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuCannon, 100f * 60f, -60, -40),
+//
+//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuLauncher, 100f * 60f, 100, -80),
+//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuRecon, 100f * 60f, 100, -80)
+                );
 
                 weapons.addAll(
                         new Weapon(){{
@@ -1237,14 +1258,6 @@ public class MPTv2UnitTypes {
                             }};
                         }}
                 );
-
-//                abilities.addAll(
-//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuBomber, 120f * 60f, 40, -20),
-//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuCannon, 120f * 60f, -40, -20),
-//
-//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuLauncher, 120f * 60f, 80, -60),
-//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuRecon, 120f * 60f, 80, -60)
-//                );
             }};
         }};
     }
