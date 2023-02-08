@@ -129,7 +129,7 @@ public class MPTv2UnitTypes {
             controller = u -> new MinerAI();
             defaultCommand = UnitCommand.mineCommand;
 
-            health = 500;
+            health = 840;
 
             flying = true;
 
@@ -567,7 +567,7 @@ public class MPTv2UnitTypes {
             researchCostMultiplier = 0f;
 
             abilities.add(new ShieldArcAbility(){{
-                region = "tecta-shield";
+                region = "meru-shield";
                 radius = 34f;
                 angle = 82f;
                 regen = 0.6f;
@@ -1263,7 +1263,7 @@ public class MPTv2UnitTypes {
                             cooldownTime = 50;
                             range = 320f;
                             shoot.shots = 5;
-                            shoot.shotDelay = 2.5f;
+                            shoot.shotDelay = 6.5f;
 
                             bullet = new BulletType(){{
                                 shootEffect = Fx.sparkShoot;

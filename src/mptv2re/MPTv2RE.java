@@ -87,7 +87,7 @@ public class MPTv2RE extends Mod{
             Time.runTask(10f, () -> {
                 BaseDialog dialog = new BaseDialog("Metren Processing Technology v2");
                 dialog.cont.add("Mod loaded.").row();
-                dialog.cont.image(Core.atlas.find("mptv2-re-pemu-carrier-full")).pad(5f).row();
+                dialog.cont.image(Core.atlas.find("mptv2-re-pemu-carrier-full")).pad(1f).row();
                 dialog.cont.button("Ok", dialog::hide).size(100f, 50f);
                 dialog.show();
             });

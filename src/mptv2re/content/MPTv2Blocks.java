@@ -120,7 +120,7 @@ public class MPTv2Blocks {
             consumeItems(with(Items.metaglass, 15, MPTv2Items.metrenFrame, 10, MPTv2Items.armorPlate, 10, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10));
             outputItems = with(MPTv2Items.turretResearchPack, 1);
 
-            requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 50, MPTv2Items.metren, 72));
+            requirements(Category.crafting, with(MPTv2Items.metren, 72));
         }};
         unitResearchCenter = new GenericCrafter("unitResearchCenter"){{
             size = 3;
@@ -133,7 +133,7 @@ public class MPTv2Blocks {
             consumeItems(with(Items.metaglass, 15, Items.silicon, 50, MPTv2Items.armorPlate, 5, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10));
             outputItems = with(MPTv2Items.unitResearchPack, 1);
 
-            requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 50, MPTv2Items.metren, 72));
+            requirements(Category.crafting, with(MPTv2Items.metren, 72));
         }};
         efficiencyTechnologyResearchCenter = new GenericCrafter("efficiencyTechnologyResearchCenter"){{
             size = 3;
@@ -146,7 +146,7 @@ public class MPTv2Blocks {
             consumeItems(with(Items.metaglass, 15, Items.phaseFabric, 5, MPTv2Items.coolingCell, 3, Items.silicon, 15, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10));
             outputItems = with(MPTv2Items.efficiencyTechnologyPack, 1);
 
-            requirements(Category.crafting, with(MPTv2Items.titaniumAlloy, 50, MPTv2Items.metren, 72));
+            requirements(Category.crafting, with(MPTv2Items.metren, 72));
         }};
         antimatterResearchCenter = new GenericCrafter("antimatterResearchCenter"){{
             size = 3;
@@ -159,7 +159,7 @@ public class MPTv2Blocks {
             consumeItems(with(Items.metaglass, 15, MPTv2Items.deuteriumCell, 5, MPTv2Items.tritiumCell, 5, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10));
             outputItems = with(MPTv2Items.antimatterResearchPack, 1);
 
-            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 90, MPTv2Items.armorPlate, 90, MPTv2Items.metrenSilicon, 80));
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 72, MPTv2Items.armorPlate, 72, MPTv2Items.metrenSilicon, 90));
         }};
     }
 
@@ -197,7 +197,7 @@ public class MPTv2Blocks {
                     }}
             );
 
-            requirements(Category.turret, with( MPTv2Items.turretFrame, 8, MPTv2Items.armorPlate, 8));
+            requirements(Category.turret, with( MPTv2Items.turretFrame, 72, MPTv2Items.armorPlate, 72));
         }};
 
         defendTurret = new PointDefenseTurret("defendTurret"){{
@@ -211,7 +211,7 @@ public class MPTv2Blocks {
             shootLength = 10f;
             bulletDamage = 100f;
             reload = 7.5f;
-            requirements(Category.turret, BuildVisibility.shown, with( MPTv2Items.turretFrame, 4, MPTv2Items.armorPlate, 4, MPTv2Items.metren, 8));
+            requirements(Category.turret, BuildVisibility.shown, with( MPTv2Items.turretFrame, 32, MPTv2Items.armorPlate, 32));
         }};
 
         railgun = new RailgunTurret("railgun"){{
@@ -235,7 +235,7 @@ public class MPTv2Blocks {
                     }}
             );
             consumePowerCond(1000, RailgunTurretBuild::isCharge);
-            requirements(Category.turret, with( MPTv2Items.turretFrame, 250, MPTv2Items.armorPlate, 250, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 50));
+            requirements(Category.turret, with( MPTv2Items.turretFrame, 200, MPTv2Items.armorPlate, 200, MPTv2Items.metrenSilicon, 120));
         }};
         multiRailgun = new RailgunTurret("multiRailgun"){{
             size = 5;
@@ -260,7 +260,7 @@ public class MPTv2Blocks {
             );
             consumePowerCond(1000, RailgunTurretBuild::isCharge);
 
-            requirements(Category.turret, with( MPTv2Items.turretFrame, 250, MPTv2Items.armorPlate, 250,MPTv2Items.multiCore, 5, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 50));
+            requirements(Category.turret, with( MPTv2Items.turretFrame, 200, MPTv2Items.armorPlate, 200,MPTv2Items.multiCore, 5, MPTv2Items.metrenSilicon, 240));
         }};
         guardian = new ItemTurret("guardian"){{
             size = 5;
@@ -280,7 +280,7 @@ public class MPTv2Blocks {
                     }}
             );
 
-            requirements(Category.turret,with( MPTv2Items.turretFrame, 2500, MPTv2Items.armorPlate, 2500));
+            requirements(Category.turret,with( MPTv2Items.turretFrame, 2000, MPTv2Items.armorPlate, 2000));
         }};
 
         antimatterRailgun = new ItemTurret("antimatterRailgun"){{
@@ -343,7 +343,7 @@ public class MPTv2Blocks {
             consumePower(500000000);
 //            consumePowerCond(500000000, RailgunTurretBuild::isCharge);
 
-            requirements(Category.turret, with( MPTv2Items.antimatterTurretFrame, 256, MPTv2Items.antimatterArmorPlate, 256, MPTv2Items.metren, 512));
+            requirements(Category.turret, with( MPTv2Items.antimatterTurretFrame, 2048, MPTv2Items.antimatterArmorPlate, 2048, MPTv2Items.metrenSilicon, 1200));
         }};
 
         antimatterBlaster = new PowerTurret("antimatterBlaster"){{
@@ -401,7 +401,7 @@ public class MPTv2Blocks {
 
             shootSound = Sounds.laserblast;
 
-            requirements(Category.turret, with( MPTv2Items.antimatterTurretFrame, 256, MPTv2Items.antimatterArmorPlate, 256, MPTv2Items.metren, 512));
+            requirements(Category.turret, with( MPTv2Items.antimatterTurretFrame, 2048, MPTv2Items.antimatterArmorPlate, 2048, MPTv2Items.metrenSilicon, 1200));
         }};
 
         antimatterShockwaveCannon = new LaserTurret("antimatterShockwaveCannon"){{
@@ -454,7 +454,7 @@ public class MPTv2Blocks {
             loopSound = Sounds.beam;
             loopSoundVolume = 20f;
 
-            requirements(Category.turret, with(MPTv2Items.antimatterTurretFrame, 256, MPTv2Items.antimatterTurretFrame, 256, MPTv2Items.metren, 512));
+            requirements(Category.turret, with(MPTv2Items.antimatterTurretFrame, 2048, MPTv2Items.antimatterArmorPlate, 2048, MPTv2Items.metrenSilicon, 1200));
         }};
     }
 
@@ -480,7 +480,7 @@ public class MPTv2Blocks {
 
             consumeLiquid(Liquids.water, 0.25f).optional(true, true);
 
-            requirements(Category.production, with(MPTv2Items.metren, 28));
+            requirements(Category.production, with(MPTv2Items.metren, 32));
         }};
     }
 
@@ -537,7 +537,7 @@ public class MPTv2Blocks {
             health = 16000000;
             liquidCapacity = 70000f;
             solid = true;
-            requirements(Category.liquid, with(MPTv2Items.metren, 30, MPTv2Items.metrenGlass, 40));
+            requirements(Category.liquid, with(MPTv2Items.metren, 80, MPTv2Items.metrenGlass, 48));
         }};
 
         metrenLiquidJunction = new LiquidJunction("metrenLiquidJunction"){{
@@ -739,7 +739,7 @@ public class MPTv2Blocks {
             outputItems = with(MPTv2Items.antimatterFrame, 1);
             craftTime = 10f * 60f;
 
-            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 900, MPTv2Items.armorPlate, 900, MPTv2Items.metrenDiamond, 120));
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 720, MPTv2Items.armorPlate, 720, MPTv2Items.metrenDiamond, 120));
         }};
 
         antimatterTurretFrameCrafter = new GenericCrafter("antimatterTurretFrameCrafter"){{
@@ -752,7 +752,7 @@ public class MPTv2Blocks {
             outputItems = with(MPTv2Items.antimatterTurretFrame, 1);
             craftTime = 10f * 60f;
 
-            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 900, MPTv2Items.armorPlate, 900));
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 720, MPTv2Items.armorPlate, 720, MPTv2Items.metrenDiamond, 120));
         }};
 
         antimatterArmorPlateCrafter = new GenericCrafter("antimatterArmorPlateCrafter"){{
@@ -765,7 +765,7 @@ public class MPTv2Blocks {
             outputItems = with(MPTv2Items.antimatterArmorPlate, 1);
             craftTime = 10f * 60f;
 
-            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 900, MPTv2Items.armorPlate, 900, MPTv2Items.metrenDiamond, 120));
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 720, MPTv2Items.armorPlate, 720, MPTv2Items.metrenDiamond, 120));
         }};
 
         cellFactory = new GenericCrafter("cellFactory"){{
@@ -779,7 +779,7 @@ public class MPTv2Blocks {
             consumeItems(with(MPTv2Items.metren, 2));
             outputItems = with(MPTv2Items.cell, 1);
 
-            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metren, 18));
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 72, MPTv2Items.armorPlate, 72, MPTv2Items.metren, 18));
         }};
 
         thoriumCompressor = new GenericCrafter("thoriumCompressor"){{
@@ -791,7 +791,7 @@ public class MPTv2Blocks {
             consumeItems(with(Items.thorium, 3));
             outputItems = with(MPTv2Items.compressedThorium, 1);
 
-            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metrenDiamond,  18));
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 32, MPTv2Items.armorPlate, 32, MPTv2Items.metrenDiamond,  18));
         }};
 
         metrenAmmoCrafter = new GenericCrafter("metrenAmmoCrafter"){{
@@ -803,7 +803,7 @@ public class MPTv2Blocks {
             consumeItems(with(MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2));
             outputItems = with(MPTv2Items.metrenAmmo, 2);
 
-            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 4, MPTv2Items.armorPlate, 4, MPTv2Items.metrenDiamond, 8));
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 32, MPTv2Items.armorPlate, 32, MPTv2Items.metrenDiamond, 8));
         }};
 
         metrenExplosiveAmmoCrafter = new GenericCrafter("metrenExplosiveAmmoCrafter"){{
@@ -815,7 +815,7 @@ public class MPTv2Blocks {
             consumeItems(with(MPTv2Items.compressedThorium, 3, MPTv2Items.metren, 4, MPTv2Items.metrenDiamond, 2));
             outputItems = with(MPTv2Items.metrenExplosiveAmmo, 2);
 
-            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 4, MPTv2Items.armorPlate, 4, MPTv2Items.metrenDiamond, 24));
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 32, MPTv2Items.armorPlate, 32, MPTv2Items.metrenDiamond, 24));
         }};
 
         hydrogenIsotopeChamber = new GenericCrafter("hydrogenIsotopeChamber"){{
@@ -830,7 +830,7 @@ public class MPTv2Blocks {
             consumeLiquids(LiquidStack.with(Liquids.water, 0.5f));
             outputItems = with(MPTv2Items.tritiumCell, 1, MPTv2Items.oxygenCell, 1, MPTv2Items.oxygenCell, 1);
 
-            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 160, MPTv2Items.armorPlate, 160, MPTv2Items.metren, 32,MPTv2Items.metrenGlass, 30, MPTv2Items.metrenSilicon, 20));
+            requirements(Category.crafting, with(MPTv2Items.metrenFrame, 392, MPTv2Items.armorPlate, 392, MPTv2Items.metrenGlass, 30, MPTv2Items.metrenSilicon, 20));
         }};
 
         antimatterGenerator = new GenericCrafter("antimatterGenerator"){{
@@ -856,7 +856,7 @@ public class MPTv2Blocks {
             maxNodes = 25;
             laserRange = 12;
             hasPower = true;
-            requirements(Category.power, with(MPTv2Items.metrenFrame, 1, MPTv2Items.armorPlate, 1, MPTv2Items.metren, 10, Items.lead, 2));
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 8, MPTv2Items.armorPlate, 8, Items.lead, 2));
         }};//done
 
         metrenLargeNode = new PowerNode("metrenLargeNode"){{
@@ -866,7 +866,7 @@ public class MPTv2Blocks {
             laserRange = 36;
             hasPower = true;
             autolink= false;
-            requirements(Category.power, with(MPTv2Items.metrenFrame, 40, MPTv2Items.armorPlate, 40, MPTv2Items.metren, 8, Items.lead, 8));
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 32, MPTv2Items.armorPlate, 32, Items.lead, 8));
         }};//done
 
         metrenTowerNode = new PowerNode("metrenTowerNode"){{
@@ -876,7 +876,7 @@ public class MPTv2Blocks {
             laserRange = 320;
             hasPower = true;
             autolink = false;
-            requirements(Category.power, with(MPTv2Items.metrenFrame, 40, MPTv2Items.armorPlate, 40, MPTv2Items.metrenSilicon, 3, MPTv2Items.metren, 8));
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 32, MPTv2Items.armorPlate, 32, MPTv2Items.metrenSilicon, 3));
         }};//done
         metrenSRBeamNode = new BeamNode("metrenSRBeamNode"){{
             size = 1;
@@ -886,7 +886,7 @@ public class MPTv2Blocks {
             fogRadius = 1;
             consumePowerBuffered(1000f);
 
-            requirements(Category.power, with(MPTv2Items.metrenFrame, 1, MPTv2Items.armorPlate, 1, MPTv2Items.metren, 10, Items.beryllium, 2));
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 8, MPTv2Items.armorPlate, 8, Items.beryllium, 2));
         }};
 
         metrenHRBeamNode = new BeamNode("metrenHRBeamNode"){{
@@ -897,7 +897,7 @@ public class MPTv2Blocks {
             fogRadius = 1;
             consumePowerBuffered(1000f);
 
-            requirements(Category.power, with(MPTv2Items.metrenFrame, 1, MPTv2Items.armorPlate, 1, MPTv2Items.metrenSilicon, 20, MPTv2Items.metren, 10, Items.beryllium, 2));
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 8, MPTv2Items.armorPlate, 8, MPTv2Items.metrenSilicon, 20, Items.beryllium, 2));
         }};
 
         metrenBeamTower = new BeamNode("metrenBeamTower"){{
@@ -908,7 +908,7 @@ public class MPTv2Blocks {
             fogRadius = 1;
             consumePowerBuffered(40000f);
 
-            requirements(Category.power, with(MPTv2Items.metrenFrame, 90, MPTv2Items.armorPlate, 90, MPTv2Items.metren, 360, Items.tungsten, 60));
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 72, MPTv2Items.armorPlate, 72, Items.tungsten, 60));
         }};
 
         //battery
@@ -917,7 +917,7 @@ public class MPTv2Blocks {
             health = 1000000;
             hasPower = true;
             consumePowerBuffered(500000);
-            requirements(Category.power, with(MPTv2Items.metrenFrame, 1, MPTv2Items.armorPlate, 1, MPTv2Items.metren, 2, Items.lead, 4));
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 8, MPTv2Items.armorPlate, 8, Items.lead, 4));
         }};//done
 
         largeMetrenBattery = new Battery("metrenLargeBattery"){{
@@ -925,7 +925,7 @@ public class MPTv2Blocks {
             health = 9000000;
             hasPower = true;
             consumePowerBuffered(5000000);
-            requirements(Category.power, with(MPTv2Items.metrenFrame, 10, MPTv2Items.armorPlate, 10, MPTv2Items.metren, 18, Items.lead, 4));
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 72, MPTv2Items.armorPlate, 72, Items.lead, 4));
         }};
 
         powerCondenser = new Battery("powerCondenser"){{
@@ -933,7 +933,7 @@ public class MPTv2Blocks {
             health = 25000000;
             hasPower = true;
             consumePowerBuffered(2147483647);
-            requirements(Category.power, with(MPTv2Items.metrenFrame, 2500, MPTv2Items.armorPlate, 2500, MPTv2Items.metrenSilicon, 40, MPTv2Items.metren, 50, Items.lead, 60));
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 2500, MPTv2Items.armorPlate, 2500, MPTv2Items.metrenSilicon, 40, Items.lead, 60));
         }};
 
         metrenBeamCondenser = new BeamNode("metrenBeamCondenser"){{
@@ -944,7 +944,7 @@ public class MPTv2Blocks {
             fogRadius = 1;
             consumePowerBuffered(400000000f);
 
-            requirements(Category.power, with(MPTv2Items.metrenFrame, 250, MPTv2Items.armorPlate, 250, MPTv2Items.metrenSilicon, 320,MPTv2Items.metren, 100, Items.tungsten, 160));
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 250, MPTv2Items.armorPlate, 250, MPTv2Items.metrenSilicon, 320, Items.tungsten, 160));
         }};
 
         metrenReactor = new NuclearReactor("metrenReactor"){{
@@ -967,7 +967,7 @@ public class MPTv2Blocks {
             consumeItems(with(MPTv2Items.compressedThorium, 1));
             consumeLiquid(Liquids.cryofluid, 1f);
 
-            requirements(Category.power, with(MPTv2Items.metrenFrame, 16, MPTv2Items.armorPlate, 16, MPTv2Items.metren, 32));
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 128, MPTv2Items.armorPlate, 128, MPTv2Items.metrenSilicon, 120));
         }};
 
         nuclearFusionReactor = new ImpactReactor("nuclearFusionReactor"){{
@@ -981,7 +981,7 @@ public class MPTv2Blocks {
             consumeItems(with(MPTv2Items.deuteriumCell, 1, MPTv2Items.tritiumCell, 1));
             consumeLiquid(Liquids.cryofluid, 0.15f / 90f);
 
-            requirements(Category.power, with(MPTv2Items.metrenFrame, 490, MPTv2Items.armorPlate, 490, MPTv2Items.metrenSilicon, 80, MPTv2Items.metren, 98));
+            requirements(Category.power, with(MPTv2Items.metrenFrame, 392, MPTv2Items.armorPlate, 392, MPTv2Items.metrenSilicon, 240));
         }};
 
         antimatterReactor = new ConsumeGenerator("antimatterReactor"){{
@@ -990,7 +990,7 @@ public class MPTv2Blocks {
             itemCapacity = 210;
             powerProduction = 999999999;
             consumeItems(with(MPTv2Items.deuteriumCell, 1, MPTv2Items.antimatterCell, 1));
-            requirements(Category.power, with(MPTv2Items.antimatterFrame, 121, MPTv2Items.antimatterArmorPlate, 121, MPTv2Items.metrenSilicon, 180,MPTv2Items.metren, 242));
+            requirements(Category.power, with(MPTv2Items.antimatterFrame, 968, MPTv2Items.antimatterArmorPlate, 968, MPTv2Items.metrenSilicon, 360));
         }};//done
     }
 
@@ -1006,7 +1006,7 @@ public class MPTv2Blocks {
                     new UnitPlan(MPTv2UnitTypes.miningRoomba, 30f * 60f, with(MPTv2Items.metrenSilicon, 40))
             );
 
-            requirements(Category.units, with(MPTv2Items.metren, 10,MPTv2Items.metrenSilicon, 80));
+            requirements(Category.units, with(MPTv2Items.metren, 72,MPTv2Items.metrenSilicon, 80));
         }};
 
         metrenUnitFactory = new UnitFactory("metrenUnitFactory"){{
@@ -1020,7 +1020,7 @@ public class MPTv2Blocks {
                     new UnitPlan(MPTv2UnitTypes.pemu, 90f * 60f, with(MPTv2Items.metren, 300, MPTv2Items.metrenSilicon, 200))
             );
 
-            requirements(Category.units, with(MPTv2Items.metrenFrame, 9,MPTv2Items.metrenSilicon, 80));
+            requirements(Category.units, with(MPTv2Items.metrenFrame, 72, MPTv2Items.armorPlate, 72, MPTv2Items.metrenSilicon, 80));
         }};
 
         antimatteredUnitFactory = new UnitFactory("antimatteredUnitFactory"){{
@@ -1031,7 +1031,7 @@ public class MPTv2Blocks {
             plans.add(new UnitPlan(MPTv2UnitTypes.beast, 27f * 60f, with(MPTv2Items.metren, 20, MPTv2Items.metrenSilicon, 10,MPTv2Items.metrenDiamond, 8)));
             consumePower(4f);
 
-            requirements(Category.units, with(MPTv2Items.antimatterFrame, 9, MPTv2Items.antimatterArmorPlate, 9, MPTv2Items.metrenSilicon, 220));
+            requirements(Category.units, with(MPTv2Items.antimatterFrame, 72, MPTv2Items.antimatterArmorPlate, 72, MPTv2Items.metrenSilicon, 220));
         }};
 
         metrenAdditiveReconstructor = new Reconstructor("metrenAdditiveReconstructor"){{
@@ -1057,7 +1057,7 @@ public class MPTv2Blocks {
                     new UnitType[]{MPTv2UnitTypes.beast, MPTv2UnitTypes.matter}
             );
 
-            requirements(Category.units, with(MPTv2Items.antimatterFrame, 9, MPTv2Items.antimatterArmorPlate, 9, MPTv2Items.metrenSilicon, 260));
+            requirements(Category.units, with(MPTv2Items.antimatterFrame, 72, MPTv2Items.antimatterArmorPlate, 72, MPTv2Items.metrenSilicon, 260));
         }};
 
         metrenMultiplicativeReconstructor = new Reconstructor("metrenMultiplicativeReconstructor"){{
@@ -1081,7 +1081,7 @@ public class MPTv2Blocks {
                     new UnitType[]{MPTv2UnitTypes.matter, MPTv2UnitTypes.ecru}
             );
 
-            requirements(Category.units, with(MPTv2Items.antimatterFrame, 25, MPTv2Items.antimatterArmorPlate, 25, MPTv2Items.metrenSilicon, 320));
+            requirements(Category.units, with(MPTv2Items.antimatterFrame, 200, MPTv2Items.antimatterArmorPlate, 200, MPTv2Items.metrenSilicon, 320));
         }};
 
         ayuAssembler = new UnitAssembler("ayuAssembler"){{
@@ -1098,7 +1098,7 @@ public class MPTv2Blocks {
             consumePower(5.5f);
             consumeLiquid(Liquids.cryofluid, 2f);
 
-            requirements(Category.units, with(MPTv2Items.metrenFrame, 250, MPTv2Items.armorPlate, 250, MPTv2Items.metrenSilicon, 120));
+            requirements(Category.units, with(MPTv2Items.metrenFrame, 200, MPTv2Items.armorPlate, 200, MPTv2Items.metrenSilicon, 120));
         }};
 
         pemuAssembler = new UnitAssembler("pemuAssembler"){{
@@ -1115,7 +1115,7 @@ public class MPTv2Blocks {
             consumePower(7f);
             consumeLiquid(Liquids.cryofluid, 4f);
 
-            requirements(Category.units, with(MPTv2Items.metrenFrame, 250, MPTv2Items.armorPlate, 250, MPTv2Items.metrenSilicon, 480));
+            requirements(Category.units, with(MPTv2Items.metrenFrame, 200, MPTv2Items.armorPlate, 200, MPTv2Items.metrenSilicon, 480));
         }};
 
         antimatteredAssembler = new UnitAssembler("antimatteredAssembler"){{
@@ -1134,7 +1134,7 @@ public class MPTv2Blocks {
             consumePower(8);
             consumeLiquid(Liquids.cryofluid,  12f / 60f);
 
-            requirements(Category.units, with(MPTv2Items.antimatterFrame, 49, MPTv2Items.antimatterArmorPlate, 49, MPTv2Items.metrenSilicon, 380));
+            requirements(Category.units, with(MPTv2Items.antimatterFrame, 392, MPTv2Items.antimatterArmorPlate, 392, MPTv2Items.metrenSilicon, 380));
         }};
 
         metrenAssemblerModule = new UnitAssemblerModule("metrenAssemblerModule"){{
@@ -1145,7 +1145,7 @@ public class MPTv2Blocks {
 
             consumePower(6.5f);
 
-            requirements(Category.units, with(MPTv2Items.antimatterFrame, 25, MPTv2Items.antimatterArmorPlate, 25, MPTv2Items.metrenSilicon, 420));
+            requirements(Category.units, with(MPTv2Items.metrenFrame, 200, MPTv2Items.armorPlate, 200, MPTv2Items.metrenSilicon, 420));
         }};
 
         antimatteredAssemblerModule = new UnitAssemblerModule("antimatteredAssemblerModule"){{
@@ -1156,7 +1156,7 @@ public class MPTv2Blocks {
 
             consumePower(6.5f);
 
-            requirements(Category.units, with(MPTv2Items.antimatterFrame, 25, MPTv2Items.antimatterArmorPlate, 25, MPTv2Items.metrenSilicon, 420));
+            requirements(Category.units, with(MPTv2Items.antimatterFrame, 200, MPTv2Items.antimatterArmorPlate, 200, MPTv2Items.metrenSilicon, 420));
         }};
 
         metrenConstructor = new Constructor("metrenConstructor"){{
@@ -1169,7 +1169,7 @@ public class MPTv2Blocks {
 
             filter = Seq.with(MPTv2Blocks.titaniumAlloyWall, MPTv2Blocks.titaniumAlloyWallLarge, MPTv2Blocks.metrenWall, MPTv2Blocks.metrenWallLarge);
 
-            requirements(Category.units, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9,MPTv2Items.metrenSilicon, 20));
+            requirements(Category.units, with(MPTv2Items.metrenFrame, 72, MPTv2Items.armorPlate, 72, MPTv2Items.metrenSilicon, 80));
         }};
 
         metrenLargeConstructor = new Constructor("metrenLargeConstructor"){{
@@ -1183,7 +1183,7 @@ public class MPTv2Blocks {
             maxBlockSize = 9;
             minBlockSize = 3;
 
-            requirements(Category.units, with(MPTv2Items.metrenFrame, 490, MPTv2Items.armorPlate, 490, MPTv2Items.metrenSilicon, 80));
+            requirements(Category.units, with(MPTv2Items.metrenFrame, 392, MPTv2Items.armorPlate, 392, MPTv2Items.metrenSilicon, 160));
         }};
 
         smallMetrenDeconstructor = new PayloadDeconstructor("smallMetrenDeconstructor"){{
@@ -1194,7 +1194,7 @@ public class MPTv2Blocks {
             consumePower(3);
             deconstructSpeed = 2f;
 
-            requirements(Category.units, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metrenSilicon, 20));
+            requirements(Category.units, with(MPTv2Items.metrenFrame, 72, MPTv2Items.armorPlate, 72, MPTv2Items.metrenSilicon, 80));
         }};
 
         metrenDeconstructor = new PayloadDeconstructor("metrenDeconstructor"){{
@@ -1205,7 +1205,7 @@ public class MPTv2Blocks {
             consumePower(6);
             deconstructSpeed = 3f;
 
-            requirements(Category.units, with(MPTv2Items.metrenFrame, 490, MPTv2Items.armorPlate, 490, MPTv2Items.metrenSilicon, 80));
+            requirements(Category.units, with(MPTv2Items.metrenFrame, 392, MPTv2Items.armorPlate, 392, MPTv2Items.metrenSilicon, 160));
         }};
     }
 
@@ -1221,7 +1221,7 @@ public class MPTv2Blocks {
             consumeItems(with(MPTv2Items.coolingCell, 1)).boost();
             phaseBoost = 80;
             phaseRangeBoost = 40;
-            requirements(Category.effect, with(MPTv2Items.metrenFrame, 90, MPTv2Items.armorPlate, 90, MPTv2Items.multiCore, 3, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 18));
+            requirements(Category.effect, with(MPTv2Items.metrenFrame, 72, MPTv2Items.armorPlate, 72, MPTv2Items.multiCore, 3, MPTv2Items.metrenSilicon, 70));
         }};
 
         boostDriveProjector = new OverdriveProjector("boostDriveProjector"){{
@@ -1233,7 +1233,7 @@ public class MPTv2Blocks {
             consumePower(10);
             consumeItems(with(MPTv2Items.coolingCell, 1)).boost();
             hasBoost = true;
-            requirements(Category.effect, with(MPTv2Items.metrenFrame, 90, MPTv2Items.armorPlate, 9, MPTv2Items.multiCore, 3, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 18));
+            requirements(Category.effect, with(MPTv2Items.metrenFrame, 72, MPTv2Items.armorPlate, 72, MPTv2Items.multiCore, 3, MPTv2Items.metrenSilicon, 70));
         }};
 
         metrenShieldDome = new ForceProjector("metrenShieldDome"){{
@@ -1249,7 +1249,7 @@ public class MPTv2Blocks {
             phaseUseTime = 200;
             phaseRadiusBoost = 200F;
             phaseShieldBoost = 40000;
-            requirements(Category.effect, with(MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.multiCore, 3, MPTv2Items.metrenSilicon, 50, MPTv2Items.metren, 18));
+            requirements(Category.effect, with(MPTv2Items.metrenFrame, 72, MPTv2Items.armorPlate, 72, MPTv2Items.multiCore, 3, MPTv2Items.metrenSilicon, 70));
         }};
 
         buildBlock = new BuildTurret("buildBlock"){{
@@ -1257,7 +1257,7 @@ public class MPTv2Blocks {
             health = 9000000;
             buildSpeed = 5;
             range = 800;
-            requirements(Category.effect, with(MPTv2Items.metrenFrame, 9, MPTv2Items.turretFrame, 9, MPTv2Items.armorPlate, 9, MPTv2Items.metren, 18));
+            requirements(Category.effect, with(MPTv2Items.metrenFrame, 72, MPTv2Items.turretFrame, 72, MPTv2Items.armorPlate, 72));
         }};
         loadCore();
         //storage
@@ -1265,7 +1265,7 @@ public class MPTv2Blocks {
             size = 5;
             health = 25000000;
             itemCapacity = 7500000;
-            requirements(Category.effect, with(MPTv2Items.metrenFrame, 40, MPTv2Items.metrenFrame, 9, MPTv2Items.armorPlate, 50, MPTv2Items.armorPlate, 9, MPTv2Items.metren, 50));
+            requirements(Category.effect, with(MPTv2Items.metrenFrame, 200, MPTv2Items.armorPlate, 200));
         }};
 
         metrenUnloader = new Unloader("metrenUnloader"){{
@@ -1285,7 +1285,7 @@ public class MPTv2Blocks {
 //            unitType = UnitTypes.gamma;
             incinerateNonBuildable = true;
             unitCapModifier = 20;
-            requirements(Category.effect, with(MPTv2Items.metrenFrame, 36, MPTv2Items.armorPlate, 36, MPTv2Items.metren, 288));
+            requirements(Category.effect, with(MPTv2Items.metrenFrame, 288, MPTv2Items.armorPlate, 288));
         }};
 
         coreAdvance = new CoreBlock("coreAdvance"){{
@@ -1297,7 +1297,7 @@ public class MPTv2Blocks {
 //            unitType = UnitTypes.gamma;
             incinerateNonBuildable = true;
             unitCapModifier = 30;
-            requirements(Category.effect, with(MPTv2Items.metrenFrame, 490, MPTv2Items.armorPlate, 490,MPTv2Items.metren, 392));
+            requirements(Category.effect, with(MPTv2Items.metrenFrame, 392, MPTv2Items.armorPlate, 392));
         }};
 
         coreExperimental = new CoreBlock("coreExperimental"){{
@@ -1308,7 +1308,7 @@ public class MPTv2Blocks {
 //            unitType = UnitTypes.gamma;
             incinerateNonBuildable = true;
             unitCapModifier = 40;
-            requirements(Category.effect, with(MPTv2Items.metrenFrame, 640, MPTv2Items.armorPlate, 640, MPTv2Items.metren, 512));
+            requirements(Category.effect, with(MPTv2Items.metrenFrame, 512, MPTv2Items.armorPlate, 512));
         }};
 
         coreEmperorOfAntimatter = new CoreBlock("coreEmperorOfAntimatter"){{
@@ -1319,7 +1319,7 @@ public class MPTv2Blocks {
 //            unitType = UnitTypes.gamma;
             incinerateNonBuildable = true;
             unitCapModifier = 60;
-            requirements(Category.effect, with(MPTv2Items.metrenFrame, 8100, MPTv2Items.armorPlate, 8100, MPTv2Items.metren, 648));
+            requirements(Category.effect, with(MPTv2Items.antimatterFrame, 648, MPTv2Items.antimatterArmorPlate, 648));
         }};
 
         coreSDU = new CoreBlock("coreSDU"){{
@@ -1329,7 +1329,7 @@ public class MPTv2Blocks {
             unitType = MPTv2UnitTypes.aoe;
             incinerateNonBuildable = true;
             unitCapModifier = 120;
-            requirements(Category.effect, with(MPTv2Items.metrenFrame, 25600, MPTv2Items.armorPlate, 25600, MPTv2Items.metren, 8900));
+            requirements(Category.effect, with(MPTv2Items.metrenFrame, 25600, MPTv2Items.armorPlate, 25600));
         }};
     }
 
@@ -1401,7 +1401,7 @@ public class MPTv2Blocks {
                 );
             }};
 
-            requirements(Category.defense, with(MPTv2Items.metren, 8));
+            requirements(Category.defense, with(MPTv2Items.turretFrame, 800, MPTv2Items.armorPlate, 800));
         }};
 
         loadResearchCenter();
