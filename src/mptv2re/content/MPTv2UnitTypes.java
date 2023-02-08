@@ -635,6 +635,8 @@ public class MPTv2UnitTypes {
             shadowElevation = 0.4f;
             groundLayer = Layer.legUnit;
 
+            range = 160f;
+
             targetAir = false;
             alwaysShootWhenMoving = true;
             Color nimuColor = Color.valueOf("6e7080"), heatCol = Color.purple;
@@ -652,7 +654,7 @@ public class MPTv2UnitTypes {
                         shootY = 25f;
                         reload = 240f;
                         cooldownTime = 110;
-                        range = 400f;
+                        range = 160f;
 
                         bullet = new BulletType(){{
                             shootEffect = Fx.sparkShoot;
@@ -665,7 +667,7 @@ public class MPTv2UnitTypes {
                             spawnUnit = new MissileUnitType("nimu-missile"){{
                                 speed = 8f;
                                 maxRange = 6f;
-                                lifetime = 60f * 7f;
+                                lifetime = 60f * 4.5f;
                                 outlineColor = Pal.darkOutline;
                                 engineColor = trailColor = Pal.redLight;
                                 engineLayer = Layer.effect;
@@ -927,7 +929,11 @@ public class MPTv2UnitTypes {
             ammoType = new ItemAmmoType(Items.graphite);
             weapons.add(new Weapon(){{
                 mirror = false;
+
                 minShootVelocity = 0.75f;
+
+                range = 160f;
+
                 x = 0f;
                 shootY = 0f;
                 reload = 12f;
@@ -981,7 +987,7 @@ public class MPTv2UnitTypes {
                         shootX = 18f;
                         reload = 180f;
                         cooldownTime = 50;
-                        range = 100f;
+                        range = 160f;
 
                         bullet = new BulletType(){{
                             shootEffect = Fx.sparkShoot;
@@ -994,7 +1000,7 @@ public class MPTv2UnitTypes {
                             spawnUnit = new MissileUnitType("pemu-missile"){{
                                 speed = 8f;
                                 maxRange = 6f;
-                                lifetime = 60f * 7f;
+                                lifetime = 60f * 4.5f;
                                 outlineColor = Pal.darkOutline;
                                 engineColor = trailColor = Pal.redLight;
                                 engineLayer = Layer.effect;
@@ -1044,13 +1050,13 @@ public class MPTv2UnitTypes {
                                         }});
 
                                         collidesAir = false;
-                                        buildingDamageMultiplier = 0.3f;
+                                        buildingDamageMultiplier = 0.85f;
 
                                         ammoMultiplier = 1f;
                                         fragLifeMin = 0.1f;
                                         fragBullets = 7;
                                         fragBullet = new ArtilleryBulletType(3.4f, 32){{
-                                            buildingDamageMultiplier = 0.3f;
+                                            buildingDamageMultiplier = 0.85f;
                                             drag = 0.02f;
                                             hitEffect = Fx.massiveExplosion;
                                             despawnEffect = Fx.scatheSlash;
@@ -1188,6 +1194,7 @@ public class MPTv2UnitTypes {
                 hitSize = 200f;
                 itemCapacity = 650;
                 range = 400;
+                forceMultiTarget = true;
 
                 abilities.addAll(
                         new RepairFieldAbility(4000, 90f * 60f, 800)//,
@@ -1241,6 +1248,122 @@ public class MPTv2UnitTypes {
                                 sideWidth = 0f;
                                 sideLength = 0f;
                                 colors = new Color[]{Pal.suppress.cpy().a(0.4f), Pal.suppress, Color.white};
+                            }};
+                        }},
+
+                        new Weapon(MPTv2RE.name("pemu-missile-launchers")){{
+                            x = 160f;
+                            y = 80f;
+                            rotate = false;
+                            mirror = true;
+
+                            shootY = 0f;
+                            shootX = 18f;
+                            reload = 180f;
+                            cooldownTime = 50;
+                            range = 320f;
+                            shoot.shots = 5;
+                            shoot.shotDelay = 2.5f;
+
+                            bullet = new BulletType(){{
+                                shootEffect = Fx.sparkShoot;
+                                smokeEffect = Fx.shootSmokeTitan;
+                                hitColor = Pal.suppress;
+                                shake = 1f;
+                                speed = 0f;
+                                keepVelocity = false;
+
+                                spawnUnit = new MissileUnitType("pemu-missiles"){{
+                                    speed = 8f;
+                                    maxRange = 6f;
+                                    lifetime = 60f * 4.5f;
+                                    outlineColor = Pal.darkOutline;
+                                    engineColor = trailColor = Pal.redLight;
+                                    engineLayer = Layer.effect;
+                                    engineSize = 3.1f;
+                                    engineOffset = 11f;
+                                    rotateSpeed = 2.5f;
+                                    trailLength = 18;
+                                    missileAccelTime = 45f;
+                                    lowAltitude = true;
+                                    loopSound = Sounds.missileTrail;
+                                    loopSoundVolume = 0.6f;
+                                    deathSound = Sounds.largeExplosion;
+                                    targetAir = false;
+
+                                    fogRadius = 6f;
+
+                                    health = 210;
+
+                                    parts.add(
+                                            //circle
+                                            new ShapePart(){{
+                                                layer = Layer.effect;
+                                                circle = true;
+                                                y = -0.25f;
+                                                radius = 1.5f;
+                                                color = pemuColor;
+                                                colorTo = Color.white;
+                                                progress = PartProgress.life.curve(Interp.pow5In);
+                                            }}
+
+                                            //shape
+                                    );
+
+                                    weapons.add(new Weapon(){{
+                                        shootCone = 360f;
+                                        mirror = false;
+                                        reload = 1f;
+                                        deathExplosionEffect = Fx.massiveExplosion;
+                                        shootOnDeath = true;
+                                        shake = 10f;
+                                        bullet = new ExplosionBulletType(2000f, 65f){{
+                                            hitColor = Pal.redLight;
+                                            shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosion, Fx.scatheLight, new WaveEffect(){{
+                                                lifetime = 10f;
+                                                strokeFrom = 4f;
+                                                sizeTo = 130f;
+                                            }});
+
+                                            collidesAir = false;
+                                            buildingDamageMultiplier = 0.4f;
+
+                                            ammoMultiplier = 1f;
+                                            fragLifeMin = 0.1f;
+                                            fragBullets = 7;
+                                            fragBullet = new ArtilleryBulletType(3.4f, 32){{
+                                                buildingDamageMultiplier = 0.85f;
+                                                drag = 0.02f;
+                                                hitEffect = Fx.massiveExplosion;
+                                                despawnEffect = Fx.scatheSlash;
+                                                knockback = 0.8f;
+                                                lifetime = 23f;
+                                                width = height = 18f;
+                                                collidesTiles = true;
+                                                splashDamageRadius = 40f;
+                                                splashDamage = 80f;
+                                                backColor = trailColor = hitColor = Pal.redLight;
+                                                frontColor = Color.white;
+                                                smokeEffect = Fx.shootBigSmoke2;
+                                                despawnShake = 7f;
+                                                lightRadius = 30f;
+                                                lightColor = Pal.redLight;
+                                                lightOpacity = 0.5f;
+
+                                                trailLength = 20;
+                                                trailWidth = 3.5f;
+                                                trailEffect = Fx.none;
+                                            }};
+                                        }};
+                                    }});
+                                    abilities.add(new MoveEffectAbility(){{
+                                        effect = Fx.missileTrailSmoke;
+                                        rotation = 180f;
+                                        y = -9f;
+                                        color = Color.grays(0.6f).lerp(Pal.redLight, 0.5f).a(0.4f);
+                                        interval = 7f;
+                                    }});
+                                }};
                             }};
                         }},
 
