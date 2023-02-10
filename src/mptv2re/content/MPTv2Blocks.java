@@ -101,7 +101,7 @@ public class MPTv2Blocks {
             metrenConstructor, metrenLargeConstructor, smallMetrenDeconstructor, metrenDeconstructor,
 
             //effect
-            metrender, boostDriveProjector, metrenShieldDome, buildBlock, metrenUnloader,
+            metrender, boostDriveProjector, metrenShieldDome, metrenRadar, buildBlock, metrenUnloader,
             //storage
             metrenContainer,
             ///core
@@ -1252,11 +1252,28 @@ public class MPTv2Blocks {
             requirements(Category.effect, with(MPTv2Items.metrenFrame, 72, MPTv2Items.armorPlate, 72, MPTv2Items.multiCore, 3, MPTv2Items.metrenSilicon, 70));
         }};
 
+        metrenRadar = new Radar("metrenRadar"){{
+            size = 3;
+            health = 3000000;
+
+            outlineColor = Color.valueOf("4a4b53");
+            fogRadius = 102;
+            researchCost = with(Items.silicon, 70, Items.graphite, 70);
+
+            consumePower(0.6f);
+
+            requirements(Category.effect, BuildVisibility.fogOnly, with(MPTv2Items.metrenFrame, 72, MPTv2Items.armorPlate, 72, MPTv2Items.metrenSilicon, 160));
+        }};
+
         buildBlock = new BuildTurret("buildBlock"){{
             size = 3;
             health = 9000000;
+
             buildSpeed = 5;
             range = 800;
+
+            consumePower(12f);
+
             requirements(Category.effect, with(MPTv2Items.metrenFrame, 72, MPTv2Items.turretFrame, 72, MPTv2Items.armorPlate, 72));
         }};
         loadCore();

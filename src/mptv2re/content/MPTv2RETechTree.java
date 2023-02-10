@@ -11,6 +11,7 @@ public class MPTv2RETechTree {
 
 
     public static void load() {
+        //for all
         nodeRoot("mptv2-re", MPTv2Blocks.titaniumAlloySmelter, () -> {
             node(MPTv2Blocks.efficiencyTechnologyResearchCenter, () -> {});
             node(MPTv2Blocks.unitResearchCenter, () -> {});
@@ -51,10 +52,7 @@ public class MPTv2RETechTree {
                 });
             });
 
-                //factory
-            node(MPTv2Blocks.carbideAlloyArcSmelter, () -> {
-                node(MPTv2Blocks.metrenArcFurnace);
-            });
+            //factory
             node(MPTv2Blocks.metrenSmelter, () -> {
                 node(MPTv2Blocks.metrenGlassSmelter, () -> {
                     node(MPTv2Blocks.metrenDiamondCompressor, () -> {
@@ -86,13 +84,6 @@ public class MPTv2RETechTree {
                 node(MPTv2Blocks.metrenLargeNode, () -> {
                     node(MPTv2Blocks.metrenTowerNode, () -> {
                     });
-                });
-
-                node(MPTv2Blocks.metrenSRBeamNode, () -> {
-                    node(MPTv2Blocks.metrenHRBeamNode, () -> {
-                        node(MPTv2Blocks.metrenBeamTower);
-                    });
-                    node(MPTv2Blocks.metrenBeamCondenser);
                 });
 
                 node(MPTv2Blocks.metrenBattery, () -> {
@@ -243,6 +234,17 @@ public class MPTv2RETechTree {
                             nodeProduce(MPTv2Items.emperorsCristal, () -> {});
                         });
                     });
+                });
+            });
+        });
+        //for erekir
+        nodeRoot("mptv2-re-erekir", MPTv2Blocks.carbideAlloyArcSmelter, () -> {
+            node(MPTv2Blocks.metrenArcFurnace, () -> {
+                node(MPTv2Blocks.metrenSRBeamNode, () -> {
+                    node(MPTv2Blocks.metrenHRBeamNode, () -> {
+                        node(MPTv2Blocks.metrenBeamTower);
+                    });
+                    node(MPTv2Blocks.metrenBeamCondenser);
                 });
             });
         });
