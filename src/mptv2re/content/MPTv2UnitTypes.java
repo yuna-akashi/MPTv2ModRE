@@ -1013,7 +1013,7 @@ public class MPTv2UnitTypes {
                                 loopSound = Sounds.missileTrail;
                                 loopSoundVolume = 0.6f;
                                 deathSound = Sounds.largeExplosion;
-                                targetAir = false;
+                                targetAir = true;
 
                                 fogRadius = 6f;
 
@@ -1049,7 +1049,7 @@ public class MPTv2UnitTypes {
                                             sizeTo = 130f;
                                         }});
 
-                                        collidesAir = false;
+                                        collidesAir = true;
                                         buildingDamageMultiplier = 0.85f;
 
                                         ammoMultiplier = 1f;
@@ -1127,17 +1127,19 @@ public class MPTv2UnitTypes {
                 weapons.add(
                         new Weapon(MPTv2RE.name("pemu-weapon-cannon")){{
                             mirror = true;
-                            x = 0;
+                            x = 18;
                             y = 2;
-                            shootX = 18f;
+                            shootX = 0f;
                             shootY = 10f;
                             reload = 80f;
                             cooldownTime = 25f;
                             shootSound = Sounds.cannon;
 
-                            bullet = new EmpBulletType(){{
+                            bullet = new BasicBulletType(){{
                                 damage = 500;
-                                lifetime = 40f;
+                                width = 6f;
+                                height = 4f;
+                                lifetime = 50f;
                                 pierceArmor = true;
                             }};
                         }}
@@ -1289,7 +1291,7 @@ public class MPTv2UnitTypes {
                                     loopSound = Sounds.missileTrail;
                                     loopSoundVolume = 0.6f;
                                     deathSound = Sounds.largeExplosion;
-                                    targetAir = false;
+                                    targetAir = true;
 
                                     fogRadius = 6f;
 
@@ -1325,7 +1327,7 @@ public class MPTv2UnitTypes {
                                                 sizeTo = 130f;
                                             }});
 
-                                            collidesAir = false;
+                                            collidesAir = true;
                                             buildingDamageMultiplier = 0.4f;
 
                                             ammoMultiplier = 1f;
