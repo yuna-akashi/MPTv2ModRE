@@ -139,13 +139,7 @@ public class MPTv2RETechTree {
                         });
                     });
                     node(MPTv2UnitTypes.miningRoomba, ItemStack.with(MPTv2Items.unitResearchPack, 30), () -> {
-                        node(MPTv2UnitTypes.repairRoomba, ItemStack.with(MPTv2Items.unitResearchPack, 60), Seq.with(new Objectives.Research(MPTv2Blocks.metrenAdditiveReconstructor)), () -> {
-                            node(MPTv2UnitTypes.rebuildRoomba, ItemStack.with(MPTv2Items.unitResearchPack, 90), Seq.with(new Objectives.Research(MPTv2Blocks.metrenMultiplicativeReconstructor)), () -> {
-                                node(MPTv2UnitTypes.builderRoomba, ItemStack.with(MPTv2Items.unitResearchPack, 120), Seq.with(new Objectives.Research(MPTv2Blocks.metrenAdditiveReconstructor)), () -> {
-                                    node(MPTv2UnitTypes.shieldRoomba, ItemStack.with(MPTv2Items.unitResearchPack, 180), Seq.with(new Objectives.Research(MPTv2Blocks.metrenMultiplicativeReconstructor)), () -> {});
-                                });
-                            });
-                        });
+                        node(MPTv2UnitTypes.repairRoomba, ItemStack.with(MPTv2Items.unitResearchPack, 60), Seq.with(new Objectives.Research(MPTv2Blocks.metrenAdditiveReconstructor)), () -> {});
                     });
                 });
                 node(MPTv2Blocks.metrenUnitFactory, ItemStack.with(MPTv2Items.unitResearchPack, 50), () -> {

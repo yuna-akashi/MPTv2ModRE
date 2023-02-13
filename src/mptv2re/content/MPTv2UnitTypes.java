@@ -3,6 +3,7 @@ package mptv2re.content;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
+import mindustry.Vars;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.*;
 import mindustry.content.Fx;
@@ -14,12 +15,8 @@ import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.WaveEffect;
-import mindustry.entities.part.DrawPart;
-import mindustry.entities.part.HaloPart;
-import mindustry.entities.part.RegionPart;
-import mindustry.entities.part.ShapePart;
+import mindustry.entities.part.*;
 import mindustry.entities.pattern.ShootPattern;
-import mindustry.entities.pattern.ShootSpread;
 import mindustry.gen.*;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
@@ -28,12 +25,14 @@ import mindustry.type.ammo.ItemAmmoType;
 import mindustry.type.ammo.PowerAmmoType;
 import mindustry.type.unit.ErekirUnitType;
 import mindustry.type.unit.MissileUnitType;
+import mindustry.type.weapons.BuildWeapon;
 import mindustry.type.weapons.PointDefenseWeapon;
 import mindustry.type.weapons.RepairBeamWeapon;
 import mindustry.world.meta.BlockFlag;
 import mindustry.world.meta.Env;
 import mptv2re.MPTv2RE;
 
+import static mindustry.Vars.tilesize;
 import static mindustry.content.Fx.*;
 import static mindustry.gen.Sounds.explosion;
 import static mindustry.gen.Sounds.lasershoot;
@@ -46,7 +45,7 @@ public class MPTv2UnitTypes {
     public static UnitType
             ///*Rommbas*///
             roomba,  attackRoomba, jibakuRoomba, jibakuNukeRoomba,
-            miningRoomba, repairRoomba, rebuildRoomba, builderRoomba, shieldRoomba,
+            miningRoomba, repairRoomba,
 
             ///*Grounds*///
             //spider
@@ -62,7 +61,7 @@ public class MPTv2UnitTypes {
             metre, aoe,
 
             ///*special*/
-            metrenAssemblyDrone
+            metrenAssemblyDrone, cargoDrone
     ;
 
     static{
@@ -71,10 +70,7 @@ public class MPTv2UnitTypes {
         EntityMapping.nameMap.put(MPTv2RE.name("jibakuNukeRoomba"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(MPTv2RE.name("attackRoomba"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(MPTv2RE.name("minerRoomba"), EntityMapping.idMap[3]);
-        EntityMapping.nameMap.put(MPTv2RE.name("builderRoomba"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(MPTv2RE.name("rebuildRoomba"), EntityMapping.idMap[3]);
-        EntityMapping.nameMap.put(MPTv2RE.name("healerRoomba"), EntityMapping.idMap[3]);
-        EntityMapping.nameMap.put(MPTv2RE.name("shieldRoomba"), EntityMapping.idMap[3]);
 
         EntityMapping.nameMap.put(MPTv2RE.name("ayu"), EntityMapping.idMap[24]);
         EntityMapping.nameMap.put(MPTv2RE.name("mino"), EntityMapping.idMap[24]);
@@ -83,13 +79,14 @@ public class MPTv2UnitTypes {
         EntityMapping.nameMap.put(MPTv2RE.name("nimu"), EntityMapping.idMap[24]);
 
         EntityMapping.nameMap.put(MPTv2RE.name("pemu"), EntityMapping.idMap[16]);
-        EntityMapping.nameMap.put(MPTv2RE.name("pemu-bomber"), EntityMapping.idMap[23]);
-        EntityMapping.nameMap.put(MPTv2RE.name("pemu-launcher"), EntityMapping.idMap[23]);
-        EntityMapping.nameMap.put(MPTv2RE.name("pemu-cannon"), EntityMapping.idMap[23]);
-        EntityMapping.nameMap.put(MPTv2RE.name("pemu-recon"), EntityMapping.idMap[23]);
+        EntityMapping.nameMap.put(MPTv2RE.name("pemu-bomber"), EntityMapping.idMap[16]);
+        EntityMapping.nameMap.put(MPTv2RE.name("pemu-launcher"), EntityMapping.idMap[16]);
+        EntityMapping.nameMap.put(MPTv2RE.name("pemu-cannon"), EntityMapping.idMap[16]);
+        EntityMapping.nameMap.put(MPTv2RE.name("pemu-recon"), EntityMapping.idMap[16]);
         EntityMapping.nameMap.put(MPTv2RE.name("pemu-carrier"), EntityMapping.idMap[5]);
 
         EntityMapping.nameMap.put(MPTv2RE.name("destAllier"), EntityMapping.idMap[5]);
+        EntityMapping.nameMap.put(MPTv2RE.name("cargoDrone"), EntityMapping.idMap[5]);
 
     }
 
@@ -145,156 +142,73 @@ public class MPTv2UnitTypes {
             mineSpeed = 2.5f;
         }};
 
-        builderRoomba = new MPTv2UnitType("builderRoomba"){{
-            constructor = EntityMapping.map(3);
-            aiController = BuilderAI::new;
-            defaultCommand = UnitCommand.assistCommand;
-            isEnemy = false;
-
-            flying = true;
-
-            mineTier = 6;
-            itemCapacity = 75;
-
-            armor = 250;
-            health = 50000;
-            buildSpeed = 5f;
-
-            speed = 5F;
-            rotateSpeed = 18F;
-            engineSize = 0F;
-
-            weapons.add(new Weapon("none"){{
-                top = mirror = false;
-                reload = 15f;
-                recoil = 0;
-                x = 0f;
-                y = 0f;
-                shootY = 1.5f;
-                shoot = new ShootSpread(){{
-                    shots = 2;
-                    shotDelay = 3f;
-                    spread = 2f;
-                }};
-
-                inaccuracy = 3f;
-                ejectEffect = none;
-
-                bullet = new BasicBulletType(3.5f, 11){{
-                    width = 6.5f;
-                    height = 11f;
-                    lifetime = 70f;
-                    shootEffect = Fx.shootSmall;
-                    smokeEffect = Fx.shootSmallSmoke;
-                    buildingDamageMultiplier = 0.01f;
-                    homingPower = 0.04f;
-                }};
-            }});
-        }};
-
-        rebuildRoomba = new MPTv2UnitType("rebuildRoomba"){{
-            constructor = EntityMapping.map(3);
-            aiController = RepairAI::new;
-            defaultCommand = UnitCommand.rebuildCommand;
-
-            flying = true;
-
-            speed = 2.6f;
-            rotateSpeed = 15f;
-            range = 130f;
-            health = 400;
-            buildSpeed = 0.5f;
-            engineSize = 0f;
-            lowAltitude = true;
-
-            ammoType = new PowerAmmoType(900);
-
-            mineTier = 2;
-            mineSpeed = 3.5f;
-
-            abilities.add(new RepairFieldAbility(500f, 60f * 8, 100f));
-
-            weapons.add(new Weapon("poly-weapon"){{
+        repairRoomba = new MPTv2UnitType("repairRoomba"){{
                 constructor = EntityMapping.map(3);
-                top = false;
-                y = -2.5f;
-                x = 3.75f;
-                reload = 30f;
-                ejectEffect = Fx.none;
-                recoil = 2f;
-                shootSound = Sounds.missile;
-                velocityRnd = 0.5f;
-                inaccuracy = 15f;
-                alternate = true;
-
-                bullet = new MissileBulletType(4f, 12){{
-                    homingPower = 0.08f;
-                    weaveMag = 4;
-                    weaveScale = 4;
-                    lifetime = 50f;
-                    keepVelocity = false;
-                    shootEffect = Fx.shootHeal;
-                    smokeEffect = Fx.hitLaser;
-                    hitEffect = despawnEffect = Fx.hitLaser;
-                    frontColor = Color.white;
-                    hitSound = Sounds.none;
-
-                    healPercent = 5.5f;
-                    collidesTeam = true;
-                    backColor = Pal.heal;
-                    trailColor = Pal.heal;
-                }};
-            }});
-
-            repairRoomba = new MPTv2UnitType("healerRoomba"){{
-                constructor = EntityMapping.map(3);
-                aiController = DefenderAI::new;
+                aiController = RepairAI::new;
+                defaultCommand = UnitCommand.rebuildCommand;
 
                 flying = true;
 
-                health = 1200;
-                armor = 10;
-
-                faceTarget = true;
-                itemCapacity = 20;
-                range = 240;
-
-                speed = 5F;
-                rotateSpeed = 18F;
+                speed = 2.6f;
+                rotateSpeed = 15f;
+                range = 130f;
+                health = 400;
+                buildSpeed = 0.5f;
                 engineSize = 0f;
+                lowAltitude = true;
+
+                ammoType = new PowerAmmoType(900);
+
+                mineTier = 2;
+                mineSpeed = 3.5f;
 
                 abilities.add(new RepairFieldAbility(500f, 60f * 8, 100f));
-
                 weapons.add(
-                    new RepairBeamWeapon("none"){{
-                        x = 0;
-                        y = 0;
-                        shootY = 0;
-                        shootSound = lasershoot;
-                        repairSpeed = 50000;
-                        bullet = new BulletType(){{
-                            maxRange = 240;
-                        }};
-                    }}
+                        new RepairBeamWeapon("none"){{
+                            x = 0;
+                            y = 0;
+                            shootY = 0;
+                            shootSound = lasershoot;
+                            repairSpeed = 50f;
+                            reload = 0;
+                            bullet = new BulletType(){{
+                                maxRange = 240;
+                            }};
+                        }},
+
+                        new Weapon("poly-weapon") {{
+                            constructor = EntityMapping.map(3);
+                            top = false;
+                            y = -2.5f;
+                            x = 3.75f;
+                            reload = 30f;
+                            ejectEffect = Fx.none;
+                            recoil = 2f;
+                            shootSound = Sounds.missile;
+                            velocityRnd = 0.5f;
+                            inaccuracy = 15f;
+                            alternate = true;
+
+                            bullet = new MissileBulletType(4f, 12) {{
+                                homingPower = 0.08f;
+                                weaveMag = 4;
+                                weaveScale = 4;
+                                lifetime = 50f;
+                                keepVelocity = false;
+                                shootEffect = Fx.shootHeal;
+                                smokeEffect = Fx.hitLaser;
+                                hitEffect = despawnEffect = Fx.hitLaser;
+                                frontColor = Color.white;
+                                hitSound = Sounds.none;
+
+                                healPercent = 5.5f;
+                                collidesTeam = true;
+                                backColor = Pal.heal;
+                                trailColor = Pal.heal;
+                            }};
+                        }}
                 );
             }};
-
-            shieldRoomba = new MPTv2UnitType("shieldRoomba"){{
-                constructor = EntityMapping.map(3);
-                aiController = DefenderAI::new;
-
-                flying= true;
-
-                health = 1200;
-                armor = 120;
-
-                speed = 5F;
-                rotateSpeed = 18F;
-                engineSize = 0F;
-
-                abilities.add(new ForceFieldAbility(140f, 5f, 10000f, 60f * 12));
-            }};
-        }};
     }
 
     public static void loadAttackRoomba() {
@@ -326,7 +240,7 @@ public class MPTv2UnitTypes {
             targetFlags = new BlockFlag[]{BlockFlag.repair, BlockFlag.turret, BlockFlag.reactor, BlockFlag.generator, BlockFlag.core, null};
         }};
         jibakuRoomba = new MPTv2UnitType("jibakuRoomba"){{
-            constructor = EntityMapping.map(4);
+            constructor = EntityMapping.map(3);
             aiController = SuicideAI::new;
 
             flying= false;
@@ -363,7 +277,7 @@ public class MPTv2UnitTypes {
         }};
 
         jibakuNukeRoomba = new MPTv2UnitType("jibakuNukeRoomba"){{
-            constructor = EntityMapping.map(4);
+            constructor = EntityMapping.map(3);
             aiController = SuicideAI::new;
 
             flying= false;
@@ -907,7 +821,7 @@ public class MPTv2UnitTypes {
         }};
 
         pemuBomber = new ErekirUnitType("pemu-bomber"){{
-            constructor = EntityMapping.map(23);
+            constructor = EntityMapping.map(16);
 
             isEnemy = false;
 
@@ -956,7 +870,7 @@ public class MPTv2UnitTypes {
         }};
 
         pemuLauncher = new ErekirUnitType("pemu-launcher"){{
-            constructor = EntityMapping.map(23);
+            constructor = EntityMapping.map(16);
 
             isEnemy = false;
 
@@ -1092,21 +1006,19 @@ public class MPTv2UnitTypes {
 
                         parts.add(
                                 new RegionPart(MPTv2RE.name("pemu-launcher-set")){{
-                                    layerOffset = -1f;
                                     top = false;
-                                    mirror = true;
                                     drawCell = true;
                                     progress = PartProgress.smoothReload;
                                     x = 0f;
                                     y = 0;
-                                    moveX = -20;
+                                    moveX = -22;
                                 }}
                         );
                     }}
             );
 
             pemuCannon = new ErekirUnitType("pemu-cannon"){{
-                constructor = EntityMapping.map(23);
+                constructor = EntityMapping.map(16);
 
                 isEnemy = false;
 
@@ -1199,12 +1111,11 @@ public class MPTv2UnitTypes {
                 forceMultiTarget = true;
 
                 abilities.addAll(
-                        new RepairFieldAbility(4000, 90f * 60f, 800)//,
-//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuBomber, 100f * 60f, 60, -40),
-//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuCannon, 100f * 60f, -60, -40),
-//
-//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuLauncher, 100f * 60f, 100, -80),
-//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuRecon, 100f * 60f, 100, -80)
+                        new RepairFieldAbility(4000, 90f * 60f, 800)
+//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuBomber, 120f * 60f, -60, -40),
+//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuCannon, 120f * 60f, 60, -40),
+//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuLauncher, 120f * 60f, -180, -80),
+//                        new UnitSpawnAbility(MPTv2UnitTypes.pemuRecon, 120f * 60f, 180, -80)
                 );
 
                 weapons.addAll(
@@ -2250,6 +2161,8 @@ public class MPTv2UnitTypes {
     }
 
     public static void load() {
+        float coreFleeRange = 500f;
+
         loadPreviousWeapon();
         loadAttackRoomba();
         loadRoombas();
@@ -2258,7 +2171,6 @@ public class MPTv2UnitTypes {
         loadAntimatter();
         loadCoreUnits();
         metrenAssemblyDrone = new ErekirUnitType("metren-assembly-drone"){{
-            localizedName = "Metren Assembly Drone";
             constructor = EntityMapping.map(36);
             controller = u -> new AssemblerAI();
 
@@ -2283,6 +2195,109 @@ public class MPTv2UnitTypes {
             createWreck = false;
             envEnabled = Env.any;
             envDisabled = Env.none;
+        }};
+
+        cargoDrone = new ErekirUnitType("cargoDrone"){{
+            localizedName = "Testing Unit";
+            constructor = EntityMapping.map(5);
+            coreUnitDock = true;
+            controller = u -> new BuilderAI(true, coreFleeRange);
+            isEnemy = false;
+            envDisabled = 0;
+
+            targetPriority = -2;
+            lowAltitude = false;
+            mineWalls = true;
+            mineFloor = true;
+            mineHardnessScaling = false;
+            flying = true;
+            mineSpeed = 8f;
+            mineTier = 9;
+            buildSpeed = 2.5f;
+            drag = 0.08f;
+            speed = 5.5f;
+            rotateSpeed = 8f;
+            accel = 0.09f;
+            itemCapacity = 200;
+            health = 5000f;
+            armor = 120f;
+            hitSize = 15f;
+            payloadCapacity = 7 * 7 * tilesize * tilesize;
+            pickupUnits = true;
+            vulnerableWithPayloads = true;
+
+            fogRadius = 5f;
+            targetable = false;
+            hittable = false;
+
+            engineOffset = 7.2f;
+            engineSize = 3.1f;
+
+            abilities.add(new MoveEffectAbility(0f, -7f, Pal.sapBulletBack, Fx.missileTrailShort, 4f){{
+                teamColor = true;
+            }});
+
+            parts.add(
+                    new HoverPart(){{
+                        x = 24f;
+                        y = 24f;
+                        mirror = true;
+                        radius = 12f;
+                        phase = 90f;
+                        stroke = 4f;
+                        layerOffset = -0.001f;
+                        color = Color.valueOf("84f491");
+                    }},
+
+                    new HoverPart(){{
+                        x = 24f;
+                        y = -24f;
+                        mirror = true;
+                        radius = 12f;
+                        phase = 90f;
+                        stroke = 4f;
+                        layerOffset = -0.001f;
+                        color = Color.valueOf("84f491");
+                    }}
+            );
+
+            weapons.add(new RepairBeamWeapon(){{
+                widthSinMag = 0.11f;
+                reload = 20f;
+                x = 0f;
+                y = 7.5f;
+                rotate = false;
+                shootY = 0f;
+                beamWidth = 0.7f;
+                aimDst = 0f;
+                shootCone = 15f;
+                mirror = false;
+
+                repairSpeed = 7f;
+                fractionRepairSpeed = 0.2f;
+
+                targetUnits = false;
+                targetBuildings = true;
+                autoTarget = false;
+                controllable = true;
+                laserColor = Pal.accent;
+                healColor = Pal.accent;
+
+                bullet = new BulletType(){{
+                    maxRange = 60f;
+                }};
+            }});
+
+            drawBuildBeam = false;
+
+            weapons.add(new BuildWeapon("build-weapon"){{
+                rotate = true;
+                rotateSpeed = 7f;
+                x = 14/4f;
+                y = 15/4f;
+                layerOffset = -0.001f;
+                shootY = 3f;
+            }});
         }};
     }
 }

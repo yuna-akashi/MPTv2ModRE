@@ -1050,7 +1050,6 @@ public class MPTv2Blocks {
                     new UnitType[]{MPTv2UnitTypes.jibakuRoomba, MPTv2UnitTypes.jibakuNukeRoomba},
                     //special roomba
                     new UnitType[]{MPTv2UnitTypes.miningRoomba, MPTv2UnitTypes.repairRoomba},
-                    new UnitType[]{MPTv2UnitTypes.rebuildRoomba, MPTv2UnitTypes.builderRoomba},
                     //ayu
                     new UnitType[]{MPTv2UnitTypes.ayu, MPTv2UnitTypes.mino},
                     //antimatter
@@ -1072,9 +1071,6 @@ public class MPTv2Blocks {
             upgrades.addAll(
                     //roomba
                     new UnitType[]{MPTv2UnitTypes.attackRoomba, MPTv2UnitTypes.jibakuRoomba},
-
-                    new UnitType[]{MPTv2UnitTypes.repairRoomba, MPTv2UnitTypes.rebuildRoomba},
-                    new UnitType[]{MPTv2UnitTypes.builderRoomba, MPTv2UnitTypes.shieldRoomba},
                     //ayu
                     new UnitType[]{MPTv2UnitTypes.mino, MPTv2UnitTypes.ami},
                     //antimatter
