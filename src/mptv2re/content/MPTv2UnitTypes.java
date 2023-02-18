@@ -527,7 +527,7 @@ public class MPTv2UnitTypes {
 
             drag = 0.1f;
             speed = 1.1f;
-            hitSize = 60f;
+            hitSize = 50f;
             health = 500000;
             armor = 200;
             rotateSpeed = 1.6f;

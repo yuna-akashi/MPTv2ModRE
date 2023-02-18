@@ -625,7 +625,8 @@ public class MPTv2Blocks{
             envEnabled |= Env.space | Env.underwater;
             envDisabled = Env.none;
             drawer = new DrawMulti(
-                    new DrawRegion("-bottom"), new DrawCircles(){{
+                    new DrawRegion("-bottom"),
+                    new DrawCircles(){{
                         color = Color.valueOf("ffc073").a(0.24f);
                         strokeMax = 2.5f;
                         radius = 10f;
@@ -1091,6 +1092,7 @@ public class MPTv2Blocks{
             consumePower(500);
             consumeItems(with(MPTv2Items.deuteriumCell, 1, MPTv2Items.tritiumCell, 1, MPTv2Items.antimatterCell, 2));
             consumeLiquid(Liquids.cryofluid, 0.15f / 90f);
+
             requirements(Category.power, with(MPTv2Items.antimatterFrame, 968, MPTv2Items.antimatterArmorPlate, 968, MPTv2Items.metrenSilicon, 360));
         }};//done
     }
