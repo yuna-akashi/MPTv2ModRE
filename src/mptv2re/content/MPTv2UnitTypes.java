@@ -1,8 +1,10 @@
 package mptv2re.content;
 
+import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
+import arc.math.geom.Rect;
 import mindustry.Vars;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.*;
@@ -16,6 +18,7 @@ import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.WaveEffect;
 import mindustry.entities.part.*;
+import mindustry.entities.pattern.ShootAlternate;
 import mindustry.entities.pattern.ShootPattern;
 import mindustry.gen.*;
 import mindustry.graphics.Layer;
@@ -25,6 +28,7 @@ import mindustry.type.ammo.ItemAmmoType;
 import mindustry.type.ammo.PowerAmmoType;
 import mindustry.type.unit.ErekirUnitType;
 import mindustry.type.unit.MissileUnitType;
+import mindustry.type.unit.TankUnitType;
 import mindustry.type.weapons.BuildWeapon;
 import mindustry.type.weapons.PointDefenseWeapon;
 import mindustry.type.weapons.RepairBeamWeapon;
@@ -50,6 +54,9 @@ public class MPTv2UnitTypes {
             ///*Grounds*///
             //spider
             ayu, mino, ami, meru, nimu,
+
+            ///*tank*///
+            heavyTank,
 
             ///*AirUnits*///
             //Pemu
@@ -77,6 +84,8 @@ public class MPTv2UnitTypes {
         EntityMapping.nameMap.put(MPTv2RE.name("ami"), EntityMapping.idMap[24]);
         EntityMapping.nameMap.put(MPTv2RE.name("meru"), EntityMapping.idMap[24]);
         EntityMapping.nameMap.put(MPTv2RE.name("nimu"), EntityMapping.idMap[24]);
+
+        EntityMapping.nameMap.put(MPTv2RE.name("heavyTank"), EntityMapping.idMap[43]);
 
         EntityMapping.nameMap.put(MPTv2RE.name("pemu"), EntityMapping.idMap[16]);
         EntityMapping.nameMap.put(MPTv2RE.name("pemu-bomber"), EntityMapping.idMap[16]);
@@ -674,7 +683,8 @@ public class MPTv2UnitTypes {
                         parts.addAll(
                                 new RegionPart(MPTv2RE.name("nimu-missile-set")){{
                                     progress = PartProgress.warmup;
-                                    x = y = 8;
+                                    x = 0;
+                                    y = 8;
                                     drawCell = true;
                                 }},
 
@@ -796,9 +806,108 @@ public class MPTv2UnitTypes {
         }};
     }
 
+    public static void loadTank() {
+        heavyTank = new TankUnitType("heavyTank"){{
+            health = 22000;
+            armor = 45;
+            rotateSpeed = 3f;
+            speed = 1.5f;
+
+            squareShape = true;
+            omniMovement = false;
+            rotateMoveFirst = true;
+            envDisabled = Env.none;
+            hitSize = 50f;
+
+            accel = 0.25f;
+
+            treadRects = new Rect[]{new Rect(-40.0F, 60.0F, 28.0F, 208.0F), new Rect(-85.0F, 5.0F, 48.0F, 78.0F), new Rect(0F, -50.0F, 20.0F, 44.0F)};
+
+            hoverable = hovering = true;
+
+            weapons.add(
+                    new Weapon(name + "-cannon"){{
+                        shootSound = Sounds.largeCannon;
+                        mirror = false;
+                        rotate = true;
+                        rotateSpeed = 0.6f;
+                        x = y = 0;
+                        reload = 100f;
+                        shootY = 10f;
+                        shake = 5f;
+                        recoil = 5f;
+                        shoot = new ShootAlternate(){{
+                            shots = 2;
+                            shotDelay = 0f;
+                            spread = 20f;
+                        }};
+
+                        bullet = new BasicBulletType(){{
+                            sprite = "missile-large";
+                            damage = 500;
+                            speed = 20f;
+                            lifetime = 20f;
+
+                            width = 12f;
+                            height = 20f;
+                        }};
+
+                        parts.add(
+                                new RegionPart("-base"){{
+                                    under = true;
+                                    x = y = 0;
+                                    moveX = moveY = 0;
+                                }}
+                        );
+
+                    }},
+                    new Weapon(name + "-railgun"){{
+                        shootSound = Sounds.largeCannon;
+                        drawCell = rotate = true;
+                        rotateSpeed = 0.6f;
+                        mirror = false;
+                        x = y = 0;
+                        shootY = 10f;
+                        reload = 250f;
+                        recoil = 5f;
+                        heatColor = Color.valueOf("f9350f");
+                        shootWarmupSpeed = 0.06f;
+                        cooldownTime = 110f;
+                        heatColor = Color.valueOf("f9350f");
+                        minWarmup = 0.9f;
+                        bullet = new BasicBulletType(){{
+                            damage = 2000;
+                            speed = 50f;
+                            lifetime = 40f;
+
+                            width = 12f;
+                            height = 20f;
+                        }};
+
+
+                        parts.addAll(
+                                new RegionPart("-barrel"){{
+                                    under = outline = true;
+                                    x = y = 0;
+                                    moveY = -6f;
+                                    progress = PartProgress.recoil;
+                                }}
+                        );
+                    }}
+
+            );
+
+//            parts.add(new RegionPart("-glow"){{
+//                color = Color.red;
+//                blending = Blending.additive;
+//                layer = -1f;
+//                outline = false;
+//            }});
+        }};
+    }
+
     public static void loadAir(){
         pemu = new ErekirUnitType("pemu"){{
-            constructor = EntityMapping.map(16);
             defaultCommand = UnitCommand.assistCommand;
 
             buildSpeed = 3.5f;
@@ -1719,6 +1828,7 @@ public class MPTv2UnitTypes {
 
             flying = true;
             itemCapacity = 275;
+            payloadCapacity = 30f * 30f * tilesize * tilesize;
 
             hitSize = 260F;
             armor = 1000;
@@ -2161,12 +2271,13 @@ public class MPTv2UnitTypes {
     }
 
     public static void load() {
-        float coreFleeRange = 500f;
+        float coreFleeRange = 800f;
 
         loadPreviousWeapon();
         loadAttackRoomba();
         loadRoombas();
         loadSpider();
+        loadTank();
         loadAir();
         loadAntimatter();
         loadCoreUnits();
@@ -2198,7 +2309,7 @@ public class MPTv2UnitTypes {
         }};
 
         cargoDrone = new ErekirUnitType("cargoDrone"){{
-            localizedName = "Testing Unit";
+            localizedName = "CArgo Drone";
             constructor = EntityMapping.map(5);
             coreUnitDock = true;
             controller = u -> new BuilderAI(true, coreFleeRange);
@@ -2211,13 +2322,13 @@ public class MPTv2UnitTypes {
             mineFloor = true;
             mineHardnessScaling = false;
             flying = true;
-            mineSpeed = 8f;
+            mineSpeed = 12f;
             mineTier = 9;
             buildSpeed = 2.5f;
             drag = 0.08f;
-            speed = 5.5f;
+            speed = 40f;
             rotateSpeed = 8f;
-            accel = 0.09f;
+            accel = 0.005f;
             itemCapacity = 200;
             health = 5000f;
             armor = 120f;
@@ -2226,12 +2337,13 @@ public class MPTv2UnitTypes {
             pickupUnits = true;
             vulnerableWithPayloads = true;
 
-            fogRadius = 5f;
             targetable = false;
             hittable = false;
 
             engineOffset = 7.2f;
             engineSize = 3.1f;
+
+            forceMultiTarget = true;
 
             abilities.add(new MoveEffectAbility(0f, -7f, Pal.sapBulletBack, Fx.missileTrailShort, 4f){{
                 teamColor = true;
@@ -2261,32 +2373,86 @@ public class MPTv2UnitTypes {
                     }}
             );
 
-            weapons.add(new RepairBeamWeapon(){{
-                widthSinMag = 0.11f;
-                reload = 20f;
-                x = 0f;
-                y = 7.5f;
-                rotate = false;
-                shootY = 0f;
-                beamWidth = 0.7f;
-                aimDst = 0f;
-                shootCone = 15f;
-                mirror = false;
+            weapons.add(
+                    new RepairBeamWeapon(){{
+                        widthSinMag = 0.11f;
+                        reload = 20f;
+                        x = 0f;
+                        y = 10f;
+                        rotate = false;
+                        shootY = 0f;
+                        beamWidth = 0.7f;
+                        aimDst = 0f;
+                        shootCone = 15f;
+                        mirror = false;
 
-                repairSpeed = 7f;
-                fractionRepairSpeed = 0.2f;
+                        repairSpeed = 9f;
+                        fractionRepairSpeed = 0.4f;
 
-                targetUnits = false;
-                targetBuildings = true;
-                autoTarget = false;
-                controllable = true;
-                laserColor = Pal.accent;
-                healColor = Pal.accent;
+                        targetUnits = false;
+                        targetBuildings = true;
+                        autoTarget = false;
+                        controllable = true;
+                        laserColor = Pal.accent;
+                        healColor = Pal.accent;
 
-                bullet = new BulletType(){{
-                    maxRange = 60f;
-                }};
-            }});
+                        bullet = new BulletType(){{
+                            maxRange = 80f;
+                        }};
+                    }},
+                    new RepairBeamWeapon(){{
+                        widthSinMag = 0.11f;
+                        reload = 20f;
+                        x = -6f;
+                        y = -7.5f;
+                        rotate = false;
+                        shootY = 0f;
+                        beamWidth = 0.7f;
+                        aimDst = 0f;
+                        shootCone = 15f;
+                        mirror = false;
+
+                        repairSpeed = 4.5f;
+                        fractionRepairSpeed = 0.25f;
+
+                        targetUnits = true;
+                        targetBuildings = false;
+                        autoTarget = true;
+                        controllable = false;
+                        laserColor = Pal.accent;
+                        healColor = Pal.accent;
+
+                        bullet = new BulletType(){{
+                            maxRange = 80f;
+                        }};
+                    }},
+                    new RepairBeamWeapon(){{
+                        widthSinMag = 0.11f;
+                        reload = 20f;
+                        x = 6f;
+                        y = -7.5f;
+                        rotate = false;
+                        shootY = 0f;
+                        beamWidth = 0.7f;
+                        aimDst = 0f;
+                        shootCone = 15f;
+                        mirror = false;
+
+                        repairSpeed = 4.5f;
+                        fractionRepairSpeed = 0.25f;
+
+                        targetUnits = true;
+                        targetBuildings = false;
+                        autoTarget = true;
+                        controllable = false;
+                        laserColor = Pal.accent;
+                        healColor = Pal.accent;
+
+                        bullet = new BulletType(){{
+                            maxRange = 100f;
+                        }};
+                    }}
+            );
 
             drawBuildBeam = false;
 
@@ -2296,7 +2462,7 @@ public class MPTv2UnitTypes {
                 x = 14/4f;
                 y = 15/4f;
                 layerOffset = -0.001f;
-                shootY = 3f;
+                shootY = 6f;
             }});
         }};
     }

@@ -2,7 +2,6 @@ package mptv2re.content;
 
 import arc.struct.Seq;
 import mindustry.game.Objectives;
-import mindustry.type.ItemStack;
 
 import static mindustry.content.TechTree.*;
 
@@ -13,9 +12,6 @@ public class MPTv2RETechTree {
     public static void load() {
         //for all
         nodeRoot("mptv2-re", MPTv2Blocks.titaniumAlloySmelter, () -> {
-            node(MPTv2Blocks.efficiencyTechnologyResearchCenter, () -> {});
-            node(MPTv2Blocks.unitResearchCenter, () -> {});
-            node(MPTv2Blocks.turretResearchCenter, () -> {});
 
             //distribution
             node(MPTv2Blocks.metrenConveyor, () -> {
@@ -111,56 +107,56 @@ public class MPTv2RETechTree {
 
             //turrets
             node(MPTv2Blocks.assaultCannon, () -> {
-                node(MPTv2Blocks.missileSilo, ItemStack.with(MPTv2Items.turretResearchPack,80), () -> {
+                node(MPTv2Blocks.missileSilo, () -> {
                 });
 
-                node(MPTv2Blocks.railgun, ItemStack.with(MPTv2Items.turretResearchPack, 150), () -> {
-                    node(MPTv2Blocks.multiRailgun, ItemStack.with(MPTv2Items.turretResearchPack, 300, MPTv2Items.efficiencyTechnologyPack, 250), () -> {
-                        node(MPTv2Blocks.antimatterRailgun, ItemStack.with(MPTv2Items.turretResearchPack, 2000), () -> {});
+                node(MPTv2Blocks.railgun, () -> {
+                    node(MPTv2Blocks.multiRailgun, () -> {
+                        node(MPTv2Blocks.antimatterRailgun, () -> {});
                     });
                 });
 
-                node(MPTv2Blocks.guardian, ItemStack.with(MPTv2Items.turretResearchPack, 500), () -> {
+                node(MPTv2Blocks.guardian, () -> {
                 });
 
-                node(MPTv2Blocks.defendTurret, ItemStack.with(MPTv2Items.turretResearchPack, 85), () -> {
-                    node(MPTv2Blocks.antimatterBlaster, ItemStack.with(MPTv2Items.turretResearchPack, 2250), () -> {
-                        node(MPTv2Blocks.antimatterShockwaveCannon, ItemStack.with(MPTv2Items.turretResearchPack, 2500), () -> {});
+                node(MPTv2Blocks.defendTurret, () -> {
+                    node(MPTv2Blocks.antimatterBlaster, () -> {
+                        node(MPTv2Blocks.antimatterShockwaveCannon, () -> {});
                     });
                 });
             });
 
             //units
             node(MPTv2Blocks.roombaFactory, () -> {
-                node(MPTv2UnitTypes.roomba, ItemStack.with(MPTv2Items.unitResearchPack, 40), () -> {
-                    node(MPTv2UnitTypes.attackRoomba, ItemStack.with(MPTv2Items.unitResearchPack, 80), Seq.with(new Objectives.Research(MPTv2Blocks.metrenAdditiveReconstructor)), () -> {
-                        node(MPTv2UnitTypes.jibakuRoomba, ItemStack.with(MPTv2Items.unitResearchPack, 200), Seq.with(new Objectives.Research(MPTv2Blocks.metrenMultiplicativeReconstructor)), () -> {});
-                        node(MPTv2UnitTypes.jibakuNukeRoomba, ItemStack.with(MPTv2Items.unitResearchPack, 120), Seq.with(new Objectives.Research(MPTv2Blocks.metrenAdditiveReconstructor)), () -> {
+                node(MPTv2UnitTypes.roomba, () -> {
+                    node(MPTv2UnitTypes.attackRoomba, Seq.with(new Objectives.Research(MPTv2Blocks.metrenAdditiveReconstructor)), () -> {
+                        node(MPTv2UnitTypes.jibakuRoomba, Seq.with(new Objectives.Research(MPTv2Blocks.metrenMultiplicativeReconstructor)), () -> {});
+                        node(MPTv2UnitTypes.jibakuNukeRoomba, Seq.with(new Objectives.Research(MPTv2Blocks.metrenAdditiveReconstructor)), () -> {
                         });
                     });
-                    node(MPTv2UnitTypes.miningRoomba, ItemStack.with(MPTv2Items.unitResearchPack, 30), () -> {
-                        node(MPTv2UnitTypes.repairRoomba, ItemStack.with(MPTv2Items.unitResearchPack, 60), Seq.with(new Objectives.Research(MPTv2Blocks.metrenAdditiveReconstructor)), () -> {});
+                    node(MPTv2UnitTypes.miningRoomba, () -> {
+                        node(MPTv2UnitTypes.repairRoomba, Seq.with(new Objectives.Research(MPTv2Blocks.metrenAdditiveReconstructor)), () -> {});
                     });
                 });
-                node(MPTv2Blocks.metrenUnitFactory, ItemStack.with(MPTv2Items.unitResearchPack, 50), () -> {
-                    node(MPTv2UnitTypes.ayu, ItemStack.with(MPTv2Items.unitResearchPack, 60), () -> {
-                        node(MPTv2UnitTypes.mino, ItemStack.with(MPTv2Items.unitResearchPack, 90), Seq.with(new Objectives.Research(MPTv2Blocks.metrenAdditiveReconstructor)), () -> {
-                            node(MPTv2UnitTypes.ami, ItemStack.with(MPTv2Items.unitResearchPack, 120), Seq.with(new Objectives.Research(MPTv2Blocks.metrenMultiplicativeReconstructor)), () -> {
-                                node(MPTv2UnitTypes.meru, ItemStack.with(MPTv2Items.unitResearchPack, 150), Seq.with(new Objectives.Research(MPTv2Blocks.ayuAssembler)), () -> {
-                                    node(MPTv2UnitTypes.nimu, ItemStack.with(MPTv2Items.unitResearchPack, 180), Seq.with(new Objectives.Research(MPTv2Blocks.metrenAssemblerModule)), () -> {});
+                node(MPTv2Blocks.metrenUnitFactory, () -> {
+                    node(MPTv2UnitTypes.ayu, () -> {
+                        node(MPTv2UnitTypes.mino, Seq.with(new Objectives.Research(MPTv2Blocks.metrenAdditiveReconstructor)), () -> {
+                            node(MPTv2UnitTypes.ami, Seq.with(new Objectives.Research(MPTv2Blocks.metrenMultiplicativeReconstructor)), () -> {
+                                node(MPTv2UnitTypes.meru, Seq.with(new Objectives.Research(MPTv2Blocks.ayuAssembler)), () -> {
+                                    node(MPTv2UnitTypes.nimu, Seq.with(new Objectives.Research(MPTv2Blocks.metrenAssemblerModule)), () -> {});
                                 });
                             });
                         });
                     });
-                    node(MPTv2UnitTypes.pemu, ItemStack.with(MPTv2Items.unitResearchPack, 90), () -> {
-                        node(MPTv2UnitTypes.pemuCarrier, ItemStack.with(MPTv2Items.unitResearchPack, 900), Seq.with(new Objectives.Research(MPTv2Blocks.pemuAssembler)), () -> {});
+                    node(MPTv2UnitTypes.pemu, () -> {
+                        node(MPTv2UnitTypes.pemuCarrier, Seq.with(new Objectives.Research(MPTv2Blocks.pemuAssembler)), () -> {});
                     });
                 });
-                node(MPTv2Blocks.metrenAdditiveReconstructor, ItemStack.with(MPTv2Items.unitResearchPack, 100), () -> {
-                    node(MPTv2Blocks.metrenMultiplicativeReconstructor,ItemStack.with(MPTv2Items.unitResearchPack, 110), () -> {
-                        node(MPTv2Blocks.ayuAssembler, ItemStack.with(MPTv2Items.unitResearchPack, 125), () -> {
-                            node(MPTv2Blocks.metrenAssemblerModule,ItemStack.with(MPTv2Items.unitResearchPack, 150), () -> {});
-                            node(MPTv2Blocks.pemuAssembler,ItemStack.with(MPTv2Items.unitResearchPack, 200), () -> {});
+                node(MPTv2Blocks.metrenAdditiveReconstructor, () -> {
+                    node(MPTv2Blocks.metrenMultiplicativeReconstructor, () -> {
+                        node(MPTv2Blocks.ayuAssembler, () -> {
+                            node(MPTv2Blocks.metrenAssemblerModule, () -> {});
+                            node(MPTv2Blocks.pemuAssembler, () -> {});
                         });
                     });
                 });
@@ -190,13 +186,6 @@ public class MPTv2RETechTree {
                         });
                     });
                     nodeProduce(MPTv2Items.compressedThorium, () -> {});
-
-                    nodeProduce(MPTv2Items.efficiencyTechnologyPack, () -> {
-                        nodeProduce(MPTv2Items.turretResearchPack, () -> {
-                            nodeProduce(MPTv2Items.unitResearchPack, () -> {
-                            });
-                        });
-                    });
                     nodeProduce(MPTv2Liquids.meter, () -> {});
 
                     nodeProduce(MPTv2Items.metrenFrame, () -> {
@@ -233,7 +222,7 @@ public class MPTv2RETechTree {
         });
         //for erekir
         nodeRoot("mptv2-re-erekir", MPTv2Blocks.carbideAlloyArcSmelter, () -> {
-            node(MPTv2Blocks.metrenArcFurnace, () -> {
+            node(MPTv2Blocks.metrenArcSmelter, () -> {
                 node(MPTv2Blocks.metrenSRBeamNode, () -> {
                     node(MPTv2Blocks.metrenHRBeamNode, () -> {
                         node(MPTv2Blocks.metrenBeamTower);

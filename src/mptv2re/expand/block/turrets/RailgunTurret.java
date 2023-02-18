@@ -1,6 +1,7 @@
 package mptv2re.expand.block.turrets;
 
 import arc.math.Mathf;
+import arc.struct.EnumSet;
 import arc.util.Time;
 import arc.graphics.Color;
 import mindustry.entities.Mover;
@@ -10,13 +11,16 @@ import mindustry.ui.Bar;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
+import mptv2re.util.meta.MPTv2BlockFlag;
 
 public class RailgunTurret extends ItemTurret {
+    public EnumSet<MPTv2BlockFlag> flags;
     public float chargeTimePer1Shot = 30f;
     public float maxShootCharge = 1f;
 
     public RailgunTurret(String name) {
         super(name);
+        flags = EnumSet.of(MPTv2BlockFlag.railgunTurret);
     }
 
     @Override
