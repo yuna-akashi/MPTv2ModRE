@@ -1,11 +1,9 @@
 package mptv2re.content;
 
-import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Rect;
-import mindustry.Vars;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.*;
 import mindustry.content.Fx;

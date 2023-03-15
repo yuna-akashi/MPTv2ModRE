@@ -1063,7 +1063,7 @@ public class MPTv2Blocks{
 
             coolantPower = 0.05f;
             consumeItems(with(MPTv2Items.compressedThorium, 1));
-            consumeLiquid(Liquids.cryofluid, 1f);
+            consumeLiquid(MPTv2Liquids.meter, 1.5f);
 
             requirements(Category.power, with(MPTv2Items.metrenFrame, 128, MPTv2Items.armorPlate, 128, MPTv2Items.metrenSilicon, 120));
         }};
@@ -1077,7 +1077,7 @@ public class MPTv2Blocks{
             powerProduction = 10000;
             consumePower(500);
             consumeItems(with(MPTv2Items.deuteriumCell, 1, MPTv2Items.tritiumCell, 1));
-            consumeLiquid(Liquids.cryofluid, 0.15f / 90f);
+            consumeLiquid(MPTv2Liquids.meter, 0.15f / 90f);
 
             requirements(Category.power, with(MPTv2Items.metrenFrame, 392, MPTv2Items.armorPlate, 392, MPTv2Items.metrenSilicon, 240));
         }};
@@ -1091,7 +1091,7 @@ public class MPTv2Blocks{
             powerProduction = 2147483647;
             consumePower(500);
             consumeItems(with(MPTv2Items.deuteriumCell, 1, MPTv2Items.tritiumCell, 1, MPTv2Items.antimatterCell, 2));
-            consumeLiquid(Liquids.cryofluid, 0.15f / 90f);
+            consumeLiquid(MPTv2Liquids.meter, 0.15f / 90f);
 
             requirements(Category.power, with(MPTv2Items.antimatterFrame, 968, MPTv2Items.antimatterArmorPlate, 968, MPTv2Items.metrenSilicon, 360));
         }};//done
@@ -1195,7 +1195,7 @@ public class MPTv2Blocks{
             );
 
             consumePower(5.5f);
-            consumeLiquid(Liquids.cryofluid, 2f);
+            consumeLiquid(MPTv2Liquids.meter, 2f);
 
             requirements(Category.units, with(MPTv2Items.metrenFrame, 200, MPTv2Items.armorPlate, 200, MPTv2Items.metrenSilicon, 120));
         }};
@@ -1212,7 +1212,7 @@ public class MPTv2Blocks{
             );
 
             consumePower(7f);
-            consumeLiquid(Liquids.cryofluid, 4f);
+            consumeLiquid(MPTv2Liquids.meter, 4f);
 
             requirements(Category.units, with(MPTv2Items.metrenFrame, 200, MPTv2Items.armorPlate, 200, MPTv2Items.metrenSilicon, 480));
         }};
@@ -1231,7 +1231,7 @@ public class MPTv2Blocks{
             );
 
             consumePower(8);
-            consumeLiquid(Liquids.cryofluid,  12f / 60f);
+            consumeLiquid(MPTv2Liquids.meter,  12f / 60f);
 
             requirements(Category.units, with(MPTv2Items.antimatterFrame, 392, MPTv2Items.antimatterArmorPlate, 392, MPTv2Items.metrenSilicon, 380));
         }};
