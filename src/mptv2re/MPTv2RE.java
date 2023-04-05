@@ -28,8 +28,8 @@ public class MPTv2RE extends Mod{
             //show dialog upon startup
             Time.runTask(10f, () -> {
                 BaseDialog dialog = new BaseDialog("Metren Processing Technology v2");
-                dialog.cont.add("Mod loaded.").row();
-                dialog.cont.image(Core.atlas.find("mptv2-re-pemu-")).pad(1f).row();
+                dialog.cont.add("Attention!").row();
+                dialog.cont.add("This mod is integrated into AncientRaids.").row();
                 dialog.cont.button("Ok", dialog::hide).size(100f, 50f);
                 dialog.show();
             });
